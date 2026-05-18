@@ -29,10 +29,6 @@
           <button id="plan-mode" class="mode" type="button" data-mode="plan">Plan mode</button>
         </div>
 
-        <section class="conversation" aria-label="Conversation state">
-          <div id="task-list" class="task-list"></div>
-        </section>
-
         <form id="prompt-form" class="prompt-form">
           <label for="codex-prompt">给 Codex 会话的任务</label>
           <textarea
@@ -42,6 +38,13 @@
           ></textarea>
           <button id="codex-button" type="submit">Send</button>
         </form>
+
+        <details class="task-drawer">
+          <summary>会话状态</summary>
+          <section class="conversation" aria-label="Conversation state">
+            <div id="task-list" class="task-list"></div>
+          </section>
+        </details>
 
         <details class="log-drawer">
           <summary>后台日志</summary>

@@ -31,8 +31,7 @@ textarea {
 
 .workbench-shell {
   min-height: 100vh;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+  position: relative;
 }
 
 .site-frame {
@@ -43,13 +42,23 @@ textarea {
 }
 
 .codex-panel {
-  height: 100vh;
+  position: fixed;
+  left: 50%;
+  right: auto;
+  bottom: 18px;
+  z-index: 5;
+  width: min(760px, calc(100vw - 28px));
+  max-height: min(78vh, 720px);
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
-  gap: 14px;
-  border-left: 1px solid var(--line);
-  background: var(--surface);
-  padding: 18px;
+  gap: 10px;
+  overflow: auto;
+  border: 1px solid rgba(222, 219, 210, 0.92);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 60px rgba(20, 20, 20, 0.16);
+  padding: 12px;
+  transform: translateX(-50%);
+  backdrop-filter: blur(14px);
 }
 
 .panel-head {
@@ -69,7 +78,7 @@ textarea {
 
 h1 {
   margin: 0;
-  font-size: 1.55rem;
+  font-size: 1.1rem;
   line-height: 1.05;
 }
 
@@ -107,7 +116,9 @@ button:disabled {
 }
 
 .conversation {
+  margin-top: 8px;
   min-height: 0;
+  max-height: 190px;
   overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -151,10 +162,13 @@ button:disabled {
 
 .prompt-form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
+  align-items: end;
 }
 
 .prompt-form label {
+  grid-column: 1 / -1;
   color: var(--muted);
   font-size: 0.9rem;
   font-weight: 680;
@@ -171,16 +185,19 @@ textarea {
 }
 
 #codex-button {
+  min-width: 88px;
   border-color: var(--accent);
   background: var(--accent);
   color: #ffffff;
 }
 
+.task-drawer,
 .log-drawer {
   border-top: 1px solid var(--line);
   padding-top: 10px;
 }
 
+.task-drawer summary,
 .log-drawer summary {
   color: var(--muted);
   cursor: pointer;
@@ -207,18 +224,16 @@ pre {
 }
 
 @media (max-width: 920px) {
-  .workbench-shell {
+  .codex-panel {
+    bottom: 10px;
+    max-height: 86vh;
+  }
+
+  .prompt-form {
     grid-template-columns: 1fr;
   }
 
-  .site-frame {
-    height: 58vh;
-  }
-
-  .codex-panel {
-    height: auto;
-    min-height: 42vh;
-    border-left: 0;
-    border-top: 1px solid var(--line);
+  #codex-button {
+    width: 100%;
   }
 }
