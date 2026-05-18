@@ -58,6 +58,26 @@
       "formula": "P_bar = ΔE/Δt; I_bar = P_bar/S; w_bar = ΔE/ΔV; I_bar = w_bar v; P_bar = I_bar S"
     },
     {
+      "title": "驻波实验：4 个波腹时的张力",
+      "category": "physics",
+      "description": "弦长 3 m，频率 60 Hz，弦质量 20 g；弦上有 4 个波腹，求施加张力。",
+      "body": [
+        "有 4 个波腹，说明弦长等于 4 段半波长。默认两端固定，所以两端是波节。",
+        "先由波腹个数求波长，再由频率求波速，最后用弦波公式求张力。",
+        "弦质量为 20 g，也就是 0.020 kg；弦长为 3 m，所以线密度为质量除以弦长。",
+        "因此需要的张力是 54 N。"
+      ],
+      "math": [
+        "\\[L=4\\cdot\\frac{\\lambda}{2}\\]",
+        "\\[\\lambda=\\frac{2L}{4}=\\frac{2\\times3}{4}=1.5\\,\\mathrm{m}\\]",
+        "\\[v=f\\lambda=60\\times1.5=90\\,\\mathrm{m/s}\\]",
+        "\\[\\mu=\\frac{m}{L}=\\frac{0.020}{3}\\,\\mathrm{kg/m}\\]",
+        "\\[v=\\sqrt{\\frac{T}{\\mu}}\\]",
+        "\\[T=\\mu v^2=\\frac{0.020}{3}\\times90^2=54\\,\\mathrm{N}\\]"
+      ],
+      "formula": "T = 54 N"
+    },
+    {
       "title": "一年数学计划：面向大模型本质理解",
       "category": "learning-plan",
       "description": "从 2026-05-19 周二开始，每周 42 小时，持续 52 周的数学与大模型理论学习路线。",
