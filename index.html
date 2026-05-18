@@ -6,12 +6,24 @@
     <title>Ruka</title>
     <meta name="description" content="Ruka's personal website for notes, projects, and public links.">
     <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: {
+          fontCache: "global"
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#home" data-field="name">Ruka</a>
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
       <nav class="nav" aria-label="Main navigation">
-        <a href="#notes">Notes</a>
+        <a href="notes.html">Notes</a>
         <a href="#projects">Projects</a>
         <a href="#about">About</a>
         <a href="#contact">Contact</a>
@@ -31,8 +43,10 @@
         <div class="section-heading">
           <p class="eyebrow">Notes</p>
           <h2 id="notes-title">Things worth keeping</h2>
+          <p class="section-intro">Recent notes live on a dedicated page with cleaner reading space and math rendering.</p>
         </div>
-        <div class="item-grid" data-list="notes"></div>
+        <div class="item-grid" data-list="notes-preview"></div>
+        <a class="section-link" href="notes.html">Open all notes</a>
       </section>
 
       <section class="section" id="projects" aria-labelledby="projects-title">
@@ -71,4 +85,3 @@
     <script src="script.js"></script>
   </body>
 </html>
-

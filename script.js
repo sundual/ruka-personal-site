@@ -36,6 +36,31 @@ function itemCard(item) {
 
   article.append(title, description);
 
+  if (item.definitions?.length) {
+    const definitions = document.createElement("dl");
+    definitions.className = "definition-list";
+
+    item.definitions.forEach((definition) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "definition-item";
+
+      const term = document.createElement("dt");
+      term.textContent = definition.term || "";
+
+      const detail = document.createElement("dd");
+      detail.textContent = [
+        definition.symbol,
+        definition.meaning,
+        definition.unit ? `单位：${definition.unit}` : ""
+      ].filter(Boolean).join("；");
+
+      wrapper.append(term, detail);
+      definitions.append(wrapper);
+    });
+
+    article.append(definitions);
+  }
+
   (item.body || []).forEach((text) => {
     const paragraph = document.createElement("p");
     paragraph.textContent = text;
@@ -59,6 +84,50 @@ function itemCard(item) {
   return article;
 }
 
+function noteArticle(item) {
+  const article = document.createElement("article");
+  article.className = "note-article";
+
+  const title = document.createElement("h2");
+  title.textContent = item.title || "Untitled";
+
+  const description = document.createElement("p");
+  description.className = "note-description";
+  description.textContent = item.description || "";
+
+  article.append(title, description);
+
+  (item.body || []).forEach((text) => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    article.append(paragraph);
+  });
+
+  (item.math || []).forEach((text) => {
+    const formula = document.createElement("div");
+    formula.className = "math-block";
+    formula.textContent = text;
+    article.append(formula);
+  });
+
+  if (item.formula) {
+    const formula = document.createElement("p");
+    formula.className = "formula";
+    formula.textContent = item.formula;
+    article.append(formula);
+  }
+
+  return article;
+}
+
+function typesetMath() {
+  if (window.MathJax?.typesetPromise) {
+    window.MathJax.typesetPromise();
+  }
+}
+
+window.addEventListener("load", typesetMath);
+
 function renderList(selector, nodes) {
   const container = document.querySelector(selector);
   if (!container) return;
@@ -79,6 +148,8 @@ function renderContent(content) {
 
   renderList('[data-list="profile-links"]', linkList(profile.links));
   renderList('[data-list="notes"]', (content.notes || []).map(itemCard));
+  renderList('[data-list="notes-preview"]', (content.notes || []).slice(0, 3).map(itemCard));
+  renderList('[data-list="notes-full"]', (content.notes || []).map(noteArticle));
   renderList('[data-list="projects"]', (content.projects || []).map(itemCard));
   renderList('[data-list="about"]', (content.about || []).map((text) => {
     const paragraph = document.createElement("p");
@@ -86,6 +157,8 @@ function renderContent(content) {
     return paragraph;
   }));
   renderList('[data-list="contact-links"]', linkList(content.contact?.links));
+
+  typesetMath();
 }
 
 loadContent()

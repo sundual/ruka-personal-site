@@ -158,6 +158,13 @@ h1 {
   margin-bottom: 24px;
 }
 
+.section-intro {
+  max-width: 720px;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 1.04rem;
+}
+
 h2 {
   margin: 0;
   font-size: clamp(1.8rem, 4vw, 3rem);
@@ -212,6 +219,90 @@ h2 {
   color: var(--accent-dark);
   font-weight: 720;
   text-decoration: none;
+}
+
+.section-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--accent-dark);
+  font-weight: 760;
+  text-decoration: none;
+}
+
+.section-link:hover {
+  text-decoration: underline;
+}
+
+.page-hero {
+  padding: 72px 0 48px;
+}
+
+.page-hero h1 {
+  font-size: clamp(3rem, 7vw, 5.8rem);
+}
+
+.notes-page {
+  padding-top: 36px;
+}
+
+.note-list {
+  display: grid;
+  gap: 20px;
+}
+
+.note-article {
+  max-width: 860px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.note-article h2 {
+  font-size: clamp(1.6rem, 3vw, 2.35rem);
+}
+
+.note-article p {
+  margin: 16px 0 0;
+  color: #33322e;
+  font-size: 1.05rem;
+}
+
+.note-description {
+  color: var(--muted) !important;
+}
+
+.definition-list {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 4px;
+}
+
+.definition-item {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fbfbf8;
+}
+
+.definition-item dt {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-weight: 760;
+}
+
+.definition-item dd {
+  margin: 0;
+  color: #33322e;
+}
+
+.math-block {
+  overflow-x: auto;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
 }
 
 .split {

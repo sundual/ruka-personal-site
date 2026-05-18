@@ -18,6 +18,45 @@
   },
   "notes": [
     {
+      "title": "波的能流、能流密度、能量密度",
+      "description": "三个量的区别：总功率、单位面积功率、单位体积能量。",
+      "definitions": [
+        {
+          "term": "通过截面的平均能流",
+          "symbol": "\\(\\overline{P}\\)",
+          "meaning": "单位时间内通过某个截面的平均能量，也就是平均功率。",
+          "unit": "\\(\\mathrm{W}\\)"
+        },
+        {
+          "term": "波的平均能流密度",
+          "symbol": "\\(\\overline{I}\\)",
+          "meaning": "单位时间、单位面积通过的平均能量，也叫平均强度。",
+          "unit": "\\(\\mathrm{W/m^2}\\)"
+        },
+        {
+          "term": "波的平均能量密度",
+          "symbol": "\\(\\overline{w}\\)",
+          "meaning": "单位体积内平均储存的波动能量。",
+          "unit": "\\(\\mathrm{J/m^3}\\)"
+        }
+      ],
+      "body": [
+        "通过截面的平均能流，也就是平均功率，表示单位时间内穿过某个截面的能量。记作 \\(\\overline{P}\\)，单位是 W。",
+        "波的平均能流密度，也叫平均强度，表示单位时间、单位面积通过的能量。记作 \\(\\overline{I}\\)，单位是 \\(\\mathrm{W/m^2}\\)。",
+        "波的平均能量密度表示单位体积内平均储存的波动能量。记作 \\(\\overline{w}\\)，单位是 \\(\\mathrm{J/m^3}\\)。",
+        "直观理解：1 秒内穿过单位面积的那段波，长度是波速 \\(v\\)，所以体积是 \\(v \\times 1\\)。里面的平均能量就是 \\(\\overline{w}v\\)，因此 \\(\\overline{I}=\\overline{w}v\\)。",
+        "如果波垂直穿过面积 \\(S\\)，那么通过截面的平均能流 \\(\\overline{P}=\\overline{I}S=\\overline{w}vS\\)。如果传播方向和截面法线夹角为 \\(\\theta\\)，则 \\(\\overline{P}=\\overline{I}S\\cos\\theta\\)。"
+      ],
+      "math": [
+        "\\[\\overline{P}=\\frac{\\Delta E}{\\Delta t}\\]",
+        "\\[\\overline{I}=\\frac{\\overline{P}}{S}\\]",
+        "\\[\\overline{w}=\\frac{\\Delta E}{\\Delta V}\\]",
+        "\\[\\overline{I}=\\overline{w}v\\]",
+        "\\[\\overline{P}=\\overline{I}S=\\overline{w}vS\\]"
+      ],
+      "formula": "P_bar = ΔE/Δt; I_bar = P_bar/S; w_bar = ΔE/ΔV; I_bar = w_bar v; P_bar = I_bar S"
+    },
+    {
       "title": "Green's theorem",
       "description": "A planar circulation theorem: turn a boundary integral into an area integral over the enclosed region.",
       "body": [
