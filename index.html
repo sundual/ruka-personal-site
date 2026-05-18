@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ruka</title>
+    <meta name="description" content="Ruka's personal website for notes, projects, and public links.">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#notes">Notes</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="home">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="hero-title" data-field="name">Ruka</h1>
+        <p class="tagline" data-field="tagline">A small personal website for notes, projects, and useful fragments.</p>
+        <p class="status" data-field="status">Currently shaping this site into a public home base.</p>
+        <div class="hero-links" data-list="profile-links"></div>
+      </section>
+
+      <section class="section" id="notes" aria-labelledby="notes-title">
+        <div class="section-heading">
+          <p class="eyebrow">Notes</p>
+          <h2 id="notes-title">Things worth keeping</h2>
+        </div>
+        <div class="item-grid" data-list="notes"></div>
+      </section>
+
+      <section class="section" id="projects" aria-labelledby="projects-title">
+        <div class="section-heading">
+          <p class="eyebrow">Projects</p>
+          <h2 id="projects-title">Small public work</h2>
+        </div>
+        <div class="item-grid" data-list="projects"></div>
+      </section>
+
+      <section class="section split" id="about" aria-labelledby="about-title">
+        <div class="section-heading">
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">A public home base</h2>
+        </div>
+        <div class="prose" data-list="about"></div>
+      </section>
+
+      <section class="section split contact" id="contact" aria-labelledby="contact-title">
+        <div class="section-heading">
+          <p class="eyebrow">Contact</p>
+          <h2 id="contact-title">Links</h2>
+        </div>
+        <div>
+          <p data-field="contact-intro">For now, the best contact links are below. Replace the placeholders before publishing.</p>
+          <div class="contact-links" data-list="contact-links"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+

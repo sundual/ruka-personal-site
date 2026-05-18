@@ -1,0 +1,63 @@
+{
+  "profile": {
+    "name": "Ruka",
+    "domain": "ruka.us.ci",
+    "tagline": "A small personal website for notes, projects, and useful fragments.",
+    "status": "Currently shaping this site into a public home base.",
+    "location": "Shanghai",
+    "links": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/"
+      },
+      {
+        "label": "Email",
+        "url": "mailto:hello@example.com"
+      }
+    ]
+  },
+  "notes": [
+    {
+      "title": "Website log",
+      "description": "Short updates about how this site is built and revised."
+    },
+    {
+      "title": "Learning notes",
+      "description": "Things worth keeping from programming, school, reading, and experiments."
+    },
+    {
+      "title": "Loose thoughts",
+      "description": "Small observations that do not need to become polished essays."
+    }
+  ],
+  "projects": [
+    {
+      "title": "Personal website",
+      "description": "This site: static, easy to edit, and deployable on Cloudflare Pages.",
+      "url": ""
+    },
+    {
+      "title": "Small tools",
+      "description": "A future place for scripts, experiments, and utilities.",
+      "url": ""
+    }
+  ],
+  "about": [
+    "This website is meant to be modest and useful: a place to collect public work, notes, and links without pretending every page is a product.",
+    "The structure is intentionally simple so it can be changed quickly. Most content lives in one JSON file, while the layout and styling stay separate."
+  ],
+  "contact": {
+    "intro": "For now, the best contact links are below. Replace the placeholders before publishing.",
+    "links": [
+      {
+        "label": "Email",
+        "url": "mailto:hello@example.com"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/"
+      }
+    ]
+  }
+}
+
