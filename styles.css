@@ -186,8 +186,24 @@ h2 {
 }
 
 .item p {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--muted);
+}
+
+.item p:last-child {
+  margin-bottom: 0;
+}
+
+.formula {
+  overflow-x: auto;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  white-space: nowrap;
 }
 
 .item a {
@@ -249,4 +265,3 @@ h2 {
     flex-direction: column;
   }
 }
-

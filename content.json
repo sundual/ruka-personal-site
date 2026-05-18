@@ -18,16 +18,31 @@
   },
   "notes": [
     {
-      "title": "Website log",
-      "description": "Short updates about how this site is built and revised."
+      "title": "Green's theorem",
+      "description": "A planar circulation theorem: turn a boundary integral into an area integral over the enclosed region.",
+      "body": [
+        "For a positively oriented, simple closed curve C bounding a region D, Green's theorem connects local curl in the plane with circulation around the boundary.",
+        "A useful reading: if the right-hand side is large, the vector field has accumulated microscopic rotation across the whole region."
+      ],
+      "formula": "∮_C (P dx + Q dy) = ∬_D (∂Q/∂x - ∂P/∂y) dA"
     },
     {
-      "title": "Learning notes",
-      "description": "Things worth keeping from programming, school, reading, and experiments."
+      "title": "Gauss's theorem",
+      "description": "Also called the divergence theorem: flux through a closed surface equals total divergence inside.",
+      "body": [
+        "For a solid region V with boundary surface S and outward normal n, the theorem translates surface flux into a volume integral.",
+        "It is the right tool when a field's source or sink density is easier to understand than its behavior on every point of the boundary."
+      ],
+      "formula": "∯_S F · n dS = ∭_V ∇ · F dV"
     },
     {
-      "title": "Loose thoughts",
-      "description": "Small observations that do not need to become polished essays."
+      "title": "Stokes' theorem",
+      "description": "The surface version of curl: circulation around a boundary equals curl flux through any spanning surface.",
+      "body": [
+        "For an oriented surface S with boundary curve ∂S, Stokes' theorem says that the line integral around the edge measures the total curl passing through the surface.",
+        "Green's theorem appears as a flat, two-dimensional special case of this statement."
+      ],
+      "formula": "∮_∂S F · dr = ∬_S (∇ × F) · n dS"
     }
   ],
   "projects": [
@@ -60,4 +75,3 @@
     ]
   }
 }
-

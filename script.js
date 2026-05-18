@@ -36,6 +36,19 @@ function itemCard(item) {
 
   article.append(title, description);
 
+  (item.body || []).forEach((text) => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    article.append(paragraph);
+  });
+
+  if (item.formula) {
+    const formula = document.createElement("p");
+    formula.className = "formula";
+    formula.textContent = item.formula;
+    article.append(formula);
+  }
+
   if (item.url) {
     const anchor = document.createElement("a");
     anchor.href = item.url;
@@ -87,4 +100,3 @@ loadContent()
       );
     }
   });
-
