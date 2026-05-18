@@ -1,67 +1,26 @@
-const fields = {
-  category: document.querySelector("#category"),
-  title: document.querySelector("#title"),
-  description: document.querySelector("#description"),
-  body: document.querySelector("#body"),
-  math: document.querySelector("#math"),
-  formula: document.querySelector("#formula")
-};
-
-const previewCard = document.querySelector("#preview-card");
 const gitStatus = document.querySelector("#git-status");
 const taskList = document.querySelector("#task-list");
 const taskLog = document.querySelector("#task-log");
 const codexPrompt = document.querySelector("#codex-prompt");
+const promptForm = document.querySelector("#prompt-form");
+const codexButton = document.querySelector("#codex-button");
+const siteFrame = document.querySelector("#site-frame");
+const modeButtons = Array.from(document.querySelectorAll(".mode"));
+
 const urlToken = new URLSearchParams(window.location.search).get("token");
 if (urlToken) {
   sessionStorage.setItem("rukaWorkbenchToken", urlToken);
   history.replaceState(null, "", window.location.pathname);
 }
 const authToken = sessionStorage.getItem("rukaWorkbenchToken") || "";
-
-function noteFromForm() {
-  return {
-    category: fields.category.value,
-    title: fields.title.value.trim(),
-    description: fields.description.value.trim(),
-    body: fields.body.value.trim(),
-    math: fields.math.value.trim(),
-    formula: fields.formula.value.trim()
-  };
-}
+let currentMode = sessionStorage.getItem("rukaWorkbenchMode") || "default";
+let lastTaskFingerprint = "";
 
 function element(tag, text, className) {
   const node = document.createElement(tag);
   if (className) node.className = className;
   node.textContent = text;
   return node;
-}
-
-function renderPreview() {
-  const note = noteFromForm();
-  previewCard.replaceChildren();
-
-  if (!note.title && !note.body && !note.math) {
-    previewCard.append(element("p", "填写左侧内容后点 Preview。", "muted"));
-    return;
-  }
-
-  previewCard.append(element("h3", note.title || "Untitled"));
-  if (note.description) previewCard.append(element("p", note.description, "muted"));
-
-  note.body
-    .split(/\n\s*\n/)
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .forEach((paragraph) => previewCard.append(element("p", paragraph)));
-
-  note.math
-    .split(/\n+/)
-    .map((part) => part.trim())
-    .filter(Boolean)
-    .forEach((line) => previewCard.append(element("code", line, "math-line")));
-
-  if (note.formula) previewCard.append(element("code", note.formula));
 }
 
 async function api(path, options = {}) {
@@ -81,25 +40,54 @@ async function api(path, options = {}) {
   return payload;
 }
 
+function setMode(mode) {
+  currentMode = mode;
+  sessionStorage.setItem("rukaWorkbenchMode", mode);
+  modeButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.mode === mode);
+  });
+}
+
+function activeTask(tasks) {
+  return tasks.find((task) => task.status === "running" || task.status === "pending");
+}
+
 function renderTasks(tasks) {
+  const fingerprint = JSON.stringify(tasks.map((task) => [task.id, task.status, task.updatedAt]));
   taskList.replaceChildren();
+
   if (!tasks.length) {
-    taskList.append(element("p", "No tasks yet.", "muted"));
-    return;
+    taskList.append(element("p", "No Codex session tasks yet.", "muted"));
+  } else {
+    tasks.slice(0, 16).forEach((task) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `task ${task.status}`;
+      button.append(
+        element("strong", `${task.status}: ${task.mode === "plan" ? "Plan mode" : "Default"}`),
+        element("span", task.prompt || task.type),
+        element("span", `${task.id} · ${task.updatedAt || task.createdAt}`)
+      );
+      button.addEventListener("click", () => loadLog(task.id));
+      taskList.append(button);
+    });
   }
 
-  tasks.slice(0, 12).forEach((task) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = `task ${task.status}`;
-    button.innerHTML = "";
-    button.append(
-      element("strong", `${task.status}: ${task.note?.title || task.prompt || task.type}`),
-      element("span", `${task.id} · ${task.updatedAt || task.createdAt}`)
-    );
-    button.addEventListener("click", () => loadLog(task.id));
-    taskList.append(button);
-  });
+  const active = activeTask(tasks);
+  codexButton.disabled = Boolean(active);
+  codexPrompt.disabled = Boolean(active);
+  codexButton.textContent = active ? "Codex is busy" : "Send";
+
+  if (fingerprint !== lastTaskFingerprint) {
+    lastTaskFingerprint = fingerprint;
+    refreshPreview();
+  }
+}
+
+function refreshPreview() {
+  const url = new URL(siteFrame.src);
+  url.searchParams.set("_", Date.now().toString());
+  siteFrame.src = url.toString();
 }
 
 async function sync() {
@@ -116,43 +104,19 @@ async function loadLog(id) {
   taskLog.textContent = await response.text();
 }
 
-async function publish() {
-  const note = noteFromForm();
-  if (!note.title || !note.description) {
-    taskLog.textContent = "Title and description are required.";
-    return;
-  }
-
-  renderPreview();
-  taskLog.textContent = "Publishing...";
-
-  const payload = {
-    type: "add-note",
-    prompt: `Add note: ${note.title}`,
-    note
-  };
-
-  const result = await api("/api/tasks", {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
-
-  await sync();
-  await loadLog(result.task.id);
-}
-
 async function queueCodexTask() {
   const prompt = codexPrompt.value.trim();
   if (!prompt) {
-    taskLog.textContent = "Codex task prompt is required.";
+    taskLog.textContent = "Prompt is required.";
     return;
   }
 
-  taskLog.textContent = "Queueing Codex task...";
+  taskLog.textContent = "Sending task to Codex queue...";
   const result = await api("/api/tasks", {
     method: "POST",
     body: JSON.stringify({
       type: "manual",
+      mode: currentMode,
       prompt
     })
   });
@@ -162,23 +126,27 @@ async function queueCodexTask() {
   await loadLog(result.task.id);
 }
 
-document.querySelector("#preview-button").addEventListener("click", renderPreview);
+modeButtons.forEach((button) => {
+  button.addEventListener("click", () => setMode(button.dataset.mode));
+});
+
 document.querySelector("#sync-button").addEventListener("click", () => {
   sync().catch((error) => {
     taskLog.textContent = error.message;
   });
 });
-document.querySelector("#publish-button").addEventListener("click", () => {
-  publish().catch((error) => {
-    taskLog.textContent = error.message;
-  });
-});
-document.querySelector("#codex-button").addEventListener("click", () => {
+
+promptForm.addEventListener("submit", (event) => {
+  event.preventDefault();
   queueCodexTask().catch((error) => {
     taskLog.textContent = error.message;
   });
 });
 
+setMode(currentMode);
 sync().catch((error) => {
   taskLog.textContent = error.message;
 });
+setInterval(() => {
+  sync().catch(() => {});
+}, 3500);

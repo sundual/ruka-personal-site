@@ -21,6 +21,7 @@ const port = Number(process.env.RUKA_WORKBENCH_PORT || 8787);
 const sitePort = Number(process.env.RUKA_SITE_PORT || 8000);
 const token = process.env.RUKA_WORKBENCH_TOKEN || randomBytes(18).toString("base64url");
 const tokenWasGenerated = !process.env.RUKA_WORKBENCH_TOKEN;
+let taskCreationLock = Promise.resolve();
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -155,6 +156,11 @@ async function listTasks() {
   return tasks.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
+async function hasActiveManualTask() {
+  const tasks = await listTasks();
+  return tasks.some((task) => task.type === "manual" && ["pending", "running"].includes(task.status));
+}
+
 async function moveTask(task, from, to, patch = {}) {
   const next = { ...task, ...patch, status: basename(to), updatedAt: new Date().toISOString() };
   const fromPath = taskPath(from, task.id);
@@ -279,10 +285,15 @@ async function processOneTask() {
 }
 
 async function createTask(payload) {
+  if ((payload.type || "manual") === "manual" && await hasActiveManualTask()) {
+    throw new Error("A Codex task is already pending or running. Wait for it to finish before sending another prompt.");
+  }
+
   const now = new Date().toISOString();
   const task = {
     id: taskId(),
     type: payload.type || "manual",
+    mode: payload.mode === "plan" ? "plan" : "default",
     prompt: payload.prompt || "",
     note: payload.note || null,
     status: "pending",
@@ -292,6 +303,20 @@ async function createTask(payload) {
   await writeJson(taskPath(taskDirs.pending, task.id), task);
   await appendLog(task.id, "Task created");
   return task;
+}
+
+async function withTaskCreationLock(callback) {
+  const previous = taskCreationLock;
+  let release;
+  taskCreationLock = new Promise((resolveLock) => {
+    release = resolveLock;
+  });
+  await previous;
+  try {
+    return await callback();
+  } finally {
+    release();
+  }
 }
 
 async function serveFile(urlPath, res) {
@@ -356,7 +381,7 @@ async function handle(req, res) {
 
     if (url.pathname === "/api/tasks" && req.method === "POST") {
       const payload = JSON.parse(await readBody(req) || "{}");
-      const task = await createTask(payload);
+      const task = await withTaskCreationLock(() => createTask(payload));
       const processed = task.type === "add-note" ? await processOneTask() : null;
       json(res, 201, { task: processed || task });
       return;
@@ -377,7 +402,8 @@ async function handle(req, res) {
 
     await serveFile(url.pathname, res);
   } catch (error) {
-    json(res, 500, { error: error.message });
+    const status = error.message.includes("pending or running") ? 409 : 500;
+    json(res, status, { error: error.message });
   }
 }
 

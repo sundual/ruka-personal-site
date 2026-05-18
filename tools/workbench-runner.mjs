@@ -95,11 +95,15 @@ async function processTask(task) {
   await appendLog(task.id, "Runner started Codex task");
 
   const prompt = [
+    running.mode === "plan"
+      ? "You are handling this task in planning mode. Do not edit files or run mutating commands. Produce a concrete implementation plan for the user."
+      : "You are handling this task in default execution mode. Implement the user's request when appropriate, run checks, commit, and push if public site content changes.",
+    "",
     running.prompt,
     "",
     "Context:",
     "- You are working in the local ruka-personal-site repository.",
-    "- If the task changes public site content, update the appropriate files, run checks, commit, and push.",
+    "- The workbench page is a local browser front end over this repository and may change as part of the task.",
     "- Keep .ruka-workbench as local-only task/log data."
   ].join("\n");
 

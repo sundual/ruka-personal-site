@@ -7,85 +7,48 @@
     <link rel="stylesheet" href="/workbench/workbench.css">
   </head>
   <body>
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Local only</p>
-        <h1>Ruka Workbench</h1>
-      </div>
-      <div class="actions">
-        <button id="sync-button" type="button">Sync</button>
-        <a href="http://localhost:8000/notes.html" target="_blank" rel="noreferrer">Open Notes</a>
-      </div>
-    </header>
+    <main class="workbench-shell">
+      <iframe
+        id="site-frame"
+        class="site-frame"
+        title="Ruka static preview"
+        src="http://localhost:8000/notes.html"
+      ></iframe>
 
-    <main class="layout">
-      <section class="panel composer" aria-labelledby="composer-title">
-        <h2 id="composer-title">发布到 Notes</h2>
-        <label>
-          分类
-          <select id="category">
-            <option value="physics">物理</option>
-            <option value="math">数学</option>
-            <option value="learning-plan">学习计划</option>
-          </select>
-        </label>
-        <label>
-          标题
-          <input id="title" type="text" placeholder="例如：弦波公式为什么是 v=sqrt(T/mu)">
-        </label>
-        <label>
-          简介
-          <input id="description" type="text" placeholder="一句话说明这条 note 的用途">
-        </label>
-        <label>
-          正文
-          <textarea id="body" rows="9" placeholder="按空行分段。这里写解释、直觉、结论。"></textarea>
-        </label>
-        <label>
-          LaTeX 公式
-          <textarea id="math" rows="7" placeholder="每行一个公式。可写 T=\\mu v^2，系统会自动包成展示公式。"></textarea>
-        </label>
-        <label>
-          纯文本答案
-          <input id="formula" type="text" placeholder="例如：T = 54 N">
-        </label>
-        <div class="button-row">
-          <button id="preview-button" type="button">Preview</button>
-          <button id="publish-button" type="button" class="primary">Publish</button>
-        </div>
-      </section>
-
-      <section class="panel preview" aria-labelledby="preview-title">
-        <h2 id="preview-title">预览</h2>
-        <article id="preview-card" class="note-preview">
-          <p class="muted">填写左侧内容后点 Preview。</p>
-        </article>
-      </section>
-
-      <section class="panel codex-box" aria-labelledby="codex-title">
-        <h2 id="codex-title">发给 Codex</h2>
-        <label>
-          任务
-          <textarea id="codex-prompt" rows="7" placeholder="例如：解释这道物理题并发布到物理分区；或者整理今天新增内容。"></textarea>
-        </label>
-        <button id="codex-button" type="button">Queue Task</button>
-      </section>
-
-      <section class="panel status-panel" aria-labelledby="status-title">
-        <h2 id="status-title">后台日志</h2>
-        <div class="status-grid">
+      <aside class="codex-panel" aria-label="Codex session panel">
+        <div class="panel-head">
           <div>
-            <h3>Git</h3>
-            <pre id="git-status">Not synced yet.</pre>
+            <p class="eyebrow">Local Codex</p>
+            <h1>Session</h1>
           </div>
-          <div>
-            <h3>Tasks</h3>
-            <div id="task-list" class="task-list"></div>
-          </div>
+          <button id="sync-button" type="button">Sync</button>
         </div>
-        <h3>Log</h3>
-        <pre id="task-log">No task selected.</pre>
-      </section>
+
+        <div class="mode-row" role="group" aria-label="Codex mode">
+          <button id="default-mode" class="mode active" type="button" data-mode="default">Default</button>
+          <button id="plan-mode" class="mode" type="button" data-mode="plan">Plan mode</button>
+        </div>
+
+        <section class="conversation" aria-label="Conversation state">
+          <div id="task-list" class="task-list"></div>
+        </section>
+
+        <form id="prompt-form" class="prompt-form">
+          <label for="codex-prompt">给 Codex 会话的任务</label>
+          <textarea
+            id="codex-prompt"
+            rows="7"
+            placeholder="像普通 Codex 会话一样写：解释这道题并放到物理分区；或者先进入 plan mode 讨论改法。"
+          ></textarea>
+          <button id="codex-button" type="submit">Send</button>
+        </form>
+
+        <details class="log-drawer">
+          <summary>后台日志</summary>
+          <pre id="git-status">Not synced yet.</pre>
+          <pre id="task-log">No task selected.</pre>
+        </details>
+      </aside>
     </main>
 
     <script src="/workbench/workbench.js"></script>

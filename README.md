@@ -20,9 +20,9 @@ After edits, refresh the browser.
 
 ## Local Workbench
 
-The local workbench is a browser front end for adding notes and publishing them.
-It is localhost-only, token-protected, and its UI files live under `tools/`, so
-they are not part of the public static site.
+The local workbench shows the static site preview with a single Codex session
+box beside it. It is localhost-only, token-protected, and its UI files live
+under `tools/`, so they are not part of the public static site.
 
 In one terminal, run the static preview:
 
@@ -49,9 +49,10 @@ Then open:
 the tokenized URL printed by tools/workbench-server.mjs
 ```
 
-Use Sync to refresh git/task status. Use Publish to add a note to `content.json`,
-run checks, commit, and push to `origin/main`. Use "Send to Codex" for broader
-tasks that should be handled by the local Codex CLI through the task queue.
+Use Sync to refresh git/task status and the preview. Send prompts from the
+Codex session box; prompts are queued one at a time so the session stays
+serial and coherent. Toggle Plan mode when the prompt should produce a plan
+instead of editing files.
 
 For a stable token, start the server with:
 
