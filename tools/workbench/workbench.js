@@ -12,6 +12,12 @@ const gitStatus = document.querySelector("#git-status");
 const taskList = document.querySelector("#task-list");
 const taskLog = document.querySelector("#task-log");
 const codexPrompt = document.querySelector("#codex-prompt");
+const urlToken = new URLSearchParams(window.location.search).get("token");
+if (urlToken) {
+  sessionStorage.setItem("rukaWorkbenchToken", urlToken);
+  history.replaceState(null, "", window.location.pathname);
+}
+const authToken = sessionStorage.getItem("rukaWorkbenchToken") || "";
 
 function noteFromForm() {
   return {
@@ -62,6 +68,7 @@ async function api(path, options = {}) {
   const response = await fetch(path, {
     headers: {
       "Content-Type": "application/json",
+      ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
       ...(options.headers || {})
     },
     ...options
@@ -102,7 +109,10 @@ async function sync() {
 }
 
 async function loadLog(id) {
-  const response = await fetch(`/api/tasks/${id}/log`, { cache: "no-store" });
+  const response = await fetch(`/api/tasks/${id}/log`, {
+    cache: "no-store",
+    headers: authToken ? { Authorization: `Bearer ${authToken}` } : {}
+  });
   taskLog.textContent = await response.text();
 }
 

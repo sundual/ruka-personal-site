@@ -4,8 +4,10 @@ import { mkdir, readFile, readdir, rename, stat, writeFile } from "node:fs/promi
 import { existsSync } from "node:fs";
 import { basename, extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { randomBytes, timingSafeEqual } from "node:crypto";
 
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
+const workbenchRoot = join(root, "tools", "workbench");
 const store = join(root, ".ruka-workbench");
 const taskDirs = {
   pending: join(store, "tasks", "pending"),
@@ -17,6 +19,8 @@ const logDir = join(store, "logs");
 const host = "127.0.0.1";
 const port = Number(process.env.RUKA_WORKBENCH_PORT || 8787);
 const sitePort = Number(process.env.RUKA_SITE_PORT || 8000);
+const token = process.env.RUKA_WORKBENCH_TOKEN || randomBytes(18).toString("base64url");
+const tokenWasGenerated = !process.env.RUKA_WORKBENCH_TOKEN;
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -50,6 +54,23 @@ function text(res, status, body, type = "text/plain; charset=utf-8") {
     "Content-Length": Buffer.byteLength(body)
   });
   res.end(body);
+}
+
+function sameToken(a, b) {
+  const left = Buffer.from(a || "");
+  const right = Buffer.from(b || "");
+  if (left.length !== right.length) return false;
+  return timingSafeEqual(left, right);
+}
+
+function requestToken(req, url) {
+  const header = req.headers.authorization || "";
+  if (header.startsWith("Bearer ")) return header.slice("Bearer ".length);
+  return url.searchParams.get("token") || "";
+}
+
+function isAuthorized(req, url) {
+  return sameToken(requestToken(req, url), token);
 }
 
 function readBody(req) {
@@ -274,9 +295,9 @@ async function createTask(payload) {
 }
 
 async function serveFile(urlPath, res) {
-  const requestPath = urlPath === "/" ? "/workbench.html" : urlPath;
-  const filePath = normalize(join(root, requestPath));
-  if (!filePath.startsWith(root)) {
+  const requestPath = urlPath === "/" ? "/index.html" : urlPath.replace(/^\/workbench\/?/, "/");
+  const filePath = normalize(join(workbenchRoot, requestPath));
+  if (!filePath.startsWith(workbenchRoot)) {
     text(res, 403, "Forbidden");
     return;
   }
@@ -296,7 +317,25 @@ async function handle(req, res) {
 
   try {
     if (url.pathname === "/admin" || url.pathname === "/workbench") {
-      await serveFile("/workbench.html", res);
+      if (!isAuthorized(req, url)) {
+        text(res, 401, "Unauthorized. Start the workbench server and open the URL it prints.");
+        return;
+      }
+      await serveFile("/index.html", res);
+      return;
+    }
+
+    if (url.pathname.startsWith("/workbench/")) {
+      if (!isAuthorized(req, url)) {
+        text(res, 401, "Unauthorized");
+        return;
+      }
+      await serveFile(url.pathname, res);
+      return;
+    }
+
+    if (url.pathname.startsWith("/api/") && !isAuthorized(req, url)) {
+      json(res, 401, { error: "Unauthorized" });
       return;
     }
 
@@ -344,5 +383,8 @@ async function handle(req, res) {
 
 await ensureStore();
 createServer(handle).listen(port, host, () => {
-  console.log(`Ruka workbench: http://${host}:${port}/workbench`);
+  console.log(`Ruka workbench: http://${host}:${port}/workbench?token=${encodeURIComponent(token)}`);
+  if (tokenWasGenerated) {
+    console.log("RUKA_WORKBENCH_TOKEN was not set; generated a temporary token for this server run.");
+  }
 });

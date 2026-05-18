@@ -21,7 +21,8 @@ After edits, refresh the browser.
 ## Local Workbench
 
 The local workbench is a browser front end for adding notes and publishing them.
-It is localhost-only and is not deployed to Cloudflare Pages.
+It is localhost-only, token-protected, and its UI files live under `tools/`, so
+they are not part of the public static site.
 
 In one terminal, run the static preview:
 
@@ -45,12 +46,18 @@ node tools/workbench-runner.mjs
 Then open:
 
 ```text
-http://localhost:8787/workbench
+the tokenized URL printed by tools/workbench-server.mjs
 ```
 
 Use Sync to refresh git/task status. Use Publish to add a note to `content.json`,
 run checks, commit, and push to `origin/main`. Use "Send to Codex" for broader
 tasks that should be handled by the local Codex CLI through the task queue.
+
+For a stable token, start the server with:
+
+```sh
+RUKA_WORKBENCH_TOKEN="choose-a-local-secret" node tools/workbench-server.mjs
+```
 
 ## Edit Guide
 
