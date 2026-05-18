@@ -58,6 +58,16 @@
       "formula": "P_bar = ΔE/Δt; I_bar = P_bar/S; w_bar = ΔE/ΔV; I_bar = w_bar v; P_bar = I_bar S"
     },
     {
+      "title": "一年数学计划：面向大模型本质理解",
+      "category": "learning-plan",
+      "description": "从 2026-05-19 周二开始，每周 42 小时，持续 52 周的数学与大模型理论学习路线。",
+      "body": [
+        "路线以数学打底优先：证明、线性代数、分析、概率、信息论、优化、高维概率、统计学习，最后连接 Transformer、scaling law 和 mechanistic interpretability。",
+        "完整计划包含每周主题、任务和产出，适合按周执行和复盘。"
+      ],
+      "url": "learning-plan.html"
+    },
+    {
       "title": "Green's theorem",
       "category": "math",
       "description": "A planar circulation theorem: turn a boundary integral into an area integral over the enclosed region.",

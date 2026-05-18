@@ -129,6 +129,14 @@ function noteArticle(item) {
     article.append(formula);
   }
 
+  if (item.url) {
+    const anchor = document.createElement("a");
+    anchor.className = "section-link";
+    anchor.href = item.url;
+    anchor.textContent = "Open";
+    article.append(anchor);
+  }
+
   return article;
 }
 
@@ -141,6 +149,10 @@ function notesByCategory(notes) {
     {
       id: "physics",
       title: "物理"
+    },
+    {
+      id: "learning-plan",
+      title: "学习计划"
     }
   ];
 
@@ -180,6 +192,76 @@ function renderList(selector, nodes) {
   container.replaceChildren(...nodes);
 }
 
+function inlineMarkdown(text) {
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/`([^`]+)`/g, "<code>$1</code>");
+}
+
+function renderMarkdown(markdown) {
+  const fragment = document.createDocumentFragment();
+  const lines = markdown.split(/\r?\n/);
+  let list = null;
+
+  function closeList() {
+    if (list) {
+      fragment.append(list);
+      list = null;
+    }
+  }
+
+  lines.forEach((line) => {
+    if (!line.trim()) {
+      closeList();
+      return;
+    }
+
+    const heading = line.match(/^(#{1,4})\s+(.+)$/);
+    if (heading) {
+      closeList();
+      const level = Math.min(heading[1].length, 4);
+      const element = document.createElement(`h${level}`);
+      element.innerHTML = inlineMarkdown(heading[2]);
+      fragment.append(element);
+      return;
+    }
+
+    const listItem = line.match(/^-\s+(.+)$/);
+    if (listItem) {
+      if (!list) {
+        list = document.createElement("ul");
+      }
+      const item = document.createElement("li");
+      item.innerHTML = inlineMarkdown(listItem[1]);
+      list.append(item);
+      return;
+    }
+
+    closeList();
+    const paragraph = document.createElement("p");
+    paragraph.innerHTML = inlineMarkdown(line);
+    fragment.append(paragraph);
+  });
+
+  closeList();
+  return fragment;
+}
+
+async function renderMarkdownPages() {
+  const pages = document.querySelectorAll("[data-markdown]");
+  await Promise.all(Array.from(pages).map(async (page) => {
+    const source = page.getAttribute("data-markdown");
+    const response = await fetch(source, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`Unable to load ${source}: ${response.status}`);
+    }
+    const markdown = await response.text();
+    page.replaceChildren(renderMarkdown(markdown));
+  }));
+}
+
 function renderContent(content) {
   const profile = content.profile || {};
 
@@ -207,8 +289,8 @@ function renderContent(content) {
   typesetMath();
 }
 
-loadContent()
-  .then(renderContent)
+Promise.all([loadContent(), renderMarkdownPages()])
+  .then(([content]) => renderContent(content))
   .catch((error) => {
     console.error(error);
     const main = document.querySelector("main");
