@@ -36,28 +36,8 @@ function itemCard(item) {
 
   article.append(title, description);
 
-  if (item.definitions?.length) {
-    const definitions = document.createElement("dl");
-    definitions.className = "definition-list";
-
-    item.definitions.forEach((definition) => {
-      const wrapper = document.createElement("div");
-      wrapper.className = "definition-item";
-
-      const term = document.createElement("dt");
-      term.textContent = definition.term || "";
-
-      const detail = document.createElement("dd");
-      detail.textContent = [
-        definition.symbol,
-        definition.meaning,
-        definition.unit ? `单位：${definition.unit}` : ""
-      ].filter(Boolean).join("；");
-
-      wrapper.append(term, detail);
-      definitions.append(wrapper);
-    });
-
+  const definitions = definitionList(item);
+  if (definitions) {
     article.append(definitions);
   }
 
@@ -84,6 +64,33 @@ function itemCard(item) {
   return article;
 }
 
+function definitionList(item) {
+  if (!item.definitions?.length) return null;
+
+  const definitions = document.createElement("dl");
+  definitions.className = "definition-list";
+
+  item.definitions.forEach((definition) => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "definition-item";
+
+    const term = document.createElement("dt");
+    term.textContent = definition.term || "";
+
+    const detail = document.createElement("dd");
+    detail.textContent = [
+      definition.symbol,
+      definition.meaning,
+      definition.unit ? `单位：${definition.unit}` : ""
+    ].filter(Boolean).join("；");
+
+    wrapper.append(term, detail);
+    definitions.append(wrapper);
+  });
+
+  return definitions;
+}
+
 function noteArticle(item) {
   const article = document.createElement("article");
   article.className = "note-article";
@@ -96,6 +103,11 @@ function noteArticle(item) {
   description.textContent = item.description || "";
 
   article.append(title, description);
+
+  const definitions = definitionList(item);
+  if (definitions) {
+    article.append(definitions);
+  }
 
   (item.body || []).forEach((text) => {
     const paragraph = document.createElement("p");
@@ -118,6 +130,40 @@ function noteArticle(item) {
   }
 
   return article;
+}
+
+function notesByCategory(notes) {
+  const categories = [
+    {
+      id: "math",
+      title: "数学"
+    },
+    {
+      id: "physics",
+      title: "物理"
+    }
+  ];
+
+  return categories
+    .map((category) => {
+      const items = notes.filter((note) => (note.category || "math") === category.id);
+      if (!items.length) return null;
+
+      const section = document.createElement("section");
+      section.className = "note-category";
+      section.id = `notes-${category.id}`;
+
+      const heading = document.createElement("h2");
+      heading.textContent = category.title;
+
+      const list = document.createElement("div");
+      list.className = "note-list";
+      list.append(...items.map(noteArticle));
+
+      section.append(heading, list);
+      return section;
+    })
+    .filter(Boolean);
 }
 
 function typesetMath() {
@@ -149,7 +195,7 @@ function renderContent(content) {
   renderList('[data-list="profile-links"]', linkList(profile.links));
   renderList('[data-list="notes"]', (content.notes || []).map(itemCard));
   renderList('[data-list="notes-preview"]', (content.notes || []).slice(0, 3).map(itemCard));
-  renderList('[data-list="notes-full"]', (content.notes || []).map(noteArticle));
+  renderList('[data-list="notes-full"]', notesByCategory(content.notes || []));
   renderList('[data-list="projects"]', (content.projects || []).map(itemCard));
   renderList('[data-list="about"]', (content.about || []).map((text) => {
     const paragraph = document.createElement("p");

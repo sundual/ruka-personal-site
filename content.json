@@ -19,6 +19,7 @@
   "notes": [
     {
       "title": "波的能流、能流密度、能量密度",
+      "category": "physics",
       "description": "三个量的区别：总功率、单位面积功率、单位体积能量。",
       "definitions": [
         {
@@ -58,6 +59,7 @@
     },
     {
       "title": "Green's theorem",
+      "category": "math",
       "description": "A planar circulation theorem: turn a boundary integral into an area integral over the enclosed region.",
       "body": [
         "For a positively oriented, simple closed curve C bounding a region D, Green's theorem connects local curl in the plane with circulation around the boundary.",
@@ -67,6 +69,7 @@
     },
     {
       "title": "Gauss's theorem",
+      "category": "math",
       "description": "Also called the divergence theorem: flux through a closed surface equals total divergence inside.",
       "body": [
         "For a solid region V with boundary surface S and outward normal n, the theorem translates surface flux into a volume integral.",
@@ -76,6 +79,7 @@
     },
     {
       "title": "Stokes' theorem",
+      "category": "math",
       "description": "The surface version of curl: circulation around a boundary equals curl flux through any spanning surface.",
       "body": [
         "For an oriented surface S with boundary curve ∂S, Stokes' theorem says that the line integral around the edge measures the total curl passing through the surface.",

@@ -245,6 +245,21 @@ h2 {
   padding-top: 36px;
 }
 
+.note-category {
+  display: grid;
+  gap: 18px;
+}
+
+.note-category + .note-category {
+  margin-top: 44px;
+  padding-top: 44px;
+  border-top: 1px solid var(--line);
+}
+
+.note-category > h2 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+}
+
 .note-list {
   display: grid;
   gap: 20px;
