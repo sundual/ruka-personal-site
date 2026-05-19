@@ -24,12 +24,40 @@ function linkList(items) {
     });
 }
 
-function itemCard(item) {
+function categoryLabel(category) {
+  const labels = {
+    math: "数学",
+    physics: "物理",
+    "learning-plan": "计划"
+  };
+
+  return labels[category] || category || "笔记";
+}
+
+function itemCard(item, options = {}) {
   const article = document.createElement("article");
   article.className = "item";
 
   const title = document.createElement("h3");
   title.textContent = item.title || "Untitled";
+
+  if (options.compact) {
+    const meta = document.createElement("p");
+    meta.className = "item-meta";
+    meta.textContent = item.category ? categoryLabel(item.category) : "Project";
+
+    article.append(title, meta);
+
+    const href = item.url || options.defaultUrl;
+    if (href) {
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.textContent = options.linkText || "Open";
+      article.append(anchor);
+    }
+
+    return article;
+  }
 
   const description = document.createElement("p");
   description.textContent = item.description || "";
@@ -94,6 +122,9 @@ function definitionList(item) {
 function noteArticle(item) {
   const article = document.createElement("article");
   article.className = "note-article";
+  if (item.id) {
+    article.id = item.id;
+  }
 
   const title = document.createElement("h2");
   title.textContent = item.title || "Untitled";
@@ -140,6 +171,39 @@ function noteArticle(item) {
   return article;
 }
 
+function notePager(item, previous, next) {
+  const nav = document.createElement("nav");
+  nav.className = "note-pager";
+  nav.setAttribute("aria-label", `${item.title || "Note"} pagination`);
+
+  const previousLink = document.createElement(previous ? "a" : "span");
+  previousLink.className = "note-pager-link previous";
+  previousLink.textContent = previous ? `上一篇：${previous.title}` : "上一篇：无";
+  if (previous) previousLink.href = `#${previous.id}`;
+
+  const nextLink = document.createElement(next ? "a" : "span");
+  nextLink.className = "note-pager-link next";
+  nextLink.textContent = next ? `下一篇：${next.title}` : "下一篇：无";
+  if (next) nextLink.href = `#${next.id}`;
+
+  nav.append(previousLink, nextLink);
+  return nav;
+}
+
+function slugify(text, fallback) {
+  const slug = String(text || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return slug || fallback;
+}
+
+function noteId(note, index) {
+  return `note-${note.category || "math"}-${slugify(note.title, index + 1)}`;
+}
+
 function notesByCategory(notes) {
   const categories = [
     {
@@ -152,13 +216,18 @@ function notesByCategory(notes) {
     },
     {
       id: "learning-plan",
-      title: "学习计划"
+      title: "计划"
     }
   ];
 
   return categories
     .map((category) => {
-      const items = notes.filter((note) => (note.category || "math") === category.id);
+      const items = notes
+        .filter((note) => (note.category || "math") === category.id)
+        .map((note, index) => ({
+          ...note,
+          id: note.id || noteId(note, index)
+        }));
       if (!items.length) return null;
 
       const section = document.createElement("section");
@@ -170,7 +239,11 @@ function notesByCategory(notes) {
 
       const list = document.createElement("div");
       list.className = "note-list";
-      list.append(...items.map(noteArticle));
+      list.append(...items.map((item, index) => {
+        const article = noteArticle(item);
+        article.append(notePager(item, items[index - 1], items[index + 1]));
+        return article;
+      }));
 
       section.append(heading, list);
       return section;
@@ -276,9 +349,16 @@ function renderContent(content) {
 
   renderList('[data-list="profile-links"]', linkList(profile.links));
   renderList('[data-list="notes"]', (content.notes || []).map(itemCard));
-  renderList('[data-list="notes-preview"]', (content.notes || []).slice(0, 3).map(itemCard));
+  renderList('[data-list="notes-preview"]', (content.notes || []).slice(0, 3).map((note) => itemCard(note, {
+    compact: true,
+    defaultUrl: `notes.html#notes-${note.category || "math"}`,
+    linkText: "Open notes"
+  })));
   renderList('[data-list="notes-full"]', notesByCategory(content.notes || []));
-  renderList('[data-list="projects"]', (content.projects || []).map(itemCard));
+  renderList('[data-list="projects"]', (content.projects || []).map((project) => itemCard(project, {
+    compact: true,
+    linkText: project.url ? "Open project" : "Project"
+  })));
   renderList('[data-list="about"]', (content.about || []).map((text) => {
     const paragraph = document.createElement("p");
     paragraph.textContent = text;

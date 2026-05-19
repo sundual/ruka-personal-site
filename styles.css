@@ -201,6 +201,12 @@ h2 {
   margin-bottom: 0;
 }
 
+.item-meta {
+  color: var(--accent-dark) !important;
+  font-size: 0.9rem;
+  font-weight: 720;
+}
+
 .formula {
   overflow-x: auto;
   padding: 12px;
@@ -283,6 +289,11 @@ h2 {
   font-size: 1.05rem;
 }
 
+.note-article:target {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
 .note-description {
   color: var(--muted) !important;
 }
@@ -318,6 +329,38 @@ h2 {
   border-radius: 8px;
   background: var(--accent-soft);
   color: var(--accent-dark);
+}
+
+.note-pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.note-pager-link {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #fbfbf8;
+  color: var(--muted);
+  font-weight: 680;
+  text-decoration: none;
+}
+
+.note-pager-link.next {
+  text-align: right;
+}
+
+a.note-pager-link {
+  color: var(--accent-dark);
+}
+
+a.note-pager-link:hover {
+  border-color: var(--accent);
 }
 
 .plan-page {
@@ -426,8 +469,13 @@ h2 {
   }
 
   .item-grid,
-  .split {
+  .split,
+  .note-pager {
     grid-template-columns: 1fr;
+  }
+
+  .note-pager-link.next {
+    text-align: left;
   }
 
   .footer {
