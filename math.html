@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Math - Ruka</title>
+    <meta name="description" content="Ruka's math notes, shown one article at a time.">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: {
+          fontCache: "global"
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero" aria-labelledby="category-page-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="category-page-title" data-category-title>Math</h1>
+        <p class="tagline" data-category-intro>One article at a time. Use the list at the end to switch between math entries.</p>
+      </section>
+
+      <section class="section note-page" aria-label="Math notes">
+        <div class="note-reader" data-category-reader></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -85,7 +85,7 @@
         "路线以数学打底优先：证明、线性代数、分析、概率、信息论、优化、高维概率、统计学习，最后连接 Transformer、scaling law 和 mechanistic interpretability。",
         "完整计划包含每周主题、任务和产出，适合按周执行和复盘。"
       ],
-      "url": "learning-plan.html"
+      "url": "plan.html"
     },
     {
       "title": "Green's theorem",
