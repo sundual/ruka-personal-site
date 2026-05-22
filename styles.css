@@ -504,70 +504,6 @@ a.note-pager-link:hover {
   font-size: 0.92rem;
 }
 
-.local-sync {
-  position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 20;
-  display: grid;
-  justify-items: end;
-  gap: 8px;
-}
-
-.local-sync-button {
-  min-height: 38px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 8px 13px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 12px 36px rgba(20, 20, 20, 0.14);
-  color: var(--text);
-  font: inherit;
-  font-weight: 760;
-  cursor: pointer;
-  backdrop-filter: blur(14px);
-}
-
-.local-sync-button:hover {
-  border-color: var(--accent);
-  color: var(--accent-dark);
-}
-
-.local-sync-panel {
-  display: grid;
-  width: min(300px, calc(100vw - 32px));
-  gap: 8px;
-  border: 1px solid rgba(222, 219, 210, 0.94);
-  border-radius: 8px;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 18px 55px rgba(20, 20, 20, 0.16);
-  backdrop-filter: blur(14px);
-}
-
-.local-sync-panel[hidden] {
-  display: none;
-}
-
-.local-sync-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.local-sync-row strong {
-  max-width: 170px;
-  overflow: hidden;
-  color: var(--text);
-  font-weight: 760;
-  text-align: right;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 @media (max-width: 760px) {
   .site-header {
     align-items: flex-start;
@@ -598,8 +534,4 @@ a.note-pager-link:hover {
     flex-direction: column;
   }
 
-  .local-sync {
-    right: 10px;
-    bottom: 10px;
-  }
 }

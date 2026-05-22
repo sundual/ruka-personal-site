@@ -498,119 +498,6 @@ function renderCategoryPage(content) {
   }
 }
 
-function initLocalSync() {
-  const sync = document.querySelector("[data-local-sync]");
-  if (!sync) return;
-
-  const syncButton = document.querySelector("#local-sync-button");
-  const syncPanel = document.querySelector("#local-sync-panel");
-  const connection = document.querySelector("#local-sync-connection");
-  const gitStatus = document.querySelector("#local-sync-git");
-  const taskStatus = document.querySelector("#local-sync-task");
-  const url = new URL(window.location.href);
-  const urlToken = url.searchParams.get("token");
-
-  if (urlToken) {
-    localStorage.setItem("rukaWorkbenchToken", urlToken);
-    sessionStorage.setItem("rukaWorkbenchToken", urlToken);
-    url.searchParams.delete("token");
-    history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
-  }
-
-  function defaultApiBase() {
-    if (window.location.port === "8787") return "";
-    return "http://127.0.0.1:8787";
-  }
-
-  function apiBase() {
-    return (window.RUKA_WORKBENCH_API_BASE || localStorage.getItem("rukaWorkbenchApiBase") || defaultApiBase()).replace(/\/$/, "");
-  }
-
-  function authToken() {
-    return sessionStorage.getItem("rukaWorkbenchToken") || localStorage.getItem("rukaWorkbenchToken") || "";
-  }
-
-  function workbenchUrl(path) {
-    return `${apiBase()}${path}`;
-  }
-
-  async function api(path) {
-    const response = await fetch(workbenchUrl(path), {
-      cache: "no-store",
-      headers: {
-        "Content-Type": "application/json",
-        ...(authToken() ? { Authorization: `Bearer ${authToken()}` } : {})
-      }
-    });
-    const type = response.headers.get("content-type") || "";
-    const payload = type.includes("application/json") ? await response.json() : await response.text();
-    if (!response.ok) {
-      throw new Error(payload.error || payload || response.statusText);
-    }
-    return payload;
-  }
-
-  function activeTask(tasks) {
-    return tasks.find((task) => task.status === "running" || task.status === "pending");
-  }
-
-  function latestTask(tasks) {
-    return (tasks || [])[0] || null;
-  }
-
-  function summarizeGit(status) {
-    const lines = String(status || "").split("\n").filter(Boolean);
-    const changes = lines.filter((line) => !line.startsWith("##"));
-    return changes.length ? `${changes.length} changed` : "Clean";
-  }
-
-  function summarizeTask(task) {
-    if (!task) return "No tasks";
-    const label = task.mode === "plan" ? "Plan" : "Default";
-    return `${task.status}: ${label}`;
-  }
-
-  function showPanel() {
-    if (syncPanel) syncPanel.hidden = false;
-    if (syncButton) syncButton.setAttribute("aria-expanded", "true");
-  }
-
-  async function runSync() {
-    showPanel();
-    if (syncButton) syncButton.textContent = "Syncing";
-    if (connection) connection.textContent = "Connecting";
-
-    const data = await api("/api/sync");
-    const task = activeTask(data.tasks || []) || latestTask(data.tasks || []);
-
-    if (connection) connection.textContent = "Connected";
-    if (gitStatus) gitStatus.textContent = summarizeGit(data.git?.status);
-    if (taskStatus) taskStatus.textContent = summarizeTask(task);
-    if (syncButton) syncButton.textContent = "Sync";
-  }
-
-  function reportError(error) {
-    const message = error.message || String(error);
-    showPanel();
-    if (message.includes("Unauthorized")) {
-      if (connection) connection.textContent = "Token required";
-    } else if (message.includes("Failed to fetch")) {
-      if (connection) connection.textContent = "Offline";
-    } else if (connection) {
-      connection.textContent = "Error";
-    }
-    if (gitStatus) gitStatus.textContent = "Unknown";
-    if (taskStatus) taskStatus.textContent = message;
-    if (syncButton) syncButton.textContent = "Sync";
-  }
-
-  syncButton?.addEventListener("click", () => {
-    runSync().catch(reportError);
-  });
-
-  runSync().catch(reportError);
-}
-
 let siteContent = null;
 
 Promise.all([loadContent(), renderMarkdownPages()])
@@ -630,8 +517,6 @@ Promise.all([loadContent(), renderMarkdownPages()])
       );
     }
   });
-
-initLocalSync();
 
 window.addEventListener("hashchange", () => {
   if (siteContent) {

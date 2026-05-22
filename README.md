@@ -16,35 +16,6 @@ Then open:
 http://localhost:4173
 ```
 
-## Integrated Codex Dock
-
-For the site with the right-side Codex dock and local task API, run:
-
-```sh
-node tools/workbench-server.mjs
-```
-
-Then open the tokenized URL it prints:
-
-```text
-http://127.0.0.1:8787/?token=...
-```
-
-In another terminal, run the Codex task runner so queued prompts are executed:
-
-```sh
-node tools/workbench-runner.mjs
-```
-
-Use Sync to refresh git/task status. Save the local token once, switch between
-Default and Plan mode, and send prompts from the dock.
-
-For a stable token, start the server with:
-
-```sh
-RUKA_WORKBENCH_TOKEN="choose-a-local-secret" node tools/workbench-server.mjs
-```
-
 ## Edit Guide
 
 - Text, links, notes, projects: edit `content.json`

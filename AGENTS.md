@@ -32,15 +32,6 @@ Open:
 http://localhost:4173
 ```
 
-For the integrated Codex dock and local task API:
-
-```sh
-node tools/workbench-server.mjs
-node tools/workbench-runner.mjs
-```
-
-Then open the tokenized URL printed by the server.
-
 ## Deploy
 
 The Git remote is:
