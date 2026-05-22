@@ -332,6 +332,26 @@ function renderList(selector, nodes) {
   container.replaceChildren(...nodes);
 }
 
+function formatUpdateTime(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value || "";
+
+  return new Intl.DateTimeFormat(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function renderUpdateWidget(value) {
+  document.querySelectorAll('[data-field="last-updated"]').forEach((element) => {
+    element.textContent = formatUpdateTime(value);
+    if (value) element.dateTime = value;
+  });
+}
+
 function inlineMarkdown(text) {
   return text
     .replace(/&/g, "&amp;")
@@ -414,6 +434,7 @@ function renderContent(content) {
   setText('[data-field="status"]', profile.status);
   setText('[data-field="footer-name"]', profile.name);
   setText('[data-field="contact-intro"]', content.contact?.intro);
+  renderUpdateWidget(profile.lastUpdated);
 
   renderList('[data-list="profile-links"]', linkList(profile.links));
   renderList('[data-list="note-entrances"]', [
