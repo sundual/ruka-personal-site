@@ -56,12 +56,12 @@ function runCodex(prompt) {
       root,
       "--sandbox",
       "danger-full-access",
-      "--ask-for-approval",
-      "never",
+      "--dangerously-bypass-approvals-and-sandbox",
       prompt
     ], {
       cwd: root,
-      shell: false
+      shell: false,
+      stdio: ["ignore", "pipe", "pipe"]
     });
 
     let stdout = "";

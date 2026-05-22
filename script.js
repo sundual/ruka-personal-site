@@ -337,6 +337,7 @@ function inlineMarkdown(text) {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
     .replace(/`([^`]+)`/g, "<code>$1</code>");
 }
 
@@ -497,22 +498,15 @@ function renderCategoryPage(content) {
   }
 }
 
-function initCodexDock() {
-  const dock = document.querySelector("[data-codex-dock]");
-  if (!dock) return;
+function initLocalSync() {
+  const sync = document.querySelector("[data-local-sync]");
+  if (!sync) return;
 
-  const tokenForm = document.querySelector("#codex-token-form");
-  const tokenInput = document.querySelector("#codex-token");
-  const connection = document.querySelector("#codex-connection");
-  const gitStatus = document.querySelector("#codex-git");
-  const taskList = document.querySelector("#codex-task-list");
-  const taskLog = document.querySelector("#codex-log");
-  const promptForm = document.querySelector("#codex-form");
-  const codexPrompt = document.querySelector("#codex-prompt");
-  const codexButton = document.querySelector("#codex-send");
-  const syncButton = document.querySelector("#codex-sync");
-  const toggleButton = document.querySelector("#codex-toggle");
-  const modeButtons = Array.from(document.querySelectorAll(".codex-mode-button"));
+  const syncButton = document.querySelector("#local-sync-button");
+  const syncPanel = document.querySelector("#local-sync-panel");
+  const connection = document.querySelector("#local-sync-connection");
+  const gitStatus = document.querySelector("#local-sync-git");
+  const taskStatus = document.querySelector("#local-sync-task");
   const url = new URL(window.location.href);
   const urlToken = url.searchParams.get("token");
 
@@ -522,16 +516,6 @@ function initCodexDock() {
     url.searchParams.delete("token");
     history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   }
-
-  if (tokenInput) {
-    tokenInput.value = sessionStorage.getItem("rukaWorkbenchToken")
-      || localStorage.getItem("rukaWorkbenchToken")
-      || "";
-  }
-
-  let currentMode = sessionStorage.getItem("rukaWorkbenchMode") || "default";
-  let lastTaskFingerprint = "";
-  let sawTaskFingerprint = false;
 
   function defaultApiBase() {
     if (window.location.port === "8787") return "";
@@ -550,26 +534,13 @@ function initCodexDock() {
     return `${apiBase()}${path}`;
   }
 
-  function setConnection(text) {
-    if (connection) connection.textContent = text;
-  }
-
-  function node(tag, text, className) {
-    const item = document.createElement(tag);
-    if (className) item.className = className;
-    item.textContent = text;
-    return item;
-  }
-
-  async function api(path, options = {}) {
+  async function api(path) {
     const response = await fetch(workbenchUrl(path), {
       cache: "no-store",
       headers: {
         "Content-Type": "application/json",
-        ...(authToken() ? { Authorization: `Bearer ${authToken()}` } : {}),
-        ...(options.headers || {})
-      },
-      ...options
+        ...(authToken() ? { Authorization: `Bearer ${authToken()}` } : {})
+      }
     });
     const type = response.headers.get("content-type") || "";
     const payload = type.includes("application/json") ? await response.json() : await response.text();
@@ -579,148 +550,65 @@ function initCodexDock() {
     return payload;
   }
 
-  function setMode(mode) {
-    currentMode = mode === "plan" ? "plan" : "default";
-    sessionStorage.setItem("rukaWorkbenchMode", currentMode);
-    modeButtons.forEach((button) => {
-      button.classList.toggle("active", button.dataset.mode === currentMode);
-    });
-  }
-
   function activeTask(tasks) {
     return tasks.find((task) => task.status === "running" || task.status === "pending");
   }
 
-  function refreshSiteContent() {
-    loadContent()
-      .then(renderContent)
-      .catch((error) => {
-        if (taskLog) taskLog.textContent = error.message;
-      });
+  function latestTask(tasks) {
+    return (tasks || [])[0] || null;
   }
 
-  function renderTasks(tasks) {
-    if (!taskList) return;
-    const fingerprint = JSON.stringify(tasks.map((task) => [task.id, task.status, task.updatedAt]));
-    taskList.replaceChildren();
-
-    if (!tasks.length) {
-      taskList.append(node("p", "No Codex session tasks yet.", "codex-muted"));
-    } else {
-      tasks.slice(0, 16).forEach((task) => {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = `codex-task ${task.status}`;
-        button.append(
-          node("strong", `${task.status}: ${task.mode === "plan" ? "Plan" : "Default"}`),
-          node("span", task.prompt || task.type || "Task"),
-          node("span", `${task.id} · ${task.updatedAt || task.createdAt}`)
-        );
-        button.addEventListener("click", () => loadLog(task.id));
-        taskList.append(button);
-      });
-    }
-
-    const active = activeTask(tasks);
-    if (codexButton) {
-      codexButton.disabled = Boolean(active);
-      codexButton.textContent = active ? "Busy" : "Send";
-    }
-    if (codexPrompt) {
-      codexPrompt.disabled = Boolean(active);
-    }
-
-    if (fingerprint !== lastTaskFingerprint) {
-      if (sawTaskFingerprint) refreshSiteContent();
-      sawTaskFingerprint = true;
-      lastTaskFingerprint = fingerprint;
-    }
+  function summarizeGit(status) {
+    const lines = String(status || "").split("\n").filter(Boolean);
+    const changes = lines.filter((line) => !line.startsWith("##"));
+    return changes.length ? `${changes.length} changed` : "Clean";
   }
 
-  async function sync() {
+  function summarizeTask(task) {
+    if (!task) return "No tasks";
+    const label = task.mode === "plan" ? "Plan" : "Default";
+    return `${task.status}: ${label}`;
+  }
+
+  function showPanel() {
+    if (syncPanel) syncPanel.hidden = false;
+    if (syncButton) syncButton.setAttribute("aria-expanded", "true");
+  }
+
+  async function runSync() {
+    showPanel();
+    if (syncButton) syncButton.textContent = "Syncing";
+    if (connection) connection.textContent = "Connecting";
+
     const data = await api("/api/sync");
-    setConnection("Connected");
-    if (gitStatus) gitStatus.textContent = data.git?.status || "Clean";
-    renderTasks(data.tasks || []);
-  }
+    const task = activeTask(data.tasks || []) || latestTask(data.tasks || []);
 
-  async function loadLog(id) {
-    const response = await fetch(workbenchUrl(`/api/tasks/${id}/log`), {
-      cache: "no-store",
-      headers: authToken() ? { Authorization: `Bearer ${authToken()}` } : {}
-    });
-    if (!response.ok) {
-      throw new Error(await response.text() || response.statusText);
-    }
-    if (taskLog) taskLog.textContent = await response.text();
-  }
-
-  async function queueCodexTask() {
-    const prompt = codexPrompt.value.trim();
-    if (!prompt) {
-      if (taskLog) taskLog.textContent = "Prompt is required.";
-      return;
-    }
-
-    if (taskLog) taskLog.textContent = "Sending task to Codex queue...";
-    const result = await api("/api/tasks", {
-      method: "POST",
-      body: JSON.stringify({
-        type: "manual",
-        mode: currentMode,
-        prompt
-      })
-    });
-
-    codexPrompt.value = "";
-    await sync();
-    if (result.task?.id) await loadLog(result.task.id);
+    if (connection) connection.textContent = "Connected";
+    if (gitStatus) gitStatus.textContent = summarizeGit(data.git?.status);
+    if (taskStatus) taskStatus.textContent = summarizeTask(task);
+    if (syncButton) syncButton.textContent = "Sync";
   }
 
   function reportError(error) {
     const message = error.message || String(error);
+    showPanel();
     if (message.includes("Unauthorized")) {
-      setConnection("Token required");
+      if (connection) connection.textContent = "Token required";
     } else if (message.includes("Failed to fetch")) {
-      setConnection("Workbench offline");
-    } else {
-      setConnection("Error");
+      if (connection) connection.textContent = "Offline";
+    } else if (connection) {
+      connection.textContent = "Error";
     }
-    if (taskLog) taskLog.textContent = message;
+    if (gitStatus) gitStatus.textContent = "Unknown";
+    if (taskStatus) taskStatus.textContent = message;
+    if (syncButton) syncButton.textContent = "Sync";
   }
 
-  modeButtons.forEach((button) => {
-    button.addEventListener("click", () => setMode(button.dataset.mode));
-  });
-
-  tokenForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const nextToken = tokenInput?.value.trim() || "";
-    localStorage.setItem("rukaWorkbenchToken", nextToken);
-    sessionStorage.setItem("rukaWorkbenchToken", nextToken);
-    sync().catch(reportError);
-  });
-
   syncButton?.addEventListener("click", () => {
-    sync().catch(reportError);
+    runSync().catch(reportError);
   });
 
-  toggleButton?.addEventListener("click", () => {
-    const collapsed = dock.classList.toggle("is-collapsed");
-    toggleButton.textContent = collapsed ? "Show" : "Hide";
-    toggleButton.setAttribute("aria-expanded", String(!collapsed));
-  });
-
-  promptForm?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    queueCodexTask().catch(reportError);
-  });
-
-  setMode(currentMode);
-  sync().catch(reportError);
-  setInterval(() => {
-    sync().catch(() => {});
-  }, 3500);
+  runSync().catch(reportError);
 }
 
 let siteContent = null;
@@ -743,7 +631,7 @@ Promise.all([loadContent(), renderMarkdownPages()])
     }
   });
 
-initCodexDock();
+initLocalSync();
 
 window.addEventListener("hashchange", () => {
   if (siteContent) {

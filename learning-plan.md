@@ -48,6 +48,36 @@
 - 重点训练直接证明、反证法、逆否命题、数学归纳法。
 - 完成 30-40 道基础证明题。
 - 建立 `notes/definitions.md`、`notes/mistakes.md`、`notes/weekly_review.md` 的个人笔记格式。
+
+本周学习资料：
+- 主教材：[Richard Hammack, Book of Proof](https://richardhammack.github.io/BookOfProof/)；优先读逻辑、集合、直接证明、反证法和归纳法相关章节。
+- 证明和集合讲义：[MIT 6.1200J/18.062J Lecture 01: Predicates, Sets, and Proofs](https://ocw.mit.edu/courses/6-1200j-mathematics-for-computer-science-spring-2024/mit6_1200j_s24_lec01.pdf)。
+- 归纳法视频：[MIT 6.042J Lecture 2: Induction](https://ocw.mit.edu/courses/6-042j-mathematics-for-computer-science-fall-2010/resources/lecture-2-induction/)。
+- 集合入门补充：[OpenStax 1.1 Basic Set Concepts](https://openstax.org/books/contemporary-mathematics/pages/1-1-basic-set-concepts)。
+- 量词入门补充：[OpenStax 2.1 Statements and Quantifiers](https://openstax.org/books/contemporary-mathematics/pages/2-1-statements-and-quantifiers)。
+
+建议日程：
+- 周二：读 Book of Proof 的逻辑与命题部分，整理“命题、谓词、量词、否定”的定义卡片；做 6-8 道符号化和否定量词题。
+- 周三：读集合、子集、幂集、笛卡尔积；把常见集合符号写进 `notes/definitions.md`；做 6-8 道集合表示和集合运算题。
+- 周四：读映射、定义域、值域、像、原像、单射、满射、双射；各写 2 个正例和 2 个反例；做 6-8 道函数性质判断题。
+- 周五：训练直接证明和逆否命题；每道题先写“已知、要证、可用定义”，再写正式证明；做 8-10 道基础证明题。
+- 周六：训练反证法和归纳法；看 MIT 归纳法视频；做 8-10 道归纳法题，至少包含一个不等式题和一个整除题。
+- 周日：混合练习 8-10 道题，重写本周最差的 3 个证明；把错误归入 `notes/mistakes.md`。
+- 周一：完成周复盘；用一页纸回答“什么时候该展开定义，什么时候该换证明策略”。
+
+本周最低验收：
+- 能正确写出 `forall`、`exists` 语句的否定，尤其是“所有/存在”的互换。
+- 能用定义证明一个函数是单射、满射或双射。
+- 能区分直接证明、逆否命题、反证法、归纳法各自适合的题型。
+- 能独立写出 5 个无明显逻辑跳步的短证明。
+- 错题笔记中至少记录 10 条错误，每条包含“原错误、原因、修正后证明”。
+
+证明模板：
+- 直接证明：先写“取任意对象”，展开定义，经过代数或逻辑推导，到达结论。
+- 逆否命题：把 `P => Q` 改写为 `not Q => not P`，证明后者。
+- 反证法：假设结论不成立，连同已知条件推出矛盾。
+- 归纳法：明确命题 `P(n)`，证明基础步，写出归纳假设，再证明 `P(k+1)`。
+
 产出：
 - 一份证明模板笔记。
 - 一页“我最容易犯的 5 类证明错误”。

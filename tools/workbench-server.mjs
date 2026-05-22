@@ -18,7 +18,6 @@ const taskDirs = {
 const logDir = join(store, "logs");
 const host = "127.0.0.1";
 const port = Number(process.env.RUKA_WORKBENCH_PORT || 8787);
-const sitePort = Number(process.env.RUKA_SITE_PORT || 8000);
 const token = process.env.RUKA_WORKBENCH_TOKEN || randomBytes(18).toString("base64url");
 const tokenWasGenerated = !process.env.RUKA_WORKBENCH_TOKEN;
 let taskCreationLock = Promise.resolve();
@@ -35,6 +34,12 @@ const mimeTypes = {
   ".jpeg": "image/jpeg"
 };
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+};
+
 async function ensureStore() {
   await mkdir(logDir, { recursive: true });
   await Promise.all(Object.values(taskDirs).map((dir) => mkdir(dir, { recursive: true })));
@@ -44,7 +49,8 @@ function json(res, status, payload) {
   const body = JSON.stringify(payload, null, 2);
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
-    "Content-Length": Buffer.byteLength(body)
+    "Content-Length": Buffer.byteLength(body),
+    ...corsHeaders
   });
   res.end(body);
 }
@@ -52,7 +58,8 @@ function json(res, status, payload) {
 function text(res, status, body, type = "text/plain; charset=utf-8") {
   res.writeHead(status, {
     "Content-Type": type,
-    "Content-Length": Buffer.byteLength(body)
+    "Content-Length": Buffer.byteLength(body),
+    ...corsHeaders
   });
   res.end(body);
 }
@@ -319,10 +326,10 @@ async function withTaskCreationLock(callback) {
   }
 }
 
-async function serveFile(urlPath, res) {
+async function serveStaticFile(baseDir, urlPath, res) {
   const requestPath = urlPath === "/" ? "/index.html" : urlPath.replace(/^\/workbench\/?/, "/");
-  const filePath = normalize(join(workbenchRoot, requestPath));
-  if (!filePath.startsWith(workbenchRoot)) {
+  const filePath = normalize(join(baseDir, requestPath));
+  if (!filePath.startsWith(baseDir) || filePath.startsWith(store)) {
     text(res, 403, "Forbidden");
     return;
   }
@@ -337,16 +344,30 @@ async function serveFile(urlPath, res) {
   res.end(body);
 }
 
+async function serveWorkbenchFile(urlPath, res) {
+  await serveStaticFile(workbenchRoot, urlPath, res);
+}
+
+async function serveSiteFile(urlPath, res) {
+  await serveStaticFile(root, urlPath, res);
+}
+
 async function handle(req, res) {
   const url = new URL(req.url, `http://${host}:${port}`);
 
   try {
+    if (req.method === "OPTIONS") {
+      res.writeHead(204, corsHeaders);
+      res.end();
+      return;
+    }
+
     if (url.pathname === "/admin" || url.pathname === "/workbench") {
       if (!isAuthorized(req, url)) {
         text(res, 401, "Unauthorized. Start the workbench server and open the URL it prints.");
         return;
       }
-      await serveFile("/index.html", res);
+      await serveWorkbenchFile("/index.html", res);
       return;
     }
 
@@ -355,7 +376,7 @@ async function handle(req, res) {
         text(res, 401, "Unauthorized");
         return;
       }
-      await serveFile(url.pathname, res);
+      await serveWorkbenchFile(url.pathname, res);
       return;
     }
 
@@ -366,7 +387,7 @@ async function handle(req, res) {
 
     if (url.pathname === "/api/sync") {
       json(res, 200, {
-        siteUrl: `http://localhost:${sitePort}/notes.html`,
+        siteUrl: `http://localhost:${port}/`,
         workbenchUrl: `http://localhost:${port}/workbench`,
         git: await gitStatus(),
         tasks: await listTasks()
@@ -400,7 +421,7 @@ async function handle(req, res) {
       return;
     }
 
-    await serveFile(url.pathname, res);
+    await serveSiteFile(url.pathname, res);
   } catch (error) {
     const status = error.message.includes("pending or running") ? 409 : 500;
     json(res, status, { error: error.message });
@@ -409,6 +430,7 @@ async function handle(req, res) {
 
 await ensureStore();
 createServer(handle).listen(port, host, () => {
+  console.log(`Ruka local site: http://${host}:${port}/?token=${encodeURIComponent(token)}`);
   console.log(`Ruka workbench: http://${host}:${port}/workbench?token=${encodeURIComponent(token)}`);
   if (tokenWasGenerated) {
     console.log("RUKA_WORKBENCH_TOKEN was not set; generated a temporary token for this server run.");

@@ -4,7 +4,7 @@ Static personal website draft for `ruka.us.ci`.
 
 ## Local Preview
 
-From this folder:
+For the plain static site:
 
 ```sh
 python3 -m http.server 4173
@@ -16,43 +16,28 @@ Then open:
 http://localhost:4173
 ```
 
-After edits, refresh the browser.
+## Integrated Codex Dock
 
-## Local Workbench
-
-The local workbench shows the static site preview with a single Codex session
-box beside it. It is localhost-only, token-protected, and its UI files live
-under `tools/`, so they are not part of the public static site.
-
-In one terminal, run the static preview:
-
-```sh
-python3 -m http.server 8000
-```
-
-In another terminal, run the workbench:
+For the site with the right-side Codex dock and local task API, run:
 
 ```sh
 node tools/workbench-server.mjs
 ```
 
-Optionally, run the Codex task runner in a third terminal. This consumes tasks
-queued from the "Send to Codex" box:
+Then open the tokenized URL it prints:
+
+```text
+http://127.0.0.1:8787/?token=...
+```
+
+In another terminal, run the Codex task runner so queued prompts are executed:
 
 ```sh
 node tools/workbench-runner.mjs
 ```
 
-Then open:
-
-```text
-the tokenized URL printed by tools/workbench-server.mjs
-```
-
-Use Sync to refresh git/task status and the preview. Send prompts from the
-Codex session box; prompts are queued one at a time so the session stays
-serial and coherent. Toggle Plan mode when the prompt should produce a plan
-instead of editing files.
+Use Sync to refresh git/task status. Save the local token once, switch between
+Default and Plan mode, and send prompts from the dock.
 
 For a stable token, start the server with:
 

@@ -20,7 +20,7 @@ This is a static personal site for `ruka.us.ci`.
 
 ## Local Preview
 
-From the project root:
+For the plain static site:
 
 ```sh
 python3 -m http.server 4173
@@ -32,7 +32,14 @@ Open:
 http://localhost:4173
 ```
 
-Refresh the browser after edits.
+For the integrated Codex dock and local task API:
+
+```sh
+node tools/workbench-server.mjs
+node tools/workbench-runner.mjs
+```
+
+Then open the tokenized URL printed by the server.
 
 ## Deploy
 
