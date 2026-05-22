@@ -7,15 +7,28 @@ This is a static personal site for `ruka.us.ci`.
 - No framework
 - No build step
 - No package manager required
+- No local task API or task receiver in the public site
 - Cloudflare Pages deploys the `main` branch automatically
+
+## File Responsibilities
+
+- `content.json`: editable site data, including profile text, links, notes, projects, about text, contact text, and `profile.lastUpdated`.
+- `index.html`: homepage layout structure.
+- `math.html`, `physics.html`, `plan.html`: page shells for note/category and plan views.
+- `learning-plan.md`: long-form learning plan body rendered on `plan.html`.
+- `styles.css`: visual design.
+- `script.js`: static rendering behavior.
+- `README.md`: human-facing project overview and workflow.
+- `PLAN.md`: longer site direction and future additions.
 
 ## Edit Rules
 
-- Content, links, notes, projects, about text, and contact text: edit `content.json`.
+- Content, links, notes, projects, about text, contact text, and last update time: edit `content.json`.
 - Layout structure: edit `index.html`.
 - Visual design: edit `styles.css`.
 - Rendering behavior: edit `script.js`.
 - Keep the site static unless the user explicitly asks for a build system.
+- Do not reintroduce workbench, Codex dock, Sync panel, localhost APIs, or browser-side task submission unless the user explicitly asks for that feature.
 - Do not add secrets, private documents, phone numbers, addresses, IDs, passwords, or tokens.
 
 ## Local Preview

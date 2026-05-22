@@ -1,10 +1,10 @@
-# Personal Website Plan
+# Ruka Site Plan
 
-## Goal
+## Current Shape
 
-Create a small personal website for `ruka.us.ci` that is easy to revise with Codex and easy to preview locally by refreshing the browser.
+`ruka.us.ci` is a small static personal site that is easy to revise locally and deploy through Cloudflare Pages.
 
-The first version should be deliberately simple: static files, no build step, no database, no account system, and no framework lock-in. This keeps edits transparent and makes Cloudflare Pages deployment straightforward.
+The project should stay deliberately simple: static files, no build step, no database, no account system, no framework lock-in, and no local task receiver in the public site. This keeps edits transparent and deployment straightforward.
 
 ## Site Identity
 
@@ -14,33 +14,38 @@ The first version should be deliberately simple: static files, no build step, no
 - Tone: quiet, direct, personal, slightly technical
 - Audience: friends, classmates, collaborators, future readers, and anyone who receives the link
 
-## Information Architecture
+## Current Information Architecture
 
-The first page is a single-page site with anchors:
+The public site currently has these user-facing pages:
 
-1. Home
+1. `index.html`
    - Name
    - Short self-description
    - Current status or focus
    - Primary links
+   - Notes entrances
+   - Projects
+   - About
+   - Contact
 
-2. Notes
-   - Small list of things worth writing about
-   - Can later become a blog or notes index
+2. `math.html`
+   - One math note at a time
+   - Previous/next navigation
+   - Article index at the end
 
-3. Projects
-   - Small experiments, school work, tools, websites, or programming projects
-   - Each item should include a title, short description, and optional link
+3. `physics.html`
+   - One physics note at a time
+   - Previous/next navigation
+   - Article index at the end
 
-4. About
-   - More personal context
-   - Interests
-   - What kind of things may appear on the site
+4. `plan.html`
+   - Renders `learning-plan.md`
+   - Holds the long learning route
 
-5. Contact
-   - Email or preferred contact method
-   - GitHub link
-   - Optional social links
+5. `learning-plan.html`
+   - Legacy redirect to `plan.html`
+
+All primary pages show a floating `Updated` widget from `content.json`.
 
 ## Content Model
 
@@ -52,6 +57,7 @@ Recommended fields:
 - `profile.domain`
 - `profile.tagline`
 - `profile.status`
+- `profile.lastUpdated`
 - `profile.location`
 - `profile.links`
 - `notes`
@@ -59,7 +65,7 @@ Recommended fields:
 - `about`
 - `contact`
 
-This split lets Codex revise wording and lists without changing the HTML structure. It also keeps future migration easy if the site later moves to Astro, Eleventy, or another static site generator.
+This split lets wording and lists change without changing HTML structure. It also keeps future migration easy if the site later moves to Astro, Eleventy, or another static site generator.
 
 ## Visual Direction
 
@@ -113,7 +119,7 @@ Recommended deployment target: Cloudflare Pages.
 Good next additions, in order:
 
 1. Replace placeholder contact links with real links.
-2. Add a `notes/` folder with standalone HTML or Markdown-generated pages.
+2. Add a `notes/` folder only when the current category pages become too cramped.
 3. Add Open Graph metadata and a small preview image.
 4. Add analytics only if there is a clear reason.
 5. Add an RSS feed if notes become frequent.
@@ -128,4 +134,3 @@ Before publishing:
 - Use a contact email that is acceptable to publish.
 - Confirm all linked accounts are intended to be public.
 - Review Git history before the first public push.
-
