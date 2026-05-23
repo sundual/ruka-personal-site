@@ -4,7 +4,7 @@
     "domain": "ruka.us.ci",
     "tagline": "A small personal website for notes, projects, and useful fragments.",
     "status": "Currently shaping this site into a public home base.",
-    "lastUpdated": "2026-05-22T12:54:43+08:00",
+    "lastUpdated": "2026-05-23T09:42:52+08:00",
     "location": "Shanghai",
     "links": [
       {
@@ -87,6 +87,49 @@
         "完整计划包含每周主题、任务和产出，适合按周执行和复盘。"
       ],
       "url": "plan.html"
+    },
+    {
+      "id": "harmonic-sphere-mean-value",
+      "title": "调和函数的球面平均值为什么不随半径变",
+      "category": "math",
+      "description": "若 \\(u_{xx}+u_{yy}+u_{zz}=0\\)，则以原点为中心的球面上，\\(u\\) 的曲面积分除以球面积是常数。",
+      "body": [
+        "设 \\(u\\in C^2(B_R(0))\\)，并且在这个球内满足 \\(u_{xx}+u_{yy}+u_{zz}=0\\)。也就是说 \\(\\Delta u=0\\)。这种函数叫调和函数。要证明的是：对任意 \\(0<r<R\\)，球面 \\(S_r=\\{x\\in\\mathbb{R}^3:|x|=r\\}\\) 上的平均值 \\(M(r)\\) 不随 \\(r\\) 改变。",
+        "先定义球面平均值。半径为 \\(r\\) 的球面积是 \\(4\\pi r^2\\)，所以 \\(u\\) 在球面 \\(|x|=r\\) 上的平均值是曲面积分除以球面积。",
+        "把球面上的点写成 \\(x=r\\omega\\)，其中 \\(\\omega\\in S^2\\)，\\(|\\omega|=1\\)。这里 \\(\\omega\\) 是单位方向向量，\\(x=r\\omega\\) 是沿这个方向走距离 \\(r\\) 后得到的球面点。",
+        "从 \\(\\omega\\) 到 \\(x=r\\omega\\) 是把单位球面整体放大 \\(r\\) 倍。球面上的长度放大 \\(r\\) 倍，面积放大 \\(r^2\\) 倍，所以曲面积分换元时不是 \\(dx=d\\omega\\)，而是 \\(dS_x=r^2dS_\\omega\\)。",
+        "因此，原来在半径为 \\(r\\) 的球面上的积分，可以换成单位球面上的积分。这样写的好处是：积分区域 \\(S^2\\) 固定不变，半径 \\(r\\) 只出现在被积函数 \\(u(r\\omega)\\) 里。",
+        "如果用球坐标写，\\(\\omega=(\\sin\\varphi\\cos\\theta,\\sin\\varphi\\sin\\theta,\\cos\\varphi)\\)。单位球面面积元是 \\(dS_\\omega=\\sin\\varphi\\,d\\varphi\\,d\\theta\\)，半径为 \\(r\\) 的球面面积元是 \\(dS_x=r^2\\sin\\varphi\\,d\\varphi\\,d\\theta\\)。",
+        "要注意：这里讨论的是球面上的曲面积分，所以用的是 \\(dS\\)。如果是球内的三维体积分，体积元才是 \\(dV=r^2\\sin\\varphi\\,dr\\,d\\varphi\\,d\\theta\\)，会多出一个 \\(dr\\)。",
+        "现在对 \\(M(r)\\) 求导。因为 \\(u\\in C^2\\)，特别地 \\(u\\) 的一阶偏导连续，所以可以把对 \\(r\\) 的导数放进单位球面上的积分号内。",
+        "由链式法则，\\(u(r\\omega)\\) 对 \\(r\\) 的导数等于 \\(\\nabla u(r\\omega)\\cdot\\omega\\)。而在球面 \\(|x|=r\\) 上，外法向量 \\(n=x/|x|\\) 正好等于 \\(\\omega\\)，所以这个内积就是法向导数 \\(\\partial u/\\partial n\\)。",
+        "于是 \\(M'(r)\\) 可以写成球面上法向导数的平均。再利用 \\(dS_x=r^2dS_\\omega\\) 把单位球面换回半径为 \\(r\\) 的球面。",
+        "最后用高斯公式。对向量场 \\(\\nabla u\\)，有 \\(\\nabla\\cdot(\\nabla u)=\\Delta u\\)。因此球面上 \\(\\nabla u\\) 的外通量，等于球内 \\(\\Delta u\\) 的体积分。",
+        "因为 \\(u\\) 是调和函数，\\(\\Delta u=0\\)，所以这个体积分为 \\(0\\)。于是球面上法向导数的积分为 \\(0\\)，从而 \\(M'(r)=0\\)。",
+        "所以 \\(M(r)\\) 对所有允许的 \\(r\\) 都是同一个常数。若再利用 \\(u\\) 在原点连续，令 \\(r\\to0\\)，球面上的 \\(u(x)\\) 都趋向于 \\(u(0)\\)，所以这个常数就是 \\(u(0)\\)。"
+      ],
+      "math": [
+        "\\[\\Delta u=u_{xx}+u_{yy}+u_{zz}=0\\]",
+        "\\[S_r=\\{x\\in\\mathbb{R}^3:|x|=r\\}\\]",
+        "\\[M(r)=\\frac{1}{4\\pi r^2}\\iint_{|x|=r}u(x)\\,dS\\]",
+        "\\[x=r\\omega,\\qquad \\omega\\in S^2,\\qquad |\\omega|=1\\]",
+        "\\[dS_x=r^2\\,dS_\\omega\\]",
+        "\\[M(r)=\\frac{1}{4\\pi}\\iint_{S^2}u(r\\omega)\\,dS_\\omega\\]",
+        "\\[\\omega=(\\sin\\varphi\\cos\\theta,\\sin\\varphi\\sin\\theta,\\cos\\varphi)\\]",
+        "\\[dS_\\omega=\\sin\\varphi\\,d\\varphi\\,d\\theta,\\qquad dS_x=r^2\\sin\\varphi\\,d\\varphi\\,d\\theta\\]",
+        "\\[dV=r^2\\sin\\varphi\\,dr\\,d\\varphi\\,d\\theta\\]",
+        "\\[M'(r)=\\frac{1}{4\\pi}\\iint_{S^2}\\frac{d}{dr}u(r\\omega)\\,dS_\\omega\\]",
+        "\\[\\frac{d}{dr}u(r\\omega)=\\nabla u(r\\omega)\\cdot\\omega\\]",
+        "\\[n=\\frac{x}{|x|}=\\omega\\]",
+        "\\[M'(r)=\\frac{1}{4\\pi}\\iint_{S^2}\\nabla u(r\\omega)\\cdot\\omega\\,dS_\\omega\\]",
+        "\\[M'(r)=\\frac{1}{4\\pi r^2}\\iint_{|x|=r}\\frac{\\partial u}{\\partial n}\\,dS\\]",
+        "\\[\\iint_{\\partial B_r}\\nabla u\\cdot n\\,dS=\\iiint_{B_r}\\nabla\\cdot(\\nabla u)\\,dV\\]",
+        "\\[\\nabla\\cdot(\\nabla u)=\\Delta u\\]",
+        "\\[\\iint_{|x|=r}\\frac{\\partial u}{\\partial n}\\,dS=\\iiint_{|x|<r}\\Delta u\\,dV=0\\]",
+        "\\[M'(r)=0\\quad\\Longrightarrow\\quad M(r)=\\text{常数}\\]",
+        "\\[\\boxed{\\frac{1}{4\\pi r^2}\\iint_{|x|=r}u(x)\\,dS=u(0)}\\]"
+      ],
+      "formula": "M(r) = (1 / 4πr²) ∬_|x|=r u dS = constant"
     },
     {
       "title": "Green's theorem",
