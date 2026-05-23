@@ -4,7 +4,7 @@
     "domain": "ruka.us.ci",
     "tagline": "A small personal website for notes, projects, and useful fragments.",
     "status": "Currently shaping this site into a public home base.",
-    "lastUpdated": "2026-05-23T09:42:52+08:00",
+    "lastUpdated": "2026-05-23T10:23:26+08:00",
     "location": "Shanghai",
     "links": [
       {
@@ -89,45 +89,172 @@
       "url": "plan.html"
     },
     {
-      "id": "harmonic-sphere-mean-value",
-      "title": "调和函数的球面平均值为什么不随半径变",
+      "id": "harmonic-sphere-average-center-value",
+      "title": "二阶连续可微的调和函数的球面平均值为何一定等于球心的值?",
       "category": "math",
-      "description": "若 \\(u_{xx}+u_{yy}+u_{zz}=0\\)，则以原点为中心的球面上，\\(u\\) 的曲面积分除以球面积是常数。",
-      "body": [
-        "设 \\(u\\in C^2(B_R(0))\\)，并且在这个球内满足 \\(u_{xx}+u_{yy}+u_{zz}=0\\)。也就是说 \\(\\Delta u=0\\)。这种函数叫调和函数。要证明的是：对任意 \\(0<r<R\\)，球面 \\(S_r=\\{x\\in\\mathbb{R}^3:|x|=r\\}\\) 上的平均值 \\(M(r)\\) 不随 \\(r\\) 改变。",
-        "先定义球面平均值。半径为 \\(r\\) 的球面积是 \\(4\\pi r^2\\)，所以 \\(u\\) 在球面 \\(|x|=r\\) 上的平均值是曲面积分除以球面积。",
-        "把球面上的点写成 \\(x=r\\omega\\)，其中 \\(\\omega\\in S^2\\)，\\(|\\omega|=1\\)。这里 \\(\\omega\\) 是单位方向向量，\\(x=r\\omega\\) 是沿这个方向走距离 \\(r\\) 后得到的球面点。",
-        "从 \\(\\omega\\) 到 \\(x=r\\omega\\) 是把单位球面整体放大 \\(r\\) 倍。球面上的长度放大 \\(r\\) 倍，面积放大 \\(r^2\\) 倍，所以曲面积分换元时不是 \\(dx=d\\omega\\)，而是 \\(dS_x=r^2dS_\\omega\\)。",
-        "因此，原来在半径为 \\(r\\) 的球面上的积分，可以换成单位球面上的积分。这样写的好处是：积分区域 \\(S^2\\) 固定不变，半径 \\(r\\) 只出现在被积函数 \\(u(r\\omega)\\) 里。",
-        "如果用球坐标写，\\(\\omega=(\\sin\\varphi\\cos\\theta,\\sin\\varphi\\sin\\theta,\\cos\\varphi)\\)。单位球面面积元是 \\(dS_\\omega=\\sin\\varphi\\,d\\varphi\\,d\\theta\\)，半径为 \\(r\\) 的球面面积元是 \\(dS_x=r^2\\sin\\varphi\\,d\\varphi\\,d\\theta\\)。",
-        "要注意：这里讨论的是球面上的曲面积分，所以用的是 \\(dS\\)。如果是球内的三维体积分，体积元才是 \\(dV=r^2\\sin\\varphi\\,dr\\,d\\varphi\\,d\\theta\\)，会多出一个 \\(dr\\)。",
-        "现在对 \\(M(r)\\) 求导。因为 \\(u\\in C^2\\)，特别地 \\(u\\) 的一阶偏导连续，所以可以把对 \\(r\\) 的导数放进单位球面上的积分号内。",
-        "由链式法则，\\(u(r\\omega)\\) 对 \\(r\\) 的导数等于 \\(\\nabla u(r\\omega)\\cdot\\omega\\)。而在球面 \\(|x|=r\\) 上，外法向量 \\(n=x/|x|\\) 正好等于 \\(\\omega\\)，所以这个内积就是法向导数 \\(\\partial u/\\partial n\\)。",
-        "于是 \\(M'(r)\\) 可以写成球面上法向导数的平均。再利用 \\(dS_x=r^2dS_\\omega\\) 把单位球面换回半径为 \\(r\\) 的球面。",
-        "最后用高斯公式。对向量场 \\(\\nabla u\\)，有 \\(\\nabla\\cdot(\\nabla u)=\\Delta u\\)。因此球面上 \\(\\nabla u\\) 的外通量，等于球内 \\(\\Delta u\\) 的体积分。",
-        "因为 \\(u\\) 是调和函数，\\(\\Delta u=0\\)，所以这个体积分为 \\(0\\)。于是球面上法向导数的积分为 \\(0\\)，从而 \\(M'(r)=0\\)。",
-        "所以 \\(M(r)\\) 对所有允许的 \\(r\\) 都是同一个常数。若再利用 \\(u\\) 在原点连续，令 \\(r\\to0\\)，球面上的 \\(u(x)\\) 都趋向于 \\(u(0)\\)，所以这个常数就是 \\(u(0)\\)。"
+      "description": "证明调和函数的球面平均值先不随半径变化，再用半径趋于零得到球心值。",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "设 \\(u\\in C^2(\\Omega)\\)，并且 \\(u\\) 在区域 \\(\\Omega\\subset\\mathbb{R}^n\\) 内调和。取球 \\(\\overline{B_R(a)}\\subset\\Omega\\)。调和的含义是"
+        },
+        {
+          "type": "math",
+          "text": "\\[\\Delta u=\\sum_{j=1}^n \\frac{\\partial^2 u}{\\partial x_j^2}=0.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "对 \\(0<r<R\\)，记球面 \\(\\partial B_r(a)\\) 上的平均值为 \\(M(r)\\)。若 \\(\\omega_n\\) 表示单位球 \\(B_1(0)\\) 的体积，则单位球面的面积是 \\(n\\omega_n\\)，而 \\(\\partial B_r(a)\\) 的面积是 \\(n\\omega_n r^{n-1}\\)，所以"
+        },
+        {
+          "type": "math",
+          "text": "\\[M(r)=\\frac{1}{n\\omega_n r^{n-1}}\\int_{\\partial B_r(a)}u(x)\\,dS_x.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "先证明 \\(M(r)\\) 不随 \\(r\\) 变化。把球面点写成 \\(x=a+r\\theta\\)，其中 \\(\\theta\\in\\partial B_1(0)\\)。球面面积元满足 \\(dS_x=r^{n-1}dS_\\theta\\)，因此平均值可写成固定积分区域上的积分："
+        },
+        {
+          "type": "math",
+          "text": "\\[M(r)=\\frac{1}{n\\omega_n}\\int_{\\partial B_1(0)}u(a+r\\theta)\\,dS_\\theta.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "因为 \\(u\\in C^2\\)，特别地 \\(\\nabla u\\) 连续；在固定紧球面上可以对参数 \\(r\\) 作通常的积分求导。由链式法则得到"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{n\\omega_n}\\int_{\\partial B_1(0)}\\nabla u(a+r\\theta)\\cdot\\theta\\,dS_\\theta.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "在球面 \\(\\partial B_r(a)\\) 上，外单位法向量正是 \\(\\nu=\\theta\\)。把积分换回 \\(\\partial B_r(a)\\)，上式变为"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{n\\omega_n r^{n-1}}\\int_{\\partial B_r(a)}\\frac{\\partial u}{\\partial \\nu}\\,dS.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "现在使用高斯公式。向量场 \\(\\nabla u\\) 穿出球面的通量等于球内散度的积分，而 \\(\\operatorname{div}(\\nabla u)=\\Delta u\\)："
+        },
+        {
+          "type": "math",
+          "text": "\\[\\int_{\\partial B_r(a)}\\frac{\\partial u}{\\partial \\nu}\\,dS=\\int_{\\partial B_r(a)}\\nabla u\\cdot\\nu\\,dS=\\int_{B_r(a)}\\Delta u\\,dx.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "由于 \\(u\\) 是调和函数，\\(\\Delta u=0\\)，于是"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{n\\omega_n r^{n-1}}\\int_{B_r(a)}0\\,dx=0.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "所以 \\(M(r)\\) 在 \\((0,R)\\) 上为常数。要确定这个常数，只需让半径趋于 \\(0\\)。由 \\(u\\) 的连续性，任给 \\(\\varepsilon>0\\)，存在 \\(\\delta>0\\)，当 \\(|x-a|<\\delta\\) 时有 \\(|u(x)-u(a)|<\\varepsilon\\)。因此当 \\(0<r<\\delta\\) 时，整个球面上的点都满足这个估计，从而"
+        },
+        {
+          "type": "math",
+          "text": "\\[|M(r)-u(a)|\\le \\frac{1}{|\\partial B_r(a)|}\\int_{\\partial B_r(a)}|u(x)-u(a)|\\,dS<\\varepsilon.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "这说明 \\(\\lim_{r\\to0^+}M(r)=u(a)\\)。而 \\(M(r)\\) 对 \\(r\\) 又是常数，所以这个常数只能是球心处的值。于是对任意 \\(0<r<R\\)，都有球面平均值公式"
+        },
+        {
+          "type": "math",
+          "text": "\\[\\boxed{\\frac{1}{|\\partial B_r(a)|}\\int_{\\partial B_r(a)}u(x)\\,dS=u(a)}.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "直观上，\\(\\Delta u=0\\) 表示球内没有源项；高斯公式把这一点转化为球面法向导数的总和为零，所以球面平均值随半径没有变化。半径缩到 \\(0\\) 时，球面上的函数值又全都趋向球心值，因此所有半径的球面平均值都等于球心值。"
+        }
       ],
-      "math": [
-        "\\[\\Delta u=u_{xx}+u_{yy}+u_{zz}=0\\]",
-        "\\[S_r=\\{x\\in\\mathbb{R}^3:|x|=r\\}\\]",
-        "\\[M(r)=\\frac{1}{4\\pi r^2}\\iint_{|x|=r}u(x)\\,dS\\]",
-        "\\[x=r\\omega,\\qquad \\omega\\in S^2,\\qquad |\\omega|=1\\]",
-        "\\[dS_x=r^2\\,dS_\\omega\\]",
-        "\\[M(r)=\\frac{1}{4\\pi}\\iint_{S^2}u(r\\omega)\\,dS_\\omega\\]",
-        "\\[\\omega=(\\sin\\varphi\\cos\\theta,\\sin\\varphi\\sin\\theta,\\cos\\varphi)\\]",
-        "\\[dS_\\omega=\\sin\\varphi\\,d\\varphi\\,d\\theta,\\qquad dS_x=r^2\\sin\\varphi\\,d\\varphi\\,d\\theta\\]",
-        "\\[dV=r^2\\sin\\varphi\\,dr\\,d\\varphi\\,d\\theta\\]",
-        "\\[M'(r)=\\frac{1}{4\\pi}\\iint_{S^2}\\frac{d}{dr}u(r\\omega)\\,dS_\\omega\\]",
-        "\\[\\frac{d}{dr}u(r\\omega)=\\nabla u(r\\omega)\\cdot\\omega\\]",
-        "\\[n=\\frac{x}{|x|}=\\omega\\]",
-        "\\[M'(r)=\\frac{1}{4\\pi}\\iint_{S^2}\\nabla u(r\\omega)\\cdot\\omega\\,dS_\\omega\\]",
-        "\\[M'(r)=\\frac{1}{4\\pi r^2}\\iint_{|x|=r}\\frac{\\partial u}{\\partial n}\\,dS\\]",
-        "\\[\\iint_{\\partial B_r}\\nabla u\\cdot n\\,dS=\\iiint_{B_r}\\nabla\\cdot(\\nabla u)\\,dV\\]",
-        "\\[\\nabla\\cdot(\\nabla u)=\\Delta u\\]",
-        "\\[\\iint_{|x|=r}\\frac{\\partial u}{\\partial n}\\,dS=\\iiint_{|x|<r}\\Delta u\\,dV=0\\]",
-        "\\[M'(r)=0\\quad\\Longrightarrow\\quad M(r)=\\text{常数}\\]",
-        "\\[\\boxed{\\frac{1}{4\\pi r^2}\\iint_{|x|=r}u(x)\\,dS=u(0)}\\]"
+      "formula": "平均值公式：1 / |∂B_r(a)| ∫_∂B_r(a) u dS = u(a)"
+    },
+    {
+      "id": "harmonic-sphere-mean-value",
+      "title": "调和函数的球面平均值为什么不随半径变?",
+      "category": "math",
+      "description": "用球面换元、对半径求导和高斯公式证明调和函数的球面平均值为常数。",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "设 \\(u\\in C^2(B_R(0))\\)，并且在球 \\(B_R(0)\\subset\\mathbb{R}^3\\) 内是调和函数。调和的意思是拉普拉斯算子为零："
+        },
+        {
+          "type": "math",
+          "text": "\\[\\Delta u=u_{xx}+u_{yy}+u_{zz}=0.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "对每个 \\(0<r<R\\)，记半径为 \\(r\\) 的球面为 \\(S_r\\)。我们要研究的是 \\(u\\) 在这个球面上的平均值："
+        },
+        {
+          "type": "math",
+          "text": "\\[S_r=\\{x\\in\\mathbb{R}^3:|x|=r\\},\\qquad M(r)=\\frac{1}{4\\pi r^2}\\iint_{S_r}u(x)\\,dS_x.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "关键是先把积分区域固定住。把球面点写成 \\(x=r\\omega\\)，其中 \\(\\omega\\in S^2\\) 是单位球面上的方向向量。球面放大 \\(r\\) 倍时，面积元放大 \\(r^2\\) 倍，所以"
+        },
+        {
+          "type": "math",
+          "text": "\\[x=r\\omega,\\qquad \\omega\\in S^2,\\qquad dS_x=r^2\\,dS_\\omega.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "代回平均值定义，分母里的 \\(r^2\\) 与面积元里的 \\(r^2\\) 抵消，得到一个在固定单位球面上积分的表达式："
+        },
+        {
+          "type": "math",
+          "text": "\\[M(r)=\\frac{1}{4\\pi}\\iint_{S^2}u(r\\omega)\\,dS_\\omega.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "现在可以对 \\(r\\) 求导。因为 \\(u\\in C^2\\)，一阶导数连续，而积分区域 \\(S^2\\) 不随 \\(r\\) 变，所以可以把导数放进积分号。链式法则给出"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{4\\pi}\\iint_{S^2}\\nabla u(r\\omega)\\cdot\\omega\\,dS_\\omega.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "在球面 \\(|x|=r\\) 上，外单位法向量是 \\(n=x/|x|=\\omega\\)。所以 \\(\\nabla u(r\\omega)\\cdot\\omega\\) 正是法向导数 \\(\\partial u/\\partial n\\)。再用 \\(dS_x=r^2dS_\\omega\\) 换回原来的球面，得到"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{4\\pi r^2}\\iint_{S_r}\\frac{\\partial u}{\\partial n}\\,dS_x.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "最后用高斯公式处理这个法向导数积分。对向量场 \\(\\nabla u\\)，它穿出球面的通量等于球内散度的体积分，而 \\(\\nabla\\cdot(\\nabla u)=\\Delta u\\)："
+        },
+        {
+          "type": "math",
+          "text": "\\[\\iint_{S_r}\\frac{\\partial u}{\\partial n}\\,dS_x=\\iint_{\\partial B_r}\\nabla u\\cdot n\\,dS_x=\\iiint_{B_r}\\Delta u\\,dV.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "因为 \\(u\\) 是调和函数，\\(\\Delta u=0\\)，所以上式右边为零。因此"
+        },
+        {
+          "type": "math",
+          "text": "\\[M'(r)=\\frac{1}{4\\pi r^2}\\iiint_{B_r}\\Delta u\\,dV=0.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "导数恒为零说明 \\(M(r)\\) 在 \\((0,R)\\) 上是常数，也就是说球面平均值不随半径改变。若再令 \\(r\\to0\\)，由 \\(u\\) 的连续性，球面上的 \\(u(r\\omega)\\) 都趋向 \\(u(0)\\)，于是这个常数就是中心值："
+        },
+        {
+          "type": "math",
+          "text": "\\[\\boxed{\\frac{1}{4\\pi r^2}\\iint_{|x|=r}u(x)\\,dS=u(0)}.\\]"
+        },
+        {
+          "type": "paragraph",
+          "text": "直观地说，调和函数没有内部源项：\\(\\Delta u=0\\) 使得每个球面上总的外法向变化量为零，所以当半径变大时，球面平均值没有系统性升高或降低。"
+        }
       ],
       "formula": "M(r) = (1 / 4πr²) ∬_|x|=r u dS = constant"
     },

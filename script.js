@@ -148,6 +148,27 @@ function definitionList(item) {
   return definitions;
 }
 
+function noteContentBlocks(item) {
+  if (!item.content?.length) return [];
+
+  return item.content
+    .map((block) => {
+      if (!block?.text) return null;
+
+      if ((block.type || "paragraph") === "math") {
+        const formula = document.createElement("div");
+        formula.className = "math-block";
+        formula.textContent = block.text;
+        return formula;
+      }
+
+      const paragraph = document.createElement("p");
+      paragraph.textContent = block.text;
+      return paragraph;
+    })
+    .filter(Boolean);
+}
+
 function noteArticle(item) {
   const article = document.createElement("article");
   article.className = "note-article";
@@ -169,18 +190,23 @@ function noteArticle(item) {
     article.append(definitions);
   }
 
-  (item.body || []).forEach((text) => {
-    const paragraph = document.createElement("p");
-    paragraph.textContent = text;
-    article.append(paragraph);
-  });
+  const contentBlocks = noteContentBlocks(item);
+  if (contentBlocks.length) {
+    article.append(...contentBlocks);
+  } else {
+    (item.body || []).forEach((text) => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      article.append(paragraph);
+    });
 
-  (item.math || []).forEach((text) => {
-    const formula = document.createElement("div");
-    formula.className = "math-block";
-    formula.textContent = text;
-    article.append(formula);
-  });
+    (item.math || []).forEach((text) => {
+      const formula = document.createElement("div");
+      formula.className = "math-block";
+      formula.textContent = text;
+      article.append(formula);
+    });
+  }
 
   if (item.formula) {
     const formula = document.createElement("p");
