@@ -501,7 +501,7 @@ function renderContent(content) {
 
 function currentCategoryPage() {
   const path = window.location.pathname.split("/").pop() || "";
-  if (path === "math.html" || path === "physics.html" || path === "plan.html") {
+  if (path === "math" || path === "math.html" || path === "physics" || path === "physics.html" || path === "plan" || path === "plan.html") {
     return path;
   }
   return "";
@@ -512,8 +512,11 @@ function renderCategoryPage(content) {
   if (!path) return;
 
   const categories = {
+    "math": "math",
     "math.html": "math",
+    "physics": "physics",
     "physics.html": "physics",
+    "plan": "learning-plan",
     "plan.html": "learning-plan"
   };
   const category = categories[path];
