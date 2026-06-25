@@ -21,3 +21,8 @@ build/
 
 __pycache__/
 *.py[cod]
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
