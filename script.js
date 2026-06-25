@@ -28,6 +28,8 @@ function categoryLabel(category) {
   const labels = {
     math: "数学",
     physics: "物理",
+    algorithm: "算法",
+    discrete: "离散数学",
     "learning-plan": "计划"
   };
 
@@ -38,6 +40,8 @@ function categoryPagePath(category) {
   const paths = {
     math: "math.html",
     physics: "physics.html",
+    algorithm: "algorithm.html",
+    discrete: "discrete.html",
     "learning-plan": "plan.html"
   };
 
@@ -48,6 +52,8 @@ function categoryPageTitle(category) {
   const titles = {
     math: "数学",
     physics: "物理",
+    algorithm: "算法",
+    discrete: "离散数学",
     "learning-plan": "计划"
   };
 
@@ -308,6 +314,14 @@ function notesByCategory(notes) {
       title: "物理"
     },
     {
+      id: "algorithm",
+      title: "算法"
+    },
+    {
+      id: "discrete",
+      title: "离散数学"
+    },
+    {
       id: "learning-plan",
       title: "计划"
     }
@@ -344,13 +358,43 @@ function notesByCategory(notes) {
     .filter(Boolean);
 }
 
-function typesetMath() {
-  if (window.MathJax?.typesetPromise) {
-    window.MathJax.typesetPromise();
-  }
+let mathTypesetPromise = Promise.resolve();
+
+function waitForMathJax() {
+  if (!window.MathJax) return Promise.resolve(null);
+  if (window.MathJax.typesetPromise) return Promise.resolve(window.MathJax);
+
+  return new Promise((resolve) => {
+    let attempts = 0;
+    const timer = window.setInterval(() => {
+      attempts += 1;
+      if (window.MathJax?.typesetPromise) {
+        window.clearInterval(timer);
+        resolve(window.MathJax);
+      } else if (attempts >= 100) {
+        window.clearInterval(timer);
+        resolve(null);
+      }
+    }, 50);
+  });
 }
 
-window.addEventListener("load", typesetMath);
+function typesetMath(root = document.body) {
+  if (!window.MathJax) return mathTypesetPromise;
+
+  mathTypesetPromise = mathTypesetPromise
+    .then(() => waitForMathJax())
+    .then((mathJax) => mathJax?.startup?.promise.then(() => mathJax) || mathJax)
+    .then((mathJax) => {
+      if (!mathJax?.typesetPromise) return null;
+      return mathJax.typesetPromise(root ? [root] : undefined);
+    })
+    .catch((error) => {
+      console.error("MathJax typesetting failed:", error);
+    });
+
+  return mathTypesetPromise;
+}
 
 function renderList(selector, nodes) {
   const container = document.querySelector(selector);
@@ -449,10 +493,12 @@ async function renderMarkdownPages() {
   }));
 }
 
-function renderContent(content) {
+async function renderContent(content) {
   const profile = content.profile || {};
 
-  document.title = profile.name ? `${profile.name} - Personal Site` : "Personal Site";
+  if (document.querySelector('[data-list="note-entrances"]')) {
+    document.title = profile.name ? `${profile.name} - Personal Site` : "Personal Site";
+  }
 
   setText('[data-field="name"]', profile.name);
   setText('[data-field="domain"]', profile.domain);
@@ -466,6 +512,8 @@ function renderContent(content) {
   renderList('[data-list="note-entrances"]', [
     "math",
     "physics",
+    "algorithm",
+    "discrete",
     "learning-plan"
   ].map((category) => {
     const latest = categoryNotes(content.notes || [], category)[0];
@@ -496,18 +544,18 @@ function renderContent(content) {
   }));
   renderList('[data-list="contact-links"]', linkList(content.contact?.links));
 
-  typesetMath();
+  await typesetMath();
 }
 
 function currentCategoryPage() {
   const path = window.location.pathname.split("/").pop() || "";
-  if (path === "math" || path === "math.html" || path === "physics" || path === "physics.html" || path === "plan" || path === "plan.html") {
+  if (path === "math" || path === "math.html" || path === "physics" || path === "physics.html" || path === "algorithm" || path === "algorithm.html" || path === "discrete" || path === "discrete.html" || path === "plan" || path === "plan.html") {
     return path;
   }
   return "";
 }
 
-function renderCategoryPage(content) {
+async function renderCategoryPage(content) {
   const path = currentCategoryPage();
   if (!path) return;
 
@@ -516,6 +564,10 @@ function renderCategoryPage(content) {
     "math.html": "math",
     "physics": "physics",
     "physics.html": "physics",
+    "algorithm": "algorithm",
+    "algorithm.html": "algorithm",
+    "discrete": "discrete",
+    "discrete.html": "discrete",
     "plan": "learning-plan",
     "plan.html": "learning-plan"
   };
@@ -545,17 +597,17 @@ function renderCategoryPage(content) {
     article.append(notePager(selected, notes[index - 1], notes[index + 1], path));
     article.append(noteIndex(notes, selected.id, path));
     reader.replaceChildren(article);
+    await typesetMath(reader);
   }
 }
 
 let siteContent = null;
 
 Promise.all([loadContent(), renderMarkdownPages()])
-  .then(([content]) => {
+  .then(async ([content]) => {
     siteContent = content;
-    renderContent(content);
-    renderCategoryPage(content);
-    typesetMath();
+    await renderContent(content);
+    await renderCategoryPage(content);
   })
   .catch((error) => {
     console.error(error);
@@ -568,9 +620,8 @@ Promise.all([loadContent(), renderMarkdownPages()])
     }
   });
 
-window.addEventListener("hashchange", () => {
+window.addEventListener("hashchange", async () => {
   if (siteContent) {
-    renderCategoryPage(siteContent);
-    typesetMath();
+    await renderCategoryPage(siteContent);
   }
 });

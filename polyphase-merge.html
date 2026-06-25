@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>多阶段归并 - Ruka</title>
+    <meta name="description" content="第7章排序 PPT 中多阶段归并内容的独立整理页。">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero exam-hero" aria-labelledby="polyphase-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="polyphase-title">多阶段归并</h1>
+        <p class="tagline">从第 7 章排序 PPT 抽出的外排序优化：用 k+1 个磁带完成 k 路归并，并用 Fibonacci 分布减少无效搬运。</p>
+      </section>
+
+      <section class="section exam-page" aria-label="Polyphase merge note">
+        <aside class="exam-toc" aria-label="目录">
+          <p class="eyebrow">Contents</p>
+          <ol>
+            <li><a href="#problem">问题背景</a></li>
+            <li><a href="#method">多阶段归并</a></li>
+            <li><a href="#example">34 段例子</a></li>
+            <li><a href="#fibonacci">Fibonacci 分布</a></li>
+            <li><a href="#implementation">实现要点</a></li>
+          </ol>
+        </aside>
+
+        <article class="exam-content">
+          <section id="problem" class="exam-card">
+            <h2>问题背景</h2>
+            <p>外排序先把大文件分批读入内存，分别排成若干个 sorted runs，再把这些 runs 归并成一个有序文件。普通 k 路归并如果采用输入 k 个磁带、输出 k 个磁带的成组轮换策略，需要 2k 个磁带。</p>
+            <div class="math-block">普通 k 路归并：k 个输入设备 + k 个输出设备 = 2k 个磁带。</div>
+            <p>PPT 第 135 页给出的动机是：2k 个磁带可能太多，所以希望只用 k+1 个磁带仍然完成 k 路归并。</p>
+          </section>
+
+          <section id="method" class="exam-card">
+            <h2>多阶段归并的基本动作</h2>
+            <p>假设有 k+1 个磁带：一个空磁带 A，另外 k 个磁带 B1, B2, ..., Bk 上放着初始归并段。每次从 B1 到 Bk 各取一个 run，做一次 k 路归并，输出到 A。重复这个动作，直到某一个输入磁带 Bi 被取空。</p>
+            <p>一旦某个 Bi 为空，角色就轮换：现在空的 Bi 变成新的输出磁带，其余 k 个有数据的磁带变成输入磁带。继续同样的 k 路归并，直到只剩一个磁带上还有数据；那个数据就是最终有序文件。</p>
+            <pre class="code-block"><code>while more than one tape contains runs:
+    output = the empty tape
+    inputs = all other tapes
+    while every input tape still has at least one run:
+        merge one run from each input tape into output
+    rotate roles: the exhausted input becomes the next output</code></pre>
+            <p>它的关键不是“增加归并路数”，而是在设备数只有 k+1 的条件下让归并继续滚动，不需要额外复制出一整轮输出文件。</p>
+          </section>
+
+          <section id="example" class="exam-card">
+            <h2>34 个初始归并段为什么不能平分</h2>
+            <p>PPT 第 138-140 页给出的例子是：有三条磁带 T1、T2、T3，输入文件在 T1 上，共 34 个 sorted runs。要用三条磁带完成二路多阶段归并，第一步不是把 34 段平均分成 17 和 17。</p>
+            <p>如果在 T2 和 T3 上各放 17 段，第一次可以把 17 对 runs 归并到 T1；但这之后所有结果都集中到 T1，另外两个磁带都空了，下一阶段不能继续二路归并，只能额外搬运一部分 runs 到另一个磁带，造成无效 I/O。</p>
+            <p>更好的分布是把 34 分成 21 和 13。先从 T2 与 T3 归并 13 次到 T1，T3 被取空；此时 T1 上有 13 段，T2 上还剩 8 段。下一阶段自然从 T1 与 T2 归并到空的 T3。</p>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>阶段</th>
+                    <th>参与归并</th>
+                    <th>T1 runs</th>
+                    <th>T2 runs</th>
+                    <th>T3 runs</th>
+                    <th>说明</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>初始分布</td>
+                    <td>准备 T2 + T3 -> T1</td>
+                    <td>0</td>
+                    <td>21</td>
+                    <td>13</td>
+                    <td>34 = 21 + 13</td>
+                  </tr>
+                  <tr>
+                    <td>第一阶段后</td>
+                    <td>T2 + T3 -> T1</td>
+                    <td>13</td>
+                    <td>8</td>
+                    <td>0</td>
+                    <td>T3 取空，T1 得到 13 个新 runs</td>
+                  </tr>
+                  <tr>
+                    <td>第二阶段后</td>
+                    <td>T1 + T2 -> T3</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>8</td>
+                    <td>T2 取空，继续轮换</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="fibonacci" class="exam-card">
+            <h2>Fibonacci 分布与虚段</h2>
+            <p>二路多阶段归并的 run 数量变化天然符合 Fibonacci 关系。因为每一阶段结束后，新输出磁带得到较小输入磁带数量那么多的新 runs，较大输入磁带剩下两者之差。若初始分布是相邻 Fibonacci 数，例如 21 和 13，后续会依次变成 13 和 8、8 和 5、5 和 3、3 和 2、2 和 1、1 和 1，过程正好连续。</p>
+            <div class="math-block">21, 13, 8, 5, 3, 2, 1 是相邻 Fibonacci 数。</div>
+            <p>PPT 第 141 页的表可以理解为：如果初始 run 总数本身等于一个 Fibonacci 数，就把它拆成前两个 Fibonacci 数，放到两个输入磁带上。</p>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>执行后的状态</th>
+                    <th>T1</th>
+                    <th>T2</th>
+                    <th>T3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>初始</td>
+                    <td>0</td>
+                    <td>21</td>
+                    <td>13</td>
+                  </tr>
+                  <tr>
+                    <td>T2 + T3 -> T1</td>
+                    <td>13</td>
+                    <td>8</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>T1 + T2 -> T3</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>8</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>如果初始 runs 的个数不是 Fibonacci 数，就把它补到下一个合适的 Fibonacci 数。补进去的是 dummy runs，长度为 0，不含真实记录，只在调度上占一个位置；这样归并阶段仍能按 Fibonacci 节奏走。</p>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>执行后的状态</th>
+                    <th>T1</th>
+                    <th>T2</th>
+                    <th>T3</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>补虚段后的初始分布</td>
+                    <td>0</td>
+                    <td>21</td>
+                    <td>13</td>
+                  </tr>
+                  <tr>
+                    <td>T2 + T3 -> T1</td>
+                    <td>13</td>
+                    <td>8</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>T1 + T2 -> T3</td>
+                    <td>5</td>
+                    <td>0</td>
+                    <td>8</td>
+                  </tr>
+                  <tr>
+                    <td>T1 + T3 -> T2</td>
+                    <td>0</td>
+                    <td>5</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>T2 + T3 -> T1</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>T1 + T2 -> T3</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>T1 + T3 -> T2</td>
+                    <td>0</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>T2 + T3 -> T1</td>
+                    <td>1</td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="implementation" class="exam-card">
+            <h2>落实到程序上的要点</h2>
+            <p>程序中不必真的把“磁带”写成磁带设备。可以把每个 tape 抽象成一个 run queue：队列里每个元素是一个已排序片段的读取器。一次阶段归并就是从所有非空输入队列各 pop 一个 run，做 k-way merge，把输出 run push 到空队列。</p>
+            <pre class="code-block"><code>struct Run {
+    Reader reader;
+};
+
+using Tape = deque&lt;Run&gt;;
+
+void polyphaseMerge(vector&lt;Tape&gt;& tapes) {
+    while (countNonEmpty(tapes) &gt; 1) {
+        int out = findEmptyTape(tapes);
+        vector&lt;int&gt; in = allOtherTapeIndexes(out);
+
+        while (allNonEmpty(tapes, in)) {
+            vector&lt;Run&gt; runs;
+            for (int i : in) {
+                runs.push_back(move(tapes[i].front()));
+                tapes[i].pop_front();
+            }
+            tapes[out].push_back(kWayMerge(runs));
+        }
+    }
+}</code></pre>
+            <p>真正需要小心的是初始 run 分布：二路三磁带时按相邻 Fibonacci 数分配；一般 k 路时使用 k 阶 Fibonacci-like 分布。若真实 run 数不够，就补 0 长度 dummy runs，让调度表成立。</p>
+            <p>因此，多阶段归并的核心结论可以压缩成一句：用不均匀的 Fibonacci-style run 分布，换取 k+1 个设备下连续滚动的 k 路归并，减少普通平分策略带来的额外复制。</p>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <aside class="update-widget" aria-label="Site update time">
+      <span>Updated</span>
+      <time data-field="last-updated" datetime="">Loading...</time>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>

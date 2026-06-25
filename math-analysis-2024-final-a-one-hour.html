@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>数学分析 II A 卷一小时复习量 - Ruka</title>
+    <meta name="description" content="根据数学分析 II A 卷与 MIT OCW 资料整理的一小时考前复习网页。">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: {
+          fontCache: "global"
+        },
+        startup: {
+          typeset: false
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero exam-hero" aria-labelledby="one-hour-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="one-hour-title">数学分析 II A 卷一小时复习量</h1>
+        <p class="tagline">这页不是全书复习，而是 60 分钟内能读完、能动手、能直接对应这张卷子的压缩材料。</p>
+      </section>
+
+      <section class="section exam-page cram-page" aria-label="One hour review">
+        <aside class="exam-toc" aria-label="目录">
+          <p class="eyebrow">60 Minutes</p>
+          <ol>
+            <li><a href="#how-to-use">怎么用</a></li>
+            <li><a href="#map">0-8 分钟：卷面地图</a></li>
+            <li><a href="#uniform">8-22 分钟：一致收敛</a></li>
+            <li><a href="#power">22-34 分钟：幂级数</a></li>
+            <li><a href="#fourier">34-48 分钟：Fourier</a></li>
+            <li><a href="#vector">48-56 分钟：向量分析</a></li>
+            <li><a href="#final">56-60 分钟：空白纸</a></li>
+            <li><a href="#sources">参考资料</a></li>
+          </ol>
+        </aside>
+
+        <article class="exam-content">
+          <section id="how-to-use" class="exam-card">
+            <h2>怎么用这一小时</h2>
+            <p>目标不是“学会所有细节”，而是把这张卷子最值钱的几个判断接口压进短时记忆。你要边读边拿纸写公式，每一段最后的微练习必须动手。</p>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>阶段</th>
+                    <th>任务</th>
+                    <th>结束时你应该能做什么</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0-8 分钟</td>
+                    <td>看卷面结构。</td>
+                    <td>知道题目落在哪 5 个模板里。</td>
+                  </tr>
+                  <tr>
+                    <td>8-22 分钟</td>
+                    <td>一致收敛。</td>
+                    <td>会用上确界、坏点列、一致 Cauchy。</td>
+                  </tr>
+                  <tr>
+                    <td>22-34 分钟</td>
+                    <td>幂级数。</td>
+                    <td>会从母函数求导、积分，并单独判端点。</td>
+                  </tr>
+                  <tr>
+                    <td>34-48 分钟</td>
+                    <td>Fourier。</td>
+                    <td>会算正弦系数、处理端点平均值、用 Bessel 判否。</td>
+                  </tr>
+                  <tr>
+                    <td>48-56 分钟</td>
+                    <td>向量分析与积分。</td>
+                    <td>会识别 Gauss、路径无关、球坐标。</td>
+                  </tr>
+                  <tr>
+                    <td>56-60 分钟</td>
+                    <td>空白纸复盘。</td>
+                    <td>不用看网页写出核心公式。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="map" class="exam-card">
+            <h2>0-8 分钟：卷面地图</h2>
+            <p>这张卷子的偏好很清楚：用经典定理压缩计算。不要先硬算，先问“这是哪个模板”。</p>
+            <ol class="cram-list">
+              <li><strong>级数模板。</strong>第 1、6、7、8、10、11、12、16 题都和级数有关，核心不是长算，而是判断收敛域、端点、系数和统一性。</li>
+              <li><strong>一致收敛模板。</strong>第 8、9、15 题直接考，很多错误来自把逐点收敛当成一致收敛。</li>
+              <li><strong>Fourier 模板。</strong>第 1、10、16 题分别考半区间正弦级数、Bessel 必要条件、逐项求导积分和端点值。</li>
+              <li><strong>几何积分模板。</strong>第 4、5、13、14、17 题都在考“换视角”：对称性、势函数、补面、球壳。</li>
+              <li><strong>向量分析恒等式。</strong>第 2、14、17 题靠 \(\operatorname{div}\operatorname{rot}=0\) 和 Gauss 公式直接降维。</li>
+            </ol>
+            <p>临考读题时先分类。能分类，通常就已经拿到一半分。</p>
+          </section>
+
+          <section id="uniform" class="exam-card">
+            <h2>8-22 分钟：一致收敛</h2>
+            <p>MIT 18.100A 把一致收敛和 Weierstrass M-test 放在“何时能交换极限”的问题下看。考试里也是这个逻辑：一致收敛不是每个点都收敛，而是所有点同时受控。</p>
+            <p>函数列先写上确界：</p>
+            <div class="math-block">
+              \[
+              f_n\rightrightarrows f\text{ on }E
+              \iff
+              \sup_{x\in E}|f_n(x)-f(x)|\to0.
+              \]
+            </div>
+            <p>第 15 题的函数是</p>
+            <div class="math-block">
+              \[
+              g_n(x)=\frac{x\ln^p n}{n^x}=x(\ln n)^p e^{-x\ln n},\qquad x\ge0.
+              \]
+            </div>
+            <p>令 \(L=\ln n\)，最大化 \(h(x)=xe^{-Lx}\)。因为</p>
+            <div class="math-block">
+              \[
+              h'(x)=e^{-Lx}(1-Lx),
+              \]
+            </div>
+            <p>最大点为 \(x=1/L\)，于是</p>
+            <div class="math-block">
+              \[
+              \sup_{x\ge0}g_n(x)=\frac1e(\ln n)^{p-1}.
+              \]
+            </div>
+            <p>所以</p>
+            <div class="math-block">
+              \[
+              g_n\rightrightarrows0\text{ on }[0,+\infty)
+              \iff p&lt;1.
+              \]
+            </div>
+            <p>函数项级数换成一致 Cauchy：</p>
+            <div class="math-block">
+              \[
+              \sum u_n(x)\text{ 一致收敛}
+              \iff
+              \forall\varepsilon&gt;0,\ \exists N,\ q\ge p\ge N
+              \Rightarrow
+              \sup_{x\in E}\left|\sum_{n=p}^{q}u_n(x)\right|&lt;\varepsilon.
+              \]
+            </div>
+            <p>证明不一致时，允许坏点 \(x\) 跟着尾段变。第 8 题里的典型动作是取 \(x_N=1/N\)：</p>
+            <div class="math-block">
+              \[
+              \sum_{n=N}^{2N}\frac{\sin(n/N)}{n}\ge c\sum_{n=N}^{2N}\frac1n\ge c\ln2.
+              \]
+            </div>
+            <p>这说明任意靠后的尾和都能保持不小，所以不一致收敛。</p>
+            <p>正面证明时先试 M-test：</p>
+            <div class="math-block">
+              \[
+              |u_n(x)|\le M_n,\qquad \sum M_n&lt;\infty
+              \Longrightarrow
+              \sum u_n(x)\text{ 绝对一致收敛}.
+              \]
+            </div>
+            <p>如果有交错或振荡，不要强行绝对值估计，要想 Dirichlet 或 Abel。第 8 题 (D) 的结构是“交错部分和有界 + 系数尾部总变差趋零”。</p>
+            <details class="cram-answer">
+              <summary>微练习 1：判断 \(x^n\) 在 \((0,1)\) 上是否一致收敛到 0</summary>
+              <p>不一致。虽然每个固定 \(x\in(0,1)\) 都有 \(x^n\to0\)，但</p>
+              <div class="math-block">
+                \[
+                \sup_{0&lt;x&lt;1}x^n=1.
+                \]
+              </div>
+            </details>
+            <details class="cram-answer">
+              <summary>微练习 2：为什么 \(\sum x/(1+x)^n\) 在 \((0,+\infty)\) 上不一致收敛</summary>
+              <p>部分和误差是 \((1+x)^{-N}\)，而</p>
+              <div class="math-block">
+                \[
+                \sup_{x&gt;0}(1+x)^{-N}=1.
+                \]
+              </div>
+              <p>误差上确界不趋于 0。</p>
+            </details>
+          </section>
+
+          <section id="power" class="exam-card">
+            <h2>22-34 分钟：幂级数</h2>
+            <p>MIT 18.100A 把 power series 放在一致极限和多项式逼近之后看；考试里你只需要会用开区间内的逐项运算，并且记得端点单独判。</p>
+            <p>四个母函数先默写：</p>
+            <div class="math-block">
+              \[
+              \frac1{1-x}=\sum_{n=0}^{\infty}x^n,\qquad |x|&lt;1.
+              \]
+            </div>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}nx^n=\frac{x}{(1-x)^2},\qquad
+              \sum_{n=1}^{\infty}\frac{x^n}{n}=-\ln(1-x).
+              \]
+            </div>
+            <div class="math-block">
+              \[
+              \arctan x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n+1}}{2n+1},\qquad |x|\le1.
+              \]
+            </div>
+            <p>第 11 题直接拆：</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\left(n+\frac1n\right)x^n
+              =
+              \frac{x}{(1-x)^2}-\ln(1-x),\qquad -1&lt;x&lt;1.
+              \]
+            </div>
+            <p>第 12 题先求导，把复杂函数变成 \(\arctan x\)：</p>
+            <div class="math-block">
+              \[
+              \left(x\arctan x-\frac12\ln(1+x^2)\right)'=\arctan x.
+              \]
+            </div>
+            <p>再逐项积分：</p>
+            <div class="math-block">
+              \[
+              x\arctan x-\ln\sqrt{1+x^2}
+              =
+              \sum_{n=1}^{\infty}\frac{(-1)^{n-1}x^{2n}}{2n(2n-1)}.
+              \]
+            </div>
+            <p>端点逻辑要写完整：开区间由幂级数逐项积分得到，端点再用收敛性补上。这里端点通项量级为 \(1/n^2\)，所以 \(x=\pm1\) 都绝对收敛。</p>
+            <details class="cram-answer">
+              <summary>微练习 3：\((e^x-1)/x\) 在 0 处的 100 阶导数</summary>
+              <p>展开为</p>
+              <div class="math-block">
+                \[
+                \frac{e^x-1}{x}=\sum_{k=0}^{\infty}\frac{x^k}{(k+1)!}.
+                \]
+              </div>
+              <p>所以</p>
+              <div class="math-block">
+                \[
+                f^{(100)}(0)=100!\cdot\frac1{101!}=\frac1{101}.
+                \]
+              </div>
+            </details>
+          </section>
+
+          <section id="fourier" class="exam-card">
+            <h2>34-48 分钟：Fourier</h2>
+            <p>MIT ES.1803 的 Fourier notes 里强调：在连续点收敛到原函数，在跳跃点收敛到左右极限平均。第 1、16 题的端点问题都靠这句话。</p>
+            <p>半区间正弦级数先记系数公式：</p>
+            <div class="math-block">
+              \[
+              f(x)\sim\sum_{n=1}^{\infty}b_n\sin nx,\qquad
+              b_n=\frac2\pi\int_0^\pi f(x)\sin nx\,dx.
+              \]
+            </div>
+            <p>第 1 题 \(f(x)=(\pi-x)/2\)，所以</p>
+            <div class="math-block">
+              \[
+              b_n=\frac1\pi\int_0^\pi(\pi-x)\sin nx\,dx=\frac1n.
+              \]
+            </div>
+            <p>于是</p>
+            <div class="math-block">
+              \[
+              \frac{\pi-x}{2}\sim\sum_{n=1}^{\infty}\frac{\sin nx}{n},\qquad 0&lt;x&lt;\pi.
+              \]
+            </div>
+            <p>端点和跳跃点用平均值：</p>
+            <div class="math-block">
+              \[
+              S(x_0)=\frac{f(x_0-0)+f(x_0+0)}2.
+              \]
+            </div>
+            <p>这解释了为什么 \(x\)、\(x^3\) 的 Fourier 级数通常写在 \((-\pi,\pi)\) 内，端点 \(x=\pm\pi\) 要单独给出 0。</p>
+            <p>第 16 题用到的主线是</p>
+            <div class="math-block">
+              \[
+              x\sim2\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}n\sin nx,\qquad -\pi&lt;x&lt;\pi.
+              \]
+            </div>
+            <p>再由 \(x^2\) 的 Fourier 级数逐项积分得到 \(x^3\) 的正弦级数。临考要提醒自己：逐项求导或积分只在内部区间说话，端点另判。</p>
+            <p>第 10 题是 Fourier 系数判否。Bessel 不等式给必要条件：</p>
+            <div class="math-block">
+              \[
+              \frac{a_0^2}{2}+\sum_{n=1}^{\infty}(a_n^2+b_n^2)
+              \le
+              \frac1\pi\int_{-\pi}^{\pi}|f(x)|^2\,dx.
+              \]
+            </div>
+            <p>所以若候选系数平方和发散，就不可能是平方可积函数的 Fourier 系数。卷子里的两个典型反例是</p>
+            <div class="math-block">
+              \[
+              \sum_{n=2}^{\infty}\frac1{(\ln n)^2}=\infty,\qquad
+              \sum_{n=1}^{\infty}\frac1n=\infty.
+              \]
+            </div>
+            <details class="cram-answer">
+              <summary>微练习 4：为什么 \(x^3\) 的 Fourier 和在 \(x=\pi\) 处是 0</summary>
+              <p>周期延拓后，左极限为 \(\pi^3\)，右极限接回 \(-\pi^3\)，所以</p>
+              <div class="math-block">
+                \[
+                S(\pi)=\frac{\pi^3+(-\pi^3)}2=0.
+                \]
+              </div>
+            </details>
+          </section>
+
+          <section id="vector" class="exam-card">
+            <h2>48-56 分钟：向量分析与几何积分</h2>
+            <p>曲面积分和体积分不要先硬算。MIT 18.02SC 的 Divergence Theorem notes 强调闭曲面和外法向：通量过闭曲面等于内部散度积分。</p>
+            <div class="math-block">
+              \[
+              \iint_{\partial\Omega}\mathbf F\cdot n\,dS
+              =
+              \iiint_{\Omega}\nabla\cdot\mathbf F\,dV.
+              \]
+            </div>
+            <p>第 17 题取 \(\mathbf F=\nabla u\)，得到</p>
+            <div class="math-block">
+              \[
+              \iint_{\partial\Omega}\frac{\partial u}{\partial n}\,dS
+              =
+              \iiint_{\Omega}\Delta u\,dV.
+              \]
+            </div>
+            <p>球坐标必须记体积元：</p>
+            <div class="math-block">
+              \[
+              x=s\sin\varphi\cos\theta,\quad
+              y=s\sin\varphi\sin\theta,\quad
+              z=s\cos\varphi,\quad
+              dV=s^2\sin\varphi\,ds\,d\varphi\,d\theta.
+              \]
+            </div>
+            <p>所以</p>
+            <div class="math-block">
+              \[
+              \iiint_{B_\rho}\sqrt{x^2+y^2+z^2}\,dV
+              =
+              \int_0^\rho\int_0^\pi\int_0^{2\pi}s^3\sin\varphi\,d\theta\,d\varphi\,ds
+              =
+              \pi\rho^4.
+              \]
+            </div>
+            <p>第 4 题的球面对称性也要秒反应：</p>
+            <div class="math-block">
+              \[
+              \iint_Sx^2\,dS=\iint_Sy^2\,dS=\iint_Sz^2\,dS=\frac{4\pi R^4}{3}.
+              \]
+            </div>
+            <p>第 13 题是路径无关：若区域没有洞且 \(P_y=Q_x\)，就找势函数 \(F\)，曲线积分变成 \(F(B)-F(A)\)。</p>
+            <p>第 2 题不要展开：</p>
+            <div class="math-block">
+              \[
+              \operatorname{div}(\operatorname{rot}\mathbf v)=\nabla\cdot(\nabla\times\mathbf v)=0.
+              \]
+            </div>
+            <details class="cram-answer">
+              <summary>微练习 5：半径 \(R\) 的球面上 \(\iint_S( x^2/2+y^2/3+z^2/4 )\,dS\)</summary>
+              <p>每个二次项积分都是 \(4\pi R^4/3\)，所以</p>
+              <div class="math-block">
+                \[
+                \left(\frac12+\frac13+\frac14\right)\frac{4\pi R^4}{3}
+                =
+                \frac{13\pi R^4}{9}.
+                \]
+              </div>
+            </details>
+          </section>
+
+          <section id="final" class="exam-card">
+            <h2>56-60 分钟：空白纸复盘</h2>
+            <p>最后四分钟不要再读新东西。拿空白纸写下面 9 行。写不出就回到对应段落补。</p>
+            <ol class="cram-list">
+              <li>\(\sup_{x\in E}|f_n(x)-f(x)|\to0\) 是函数列一致收敛。</li>
+              <li>函数项级数一致收敛看任意尾和的一致 Cauchy 条件。</li>
+              <li>M-test：\(|u_n(x)|\le M_n,\ \sum M_n&lt;\infty\)。</li>
+              <li>\(\sum nx^n=x/(1-x)^2\)，\(\sum x^n/n=-\ln(1-x)\)。</li>
+              <li>\(\arctan x=\sum(-1)^nx^{2n+1}/(2n+1)\)。</li>
+              <li>半区间正弦系数：\(b_n=2\pi^{-1}\int_0^\pi f(x)\sin nx\,dx\)。</li>
+              <li>Fourier 跳跃点取左右极限平均。</li>
+              <li>Bessel：Fourier 系数必须平方可和。</li>
+              <li>Gauss：\(\iint_{\partial\Omega}\mathbf F\cdot n\,dS=\iiint_\Omega\nabla\cdot\mathbf F\,dV\)。</li>
+            </ol>
+            <p>如果这 9 行能写出来，这张卷子的主干就压住了。剩下是细节：端点、符号、法向、上下限。</p>
+            <p><a class="section-link" href="math-analysis-2024-final-a.html">返回全卷详细解析</a></p>
+          </section>
+
+          <section id="sources" class="exam-card">
+            <h2>参考资料</h2>
+            <p>这页的主线来自本卷解析；外部资料用于校准“哪些结论是标准核心知识”。</p>
+            <ul class="cram-list source-list">
+              <li><a href="https://ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/resources/18100a-lecture-24-multicam/">MIT OCW 18.100A Lecture 24: Uniform Convergence, Weierstrass M-Test</a></li>
+              <li><a href="https://ocw.mit.edu/courses/18-100a-real-analysis-fall-2020/resources/18100a-lecture-25-multicam/">MIT OCW 18.100A Lecture 25: Power Series</a></li>
+              <li><a href="https://ocw.mit.edu/courses/es-1803-differential-equations-spring-2024/mites_1803_s24_topic22.pdf">MIT OCW ES.1803 Topic 22: Fourier convergence theorem</a></li>
+              <li><a href="https://ocw.mit.edu/courses/18-102-introduction-to-functional-analysis-spring-2021/resources/18102-sp21-lecture-15/">MIT OCW 18.102 Lecture 15: Bessel inequality and Parseval</a></li>
+              <li><a href="https://ocw.mit.edu/courses/18-02-multivariable-calculus-fall-2007/resources/lecture-26-spherical-coordinates/">MIT OCW 18.02 Lecture 26: Spherical coordinates</a></li>
+              <li><a href="https://ocw.mit.edu/courses/18-02sc-multivariable-calculus-fall-2010/9c15c202ca57e69f25a98a0c76b2fb8b_MIT18_02SC_MNotes_v10.1.pdf">MIT OCW 18.02SC notes: The Divergence Theorem</a></li>
+            </ul>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <aside class="update-widget" aria-label="Site update time">
+      <span>Updated</span>
+      <time data-field="last-updated" datetime="">Loading...</time>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>

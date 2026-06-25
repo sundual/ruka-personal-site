@@ -1,0 +1,818 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2023 级数学分析 II 期终 A 卷解析 - Ruka</title>
+    <meta name="description" content="2023 级数学分析荣誉 II 期终考试 A 卷全卷详细解析。">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: {
+          fontCache: "global"
+        },
+        startup: {
+          typeset: false
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero exam-hero" aria-labelledby="exam-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="exam-title">2023 级数学分析 II 期终 A 卷解析</h1>
+        <p class="tagline">上海交通大学《数学分析》（荣誉）II，2024 年 6 月 11 日 A 卷，全卷 17 题详细解析。</p>
+      </section>
+
+      <section class="section exam-page" aria-label="Exam solutions">
+        <aside class="exam-toc" aria-label="目录">
+          <p class="eyebrow">Contents</p>
+          <ol>
+            <li><a href="#answers">答案速览</a></li>
+            <li><a href="#q1">1. 正弦级数</a></li>
+            <li><a href="#q2">2. div rot</a></li>
+            <li><a href="#q3">3. 高阶导数</a></li>
+            <li><a href="#q4">4. 球面积分</a></li>
+            <li><a href="#q5">5. 空间曲线积分</a></li>
+            <li><a href="#q6">6-10. 选择题</a></li>
+            <li><a href="#q11">11. 幂级数和函数</a></li>
+            <li><a href="#q12">12. 幂级数展开</a></li>
+            <li><a href="#q13">13. 曲线积分</a></li>
+            <li><a href="#q14">14. 曲面积分</a></li>
+            <li><a href="#q15">15. 函数列一致收敛</a></li>
+            <li><a href="#q16">16. Fourier 级数</a></li>
+            <li><a href="#q17">17. Gauss 公式应用</a></li>
+          </ol>
+        </aside>
+
+        <article class="exam-content">
+          <section id="answers" class="exam-card">
+            <h2>答案速览</h2>
+            <p>填空题答案为：</p>
+            <div class="math-block">
+              \[
+              \begin{gathered}
+              1.\ \sum_{n=1}^{\infty}\frac{\sin nx}{n},\quad S\!\left(-\frac{\pi}{2}\right)=-\frac{\pi}{4};\\
+              2.\ 0;\qquad
+              3.\ \frac1{101};\qquad
+              4.\ \frac{13\pi R^4}{9};\qquad
+              5.\ -\frac{\pi}{3}.
+              \end{gathered}
+              \]
+            </div>
+            <p>选择题答案为：</p>
+            <div class="math-block">
+              \[
+              6.\mathrm{A},\quad
+              7.\mathrm{C},\quad
+              8.\mathrm{D},\quad
+              9.\mathrm{B},\quad
+              10.\mathrm{D}.
+              \]
+            </div>
+            <p>大题结果为：</p>
+            <div class="math-block">
+              \[
+              \begin{aligned}
+              11.\quad &\sum_{n=1}^{\infty}\left(n+\frac1n\right)x^n
+              =\frac{x}{(1-x)^2}-\ln(1-x),\quad -1&lt;x&lt;1;\\
+              12.\quad &x\arctan x-\ln\sqrt{1+x^2}
+              =\sum_{n=1}^{\infty}\frac{(-1)^{n-1}x^{2n}}{2n(2n-1)},\quad -1\le x\le1;\\
+              13.\quad &I_1=-\frac13;\qquad
+              14.\quad I_2=-\pi;\\
+              15.\quad &g(x)=0,\quad g_n\rightrightarrows0\text{ on }[0,+\infty)\iff p&lt;1;\\
+              16.\quad &\sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{(2n-1)^3}=\frac{\pi^3}{32};\\
+              17.\quad &I=\frac{\pi}{6}.
+              \end{aligned}
+              \]
+            </div>
+          </section>
+
+          <section id="q1" class="exam-card">
+            <h2>1. 正弦级数与和函数取值</h2>
+            <p>题中函数是</p>
+            <div class="math-block">
+              \[
+              f(x)=\frac{\pi-x}{2},\qquad 0&lt;x&lt;\pi.
+              \]
+            </div>
+            <p>半区间正弦级数写作</p>
+            <div class="math-block">
+              \[
+              f(x)\sim\sum_{n=1}^{\infty}b_n\sin nx,\qquad
+              b_n=\frac2\pi\int_0^\pi f(x)\sin nx\,dx.
+              \]
+            </div>
+            <p>代入 \(f(x)\) 得</p>
+            <div class="math-block">
+              \[
+              b_n=\frac1\pi\int_0^\pi(\pi-x)\sin nx\,dx.
+              \]
+            </div>
+            <p>两个基本积分为</p>
+            <div class="math-block">
+              \[
+              \int_0^\pi\sin nx\,dx=\frac{1-(-1)^n}{n},\qquad
+              \int_0^\pi x\sin nx\,dx=-\frac{\pi(-1)^n}{n}.
+              \]
+            </div>
+            <p>因此</p>
+            <div class="math-block">
+              \[
+              b_n=\frac1\pi\left[
+              \pi\frac{1-(-1)^n}{n}+\frac{\pi(-1)^n}{n}
+              \right]=\frac1n.
+              \]
+            </div>
+            <p>所以正弦级数为</p>
+            <div class="math-block">
+              \[
+              \boxed{\frac{\pi-x}{2}\sim\sum_{n=1}^{\infty}\frac{\sin nx}{n}},\qquad 0&lt;x&lt;\pi.
+              \]
+            </div>
+            <p>正弦级数对应的是 \(f\) 在 \((0,\pi)\) 上的奇延拓。因此当 \(-\pi&lt;x&lt;0\) 时，和函数满足 \(S(x)=-f(-x)\)。于是</p>
+            <div class="math-block">
+              \[
+              S\!\left(-\frac\pi2\right)
+              =-f\!\left(\frac\pi2\right)
+              =-\frac{\pi-\pi/2}{2}
+              =-\frac\pi4.
+              \]
+            </div>
+          </section>
+
+          <section id="q2" class="exam-card">
+            <h2>2. \(\operatorname{div}\operatorname{rot}\mathbf v\)</h2>
+            <p>设</p>
+            <div class="math-block">
+              \[
+              \mathbf v=x^2\mathbf i-zx\,\mathbf j+xy^2\mathbf k.
+              \]
+            </div>
+            <p>只要向量场分量有二阶连续偏导数，就有恒等式</p>
+            <div class="math-block">
+              \[
+              \operatorname{div}(\operatorname{rot}\mathbf v)=\nabla\cdot(\nabla\times\mathbf v)=0.
+              \]
+            </div>
+            <p>本题 \(\mathbf v\) 是多项式向量场，满足条件，所以答案是</p>
+            <div class="math-block">
+              \[
+              \boxed{0}.
+              \]
+            </div>
+          </section>
+
+          <section id="q3" class="exam-card">
+            <h2>3. \((e^x-1)/x\) 在 \(0\) 处的高阶导数</h2>
+            <p>由指数函数的 Taylor 展开，\(x\ne0\) 时</p>
+            <div class="math-block">
+              \[
+              \frac{e^x-1}{x}
+              =\frac1x\sum_{m=1}^{\infty}\frac{x^m}{m!}
+              =\sum_{k=0}^{\infty}\frac{x^k}{(k+1)!}.
+              \]
+            </div>
+            <p>这个幂级数在 \(x=0\) 的值也是 \(1\)，与题设一致。若</p>
+            <div class="math-block">
+              \[
+              f(x)=\sum_{k=0}^{\infty}a_kx^k,
+              \]
+            </div>
+            <p>则 \(f^{(100)}(0)=100!\,a_{100}\)。这里 \(a_{100}=1/101!\)，所以</p>
+            <div class="math-block">
+              \[
+              \boxed{f^{(100)}(0)=\frac{100!}{101!}=\frac1{101}}.
+              \]
+            </div>
+          </section>
+
+          <section id="q4" class="exam-card">
+            <h2>4. 球面上的二次函数积分</h2>
+            <p>在球面 \(S:x^2+y^2+z^2=R^2\) 上，由对称性有</p>
+            <div class="math-block">
+              \[
+              \iint_S x^2\,dS=\iint_S y^2\,dS=\iint_S z^2\,dS.
+              \]
+            </div>
+            <p>三者相加等于</p>
+            <div class="math-block">
+              \[
+              \iint_S(x^2+y^2+z^2)\,dS
+              =\iint_S R^2\,dS=R^2\cdot4\pi R^2=4\pi R^4.
+              \]
+            </div>
+            <p>所以每一个二次项的积分都是 \(4\pi R^4/3\)。于是</p>
+            <div class="math-block">
+              \[
+              \iint_S\left(\frac{x^2}{2}+\frac{y^2}{3}+\frac{z^2}{4}\right)dS
+              =\left(\frac12+\frac13+\frac14\right)\frac{4\pi R^4}{3}
+              =\boxed{\frac{13\pi R^4}{9}}.
+              \]
+            </div>
+          </section>
+
+          <section id="q5" class="exam-card">
+            <h2>5. 球与平面交线上的 \(\int_L xy\,ds\)</h2>
+            <p>曲线 \(L\) 是单位球面与过原点平面 \(x+y+z=0\) 的交线，所以它是该平面内的单位圆。</p>
+            <p>取平面的单位法向量</p>
+            <div class="math-block">
+              \[
+              \mathbf n=\frac{1}{\sqrt3}(1,1,1).
+              \]
+            </div>
+            <p>单位圆在该平面内均匀转动时，二阶矩阵满足</p>
+            <div class="math-block">
+              \[
+              \int_L \mathbf r\mathbf r^{T}\,ds
+              =\pi(I-\mathbf n\mathbf n^{T}).
+              \]
+            </div>
+            <p>取矩阵的 \((1,2)\) 元，就得到</p>
+            <div class="math-block">
+              \[
+              \int_L xy\,ds
+              =\pi\left(0-\frac13\right)
+              =\boxed{-\frac\pi3}.
+              \]
+            </div>
+          </section>
+
+          <section id="q6" class="exam-card">
+            <h2>6. 幂级数端点信息</h2>
+            <p>已知</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}a_n(x-2)^n
+              \]
+            </div>
+            <p>在 \(x=0\) 收敛，即 \(\sum a_n(-2)^n\) 收敛。收敛级数的通项有界，所以存在 \(M>0\)，使得</p>
+            <div class="math-block">
+              \[
+              |a_n|2^n\le M.
+              \]
+            </div>
+            <p>于是</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}|a_n|
+              \le M\sum_{n=1}^{\infty}2^{-n}&lt;\infty.
+              \]
+            </div>
+            <p>故 \(\sum a_n\) 绝对收敛，选 \(\boxed{\mathrm A}\)。</p>
+          </section>
+
+          <section id="q7" class="exam-card">
+            <h2>7. 函数项级数的收敛域</h2>
+            <p>级数为</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}(x^2+x+1)^n\sin\frac1{3n}.
+              \]
+            </div>
+            <p>因为</p>
+            <div class="math-block">
+              \[
+              \sin\frac1{3n}\sim \frac1{3n},
+              \]
+            </div>
+            <p>所以它的敛散性与</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\frac{(x^2+x+1)^n}{n}
+              \]
+            </div>
+            <p>一致。记 \(A=x^2+x+1\)。由于 \(A&gt;0\)，当 \(A&lt;1\) 时收敛；当 \(A=1\) 时类似调和级数发散；当 \(A&gt;1\) 时通项不趋于 \(0\)。</p>
+            <div class="math-block">
+              \[
+              x^2+x+1&lt;1
+              \iff x(x+1)&lt;0
+              \iff -1&lt;x&lt;0.
+              \]
+            </div>
+            <p>故收敛域为 \((-1,0)\)，选 \(\boxed{\mathrm C}\)。</p>
+          </section>
+
+          <section id="q8" class="exam-card">
+            <h2>8. 哪个函数项级数一致收敛</h2>
+            <p>(A) \(\sum \sin nx/n\) 在 \((0,\pi)\) 上不一致收敛。用一致 Cauchy 准则可以直接看出这一点：取 \(x_N=1/N\)，则</p>
+            <div class="math-block">
+              \[
+              \sum_{n=N}^{2N}\frac{\sin(nx_N)}{n}
+              =
+              \sum_{n=N}^{2N}\frac{\sin(n/N)}{n}.
+              \]
+            </div>
+            <p>当 \(N\le n\le2N\) 时，\(1\le n/N\le2\)，故 \(\sin(n/N)\ge m\)，其中</p>
+            <div class="math-block">
+              \[
+              m=\min_{1\le t\le2}\sin t&gt;0.
+              \]
+            </div>
+            <p>于是</p>
+            <div class="math-block">
+              \[
+              \sum_{n=N}^{2N}\frac{\sin(n/N)}{n}
+              \ge
+              m\sum_{n=N}^{2N}\frac1n
+              \ge m\ln2.
+              \]
+            </div>
+            <p>这说明存在一段任意靠后的尾和始终不小，违反一致 Cauchy 条件，因此 (A) 不一致收敛。</p>
+            <p>(B) 对 \(x>0\)，</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\frac{x}{(1+x)^n}=1,
+              \qquad
+              S_N(x)=1-\frac1{(1+x)^N}.
+              \]
+            </div>
+            <p>误差为 \((1+x)^{-N}\)，在 \((0,+\infty)\) 上的上确界为 \(1\)，所以不一致收敛。</p>
+            <p>(C) 一致收敛的必要条件是通项一致趋于 \(0\)。但</p>
+            <div class="math-block">
+              \[
+              \sup_{x\in(-1,1)}\left|x+\frac1n\right|^n\ge
+              \left(1-\frac1{n^2}+\frac1n\right)^n\to e,
+              \]
+            </div>
+            <p>故通项不一致趋于 \(0\)，不一致收敛。</p>
+            <p>(D) 考虑</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}(-1)^n\frac{n}{n^2+x^2}.
+              \]
+            </div>
+            <p>对所有 \(x\in\mathbb R\)，有</p>
+            <div class="math-block">
+              \[
+              0\le \frac{n}{n^2+x^2}\le \frac1n\to0.
+              \]
+            </div>
+            <p>用 Abel 变换看任意尾和。交错因子的部分和一致有界，而 \(a_n(x)=n/(n^2+x^2)\) 的尾部总变差可由 \(C/N\) 控制，因此尾和一致趋于 \(0\)。所以 (D) 一致收敛。</p>
+            <p>答案为 \(\boxed{\mathrm D}\)。</p>
+          </section>
+
+          <section id="q9" class="exam-card">
+            <h2>9. 关于一致收敛的两个断语</h2>
+            <p>断语 I 不正确。典型反例是</p>
+            <div class="math-block">
+              \[
+              f_n(x)=x^n,\qquad x\in(0,1).
+              \]
+            </div>
+            <p>它在任意闭子区间 \([\alpha,\beta]\subset(0,1)\) 上一致收敛到 \(0\)，但在整个 \((0,1)\) 上不一致收敛，因为</p>
+            <div class="math-block">
+              \[
+              \sup_{0&lt;x&lt;1}x^n=1.
+              \]
+            </div>
+            <p>断语 II 正确。若 \(f_n\) 在 \([a,b)\) 上一致收敛，则 \(\{f_n\}\) 在 \([a,b)\) 上一致 Cauchy；又 \(\{f_n(b)\}\) 收敛，所以在点 \(b\) 处也是 Cauchy。合起来对整个 \([a,b]\) 有一致 Cauchy 条件，因此 \(\{f_n\}\) 在 \([a,b]\) 上一致收敛。</p>
+            <p>所以答案为 \(\boxed{\mathrm B}\)。</p>
+          </section>
+
+          <section id="q10" class="exam-card">
+            <h2>10. 两个三角级数是否为可积周期函数的 Fourier 级数</h2>
+            <p>本题用到 Bessel 不等式的必要条件。若一个三角级数是某 Riemann 可积周期函数的 Fourier 级数，则该函数有界，从而平方可积；因此它的 Fourier 系数必须平方可和。</p>
+            <div class="math-block">
+              \[
+              \frac{a_0^2}{2}+\sum_{n=1}^{\infty}(a_n^2+b_n^2)&lt;\infty.
+              \]
+            </div>
+            <p>对 ①，正弦系数为 \(b_n=1/\ln n\)（从 \(n=2\) 开始）。如果它是 Fourier 级数，就必须有</p>
+            <div class="math-block">
+              \[
+              \sum_{n=2}^{\infty}\frac1{(\ln n)^2}&lt;\infty.
+              \]
+            </div>
+            <p>但这个级数发散，例如当 \(n\ge 3\) 时 \((\ln n)^2\le n\)，于是</p>
+            <div class="math-block">
+              \[
+              \frac1{(\ln n)^2}\ge\frac1n,
+              \]
+            </div>
+            <p>所以 ① 不是。</p>
+            <p>对 ②，余弦系数为 \(a_n=1/\sqrt n\)。平方和为</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}a_n^2
+              =
+              \sum_{n=1}^{\infty}\frac1n,
+              \]
+            </div>
+            <p>也发散，所以 ② 也不是。</p>
+            <p>所以答案为 \(\boxed{\mathrm D}\)。</p>
+          </section>
+
+          <section id="q11" class="exam-card">
+            <h2>11. 幂级数 \(\sum(n+1/n)x^n\) 的和函数</h2>
+            <p>先由根值或比值判断，收敛半径为 \(1\)。当 \(x=1\) 时通项不趋于 \(0\)，当 \(x=-1\) 时通项也不趋于 \(0\)，所以收敛域为 \((-1,1)\)。</p>
+            <p>在 \(|x|&lt;1\) 内，拆成两部分：</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\left(n+\frac1n\right)x^n
+              =
+              \sum_{n=1}^{\infty}nx^n+\sum_{n=1}^{\infty}\frac{x^n}{n}.
+              \]
+            </div>
+            <p>由几何级数逐项求导得</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}nx^n
+              =x\left(\sum_{n=1}^{\infty}x^n\right)'
+              =x\left(\frac{x}{1-x}\right)'
+              =\frac{x}{(1-x)^2}.
+              \]
+            </div>
+            <p>又有经典展开</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\frac{x^n}{n}=-\ln(1-x).
+              \]
+            </div>
+            <p>因此和函数为</p>
+            <div class="math-block">
+              \[
+              \boxed{
+              \sum_{n=1}^{\infty}\left(n+\frac1n\right)x^n
+              =\frac{x}{(1-x)^2}-\ln(1-x)},\qquad -1&lt;x&lt;1.
+              \]
+            </div>
+          </section>
+
+          <section id="q12" class="exam-card">
+            <h2>12. \(x\arctan x-\ln\sqrt{1+x^2}\) 的幂级数</h2>
+            <p>设</p>
+            <div class="math-block">
+              \[
+              f(x)=x\arctan x-\ln\sqrt{1+x^2}
+              =x\arctan x-\frac12\ln(1+x^2).
+              \]
+            </div>
+            <p>求导后有明显化简：</p>
+            <div class="math-block">
+              \[
+              f'(x)=\arctan x+\frac{x}{1+x^2}-\frac{x}{1+x^2}=\arctan x.
+              \]
+            </div>
+            <p>在 \(|x|&lt;1\) 内，</p>
+            <div class="math-block">
+              \[
+              \arctan x=\sum_{n=1}^{\infty}\frac{(-1)^{n-1}x^{2n-1}}{2n-1}.
+              \]
+            </div>
+            <p>因为 \(f(0)=0\)，逐项积分得到</p>
+            <div class="math-block">
+              \[
+              f(x)=\int_0^x\arctan t\,dt
+              =\sum_{n=1}^{\infty}
+              \frac{(-1)^{n-1}x^{2n}}{2n(2n-1)}.
+              \]
+            </div>
+            <p>端点 \(x=\pm1\) 处级数绝对收敛，因为通项量级为 \(1/n^2\)，而原函数连续，所以展开成立到端点。</p>
+            <div class="math-block">
+              \[
+              \boxed{
+              x\arctan x-\ln\sqrt{1+x^2}
+              =
+              \sum_{n=1}^{\infty}
+              \frac{(-1)^{n-1}x^{2n}}{2n(2n-1)},\quad -1\le x\le1.}
+              \]
+            </div>
+          </section>
+
+          <section id="q13" class="exam-card">
+            <h2>13. 路径无关的曲线积分</h2>
+            <p>记</p>
+            <div class="math-block">
+              \[
+              P(x,y)=x^2-2xy,\qquad Q(x,y)=y^2-x^2.
+              \]
+            </div>
+            <p>检查闭合条件：</p>
+            <div class="math-block">
+              \[
+              \frac{\partial P}{\partial y}=-2x,\qquad
+              \frac{\partial Q}{\partial x}=-2x.
+              \]
+            </div>
+            <p>在整个 \(\mathbb R^2\) 上相等，所以积分与路径无关。取势函数 \(F\)，使 \(F_x=P\)。积分 \(P\) 关于 \(x\) 得</p>
+            <div class="math-block">
+              \[
+              F(x,y)=\frac{x^3}{3}-x^2y+\phi(y).
+              \]
+            </div>
+            <p>由 \(F_y=Q\) 得</p>
+            <div class="math-block">
+              \[
+              -x^2+\phi'(y)=y^2-x^2,\qquad \phi'(y)=y^2.
+              \]
+            </div>
+            <p>所以可以取</p>
+            <div class="math-block">
+              \[
+              F(x,y)=\frac{x^3}{3}-x^2y+\frac{y^3}{3}.
+              \]
+            </div>
+            <p>从 \((0,0)\) 到 \((1,1)\) 的积分为</p>
+            <div class="math-block">
+              \[
+              I_1=F(1,1)-F(0,0)
+              =\frac13-1+\frac13
+              =\boxed{-\frac13}.
+              \]
+            </div>
+          </section>
+
+          <section id="q14" class="exam-card">
+            <h2>14. 用 Gauss 公式计算曲面积分</h2>
+            <p>曲面积分可以看作向量场</p>
+            <div class="math-block">
+              \[
+              \mathbf F=(2x^3,2y^3,3(z^2-1))
+              \]
+            </div>
+            <p>穿过上侧抛物面 \(\Sigma:z=1-x^2-y^2,\ z\ge0\) 的通量。令 \(\Sigma_0\) 为底面圆盘 \(z=0,\ x^2+y^2\le1\)，取下侧。由 \(\Sigma\cup\Sigma_0\) 围成区域</p>
+            <div class="math-block">
+              \[
+              \Omega=\{(r,\theta,z):0\le z\le1-r^2,\ 0\le r\le1\}.
+              \]
+            </div>
+            <p>散度为</p>
+            <div class="math-block">
+              \[
+              \nabla\cdot\mathbf F=6x^2+6y^2+6z=6(r^2+z).
+              \]
+            </div>
+            <p>闭曲面的通量为</p>
+            <div class="math-block">
+              \[
+              \iiint_{\Omega}6(r^2+z)\,dV
+              =
+              6\int_0^{2\pi}\int_0^1\int_0^{1-r^2}(r^2+z)r\,dz\,dr\,d\theta
+              =2\pi.
+              \]
+            </div>
+            <p>底面取下侧，单位法向量为 \((0,0,-1)\)。在 \(z=0\) 上，\(F_3=3(z^2-1)=-3\)，所以底面通量为</p>
+            <div class="math-block">
+              \[
+              \iint_{\Sigma_0}\mathbf F\cdot\mathbf n\,dS
+              =
+              \iint_D(-F_3)\,dA
+              =
+              \iint_D3\,dA=3\pi.
+              \]
+            </div>
+            <p>因此上侧抛物面的通量为</p>
+            <div class="math-block">
+              \[
+              I_2=2\pi-3\pi=\boxed{-\pi}.
+              \]
+            </div>
+          </section>
+
+          <section id="q15" class="exam-card">
+            <h2>15. 函数列 \(g_n(x)=x\ln^p n/n^x\)</h2>
+            <p>把函数写成指数形式：</p>
+            <div class="math-block">
+              \[
+              g_n(x)=x(\ln n)^p e^{-x\ln n},\qquad x\ge0.
+              \]
+            </div>
+            <p>对每个固定的 \(x>0\)，指数衰减 \(e^{-x\ln n}=n^{-x}\) 快于任何 \(\ln n\) 的幂；而 \(x=0\) 时 \(g_n(0)=0\)。所以极限函数为</p>
+            <div class="math-block">
+              \[
+              \boxed{g(x)=0,\qquad x\in[0,+\infty).}
+              \]
+            </div>
+            <p>讨论一致收敛只需求上确界。令 \(L=\ln n\)，考虑</p>
+            <div class="math-block">
+              \[
+              h(x)=xL^p e^{-Lx}.
+              \]
+            </div>
+            <p>求导得</p>
+            <div class="math-block">
+              \[
+              h'(x)=L^p e^{-Lx}(1-Lx).
+              \]
+            </div>
+            <p>最大值在 \(x=1/L\) 处取得，因此</p>
+            <div class="math-block">
+              \[
+              \sup_{x\ge0}|g_n(x)-0|
+              =
+              g_n\!\left(\frac1{\ln n}\right)
+              =
+              \frac{(\ln n)^{p-1}}{e}.
+              \]
+            </div>
+            <p>它趋于 \(0\) 当且仅当 \(p-1&lt;0\)，即</p>
+            <div class="math-block">
+              \[
+              \boxed{g_n\rightrightarrows0\text{ on }[0,+\infty)\iff p&lt;1.}
+              \]
+            </div>
+          </section>
+
+          <section id="q16" class="exam-card">
+            <h2>16. 由 \(x^2\) 的 Fourier 级数求 \(x,x^3\) 与级数和</h2>
+            <p>已知</p>
+            <div class="math-block">
+              \[
+              x^2\sim\frac{\pi^2}{3}
+              +4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}\cos nx,\qquad x\in[-\pi,\pi].
+              \]
+            </div>
+            <p>对该式在 \((-\pi,\pi)\) 内逐项求导，得到</p>
+            <div class="math-block">
+              \[
+              2x\sim -4\sum_{n=1}^{\infty}\frac{(-1)^n}{n}\sin nx.
+              \]
+            </div>
+            <p>所以</p>
+            <div class="math-block">
+              \[
+              \boxed{
+              x\sim2\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}\sin nx,\quad -\pi&lt;x&lt;\pi.}
+              \]
+            </div>
+            <p>再从 \(0\) 到 \(x\) 积分 \(x^2\) 的 Fourier 级数：</p>
+            <div class="math-block">
+              \[
+              \frac{x^3}{3}
+              =
+              \frac{\pi^2x}{3}
+              +4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^3}\sin nx.
+              \]
+            </div>
+            <p>乘以 \(3\) 后，再把 \(x\) 的 Fourier 级数代入 \(\pi^2x\)，得</p>
+            <div class="math-block">
+              \[
+              x^3
+              \sim
+              \pi^2x+12\sum_{n=1}^{\infty}\frac{(-1)^n}{n^3}\sin nx
+              =
+              2\sum_{n=1}^{\infty}
+              \frac{(-1)^n(6-\pi^2n^2)}{n^3}\sin nx.
+              \]
+            </div>
+            <p>因此</p>
+            <div class="math-block">
+              \[
+              \boxed{
+              x^3\sim
+              2\sum_{n=1}^{\infty}
+              \frac{(-1)^n(6-\pi^2n^2)}{n^3}\sin nx,\quad -\pi&lt;x&lt;\pi.}
+              \]
+            </div>
+            <p>令 \(x=\pi/2\)。只有奇数项保留。记</p>
+            <div class="math-block">
+              \[
+              A=\sum_{k=1}^{\infty}\frac{(-1)^{k-1}}{2k-1}=\frac\pi4,\qquad
+              S=\sum_{k=1}^{\infty}\frac{(-1)^{k-1}}{(2k-1)^3}.
+              \]
+            </div>
+            <p>由 \(x^3\) 的级数得</p>
+            <div class="math-block">
+              \[
+              \left(\frac\pi2\right)^3
+              =
+              2\pi^2 A-12S.
+              \]
+            </div>
+            <p>代入 \(A=\pi/4\)：</p>
+            <div class="math-block">
+              \[
+              \frac{\pi^3}{8}
+              =
+              \frac{\pi^3}{2}-12S.
+              \]
+            </div>
+            <p>所以</p>
+            <div class="math-block">
+              \[
+              \boxed{S=\sum_{k=1}^{\infty}\frac{(-1)^{k-1}}{(2k-1)^3}
+              =\frac{\pi^3}{32}.}
+              \]
+            </div>
+          </section>
+
+          <section id="q17" class="exam-card">
+            <h2>17. Gauss 公式与单位球内积分</h2>
+            <p>第一问，把法向导数写成梯度与外法向量的内积：</p>
+            <div class="math-block">
+              \[
+              \frac{\partial u}{\partial n^0}=\nabla u\cdot n^0.
+              \]
+            </div>
+            <p>对向量场 \(\nabla u\) 使用 Gauss 公式，得到</p>
+            <div class="math-block">
+              \[
+              \iint_{\partial\Omega}\frac{\partial u}{\partial n^0}\,dS
+              =
+              \iint_{\partial\Omega}\nabla u\cdot n^0\,dS
+              =
+              \iiint_{\Omega}\nabla\cdot(\nabla u)\,dV
+              =
+              \iiint_{\Omega}\Delta u\,dV.
+              \]
+            </div>
+            <p>这就证明了所需等式。</p>
+            <p>第二问中 \(\Delta u=\sqrt{x^2+y^2+z^2}\)。记半径为 \(\rho\) 的球面为</p>
+            <div class="math-block">
+              \[
+              S_\rho:x^2+y^2+z^2=\rho^2,\qquad 0\le\rho\le1.
+              \]
+            </div>
+            <p>在 \(S_\rho\) 上，外法向量为</p>
+            <div class="math-block">
+              \[
+              n^0=\frac1\rho(x,y,z).
+              \]
+            </div>
+            <p>于是</p>
+            <div class="math-block">
+              \[
+              x\frac{\partial u}{\partial x}
+              +y\frac{\partial u}{\partial y}
+              +z\frac{\partial u}{\partial z}
+              =
+              \rho\frac{\partial u}{\partial n^0}.
+              \]
+            </div>
+            <p>把单位球按球面壳分解：</p>
+            <div class="math-block">
+              \[
+              I
+              =
+              \int_0^1
+              \rho\iint_{S_\rho}\frac{\partial u}{\partial n^0}\,dS\,d\rho.
+              \]
+            </div>
+            <p>由第一问应用到半径 \(\rho\) 的球 \(B_\rho\)，有</p>
+            <div class="math-block">
+              \[
+              \iint_{S_\rho}\frac{\partial u}{\partial n^0}\,dS
+              =
+              \iiint_{B_\rho}\Delta u\,dV
+              =
+              \iiint_{B_\rho}r\,dV.
+              \]
+            </div>
+            <p>球坐标下</p>
+            <div class="math-block">
+              \[
+              \iiint_{B_\rho}r\,dV
+              =
+              4\pi\int_0^\rho r^3\,dr
+              =
+              \pi\rho^4.
+              \]
+            </div>
+            <p>因此</p>
+            <div class="math-block">
+              \[
+              I=\int_0^1\rho\cdot\pi\rho^4\,d\rho
+              =
+              \pi\int_0^1\rho^5\,d\rho
+              =
+              \boxed{\frac\pi6}.
+              \]
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <aside class="update-widget" aria-label="Site update time">
+      <span>Updated</span>
+      <time data-field="last-updated" datetime="">Loading...</time>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>

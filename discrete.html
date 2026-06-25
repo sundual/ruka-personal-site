@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Discrete - Ruka</title><meta name="description" content="Ruka's discrete mathematics course notes, shown as local static articles."><link rel="stylesheet" href="styles.css"><script>window.MathJax={tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]]},svg:{fontCache:"global"}};</script><script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script></head><body><header class="site-header"><a class="brand" href="index.html#home">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="discrete.html">Discrete</a>
+        <a href="discrete-exam-review.html">Discrete Exam</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+</header><main><section class="page-hero" aria-labelledby="category-page-title"><p class="domain">ruka.us.ci</p><h1 id="category-page-title">离散数学</h1><p class="tagline">从课程 PDF 整理出的中文考试复习页。概念、符号、题型入口和证明模板都直接写在本地页面里。</p></section><section class="section note-page" id="discrete-index" aria-labelledby="discrete-index-title"><article class="note-article"><h2 id="discrete-index-title">目录</h2><p class="note-description">按顺序阅读可以复习整门课；考前可以优先看 09-12 的符号、定义、证明模板和题型入口。</p><nav class="note-index" aria-label="Discrete mathematics article list"><p class="note-index-title">篇目列表</p><ol class="note-index-list">
+              <li><a href="#discrete-00-guide">00 离散数学资料导读 </a></li>
+              <li><a href="#discrete-01-graphs">01 图的基本语言 </a></li>
+              <li><a href="#discrete-02-connectivity-trees-mst">02 连通性、树与最小生成树 </a></li>
+              <li><a href="#discrete-03-rooted-trees-dfs">03 根树与深度优先搜索 </a></li>
+              <li><a href="#discrete-04-propositional-logic">04 命题逻辑与证明翻译 </a></li>
+              <li><a href="#discrete-05-first-order-logic">05 一阶逻辑与量词 </a></li>
+              <li><a href="#discrete-06-sets-relations-closures">06 集合、二元关系与闭包 </a></li>
+              <li><a href="#discrete-07-functions-countability">07 函数、等势与可数性 </a></li>
+              <li><a href="#discrete-08-uncountable-foundations">08 不可数性与集合论基础 </a></li>
+              <li><a href="#discrete-09-symbols-cheatsheet">09 考试符号速查与读法 </a></li>
+              <li><a href="#discrete-10-definition-checklist">10 定义判定清单：看到题目先查什么 </a></li>
+              <li><a href="#discrete-11-proof-templates">11 常见证明模板：考试可以直接套的骨架 </a></li>
+              <li><a href="#discrete-12-exam-entry-map">12 按题型找入口：看到题目后第一步做什么 </a></li>
+</ol></nav></article>
+
+        <article class="note-article" id="discrete-00-guide">
+          <h2>00 离散数学资料导读</h2>
+          <p class="note-description">把 2026 春季离散数学讲义和习题单整理成可分页阅读的中文索引，说明资料结构、学习顺序和复习方法。</p>
+          <p>这组页面来自本地整理后的 C:\Users\junda\Downloads\discrete。原始资料包含 2026-03-02 到 2026-06-17 的课堂 Notes 与 sheet，内容从图论开始，经过逻辑、集合、关系、函数，最后到基数和集合论基础。这里不逐页搬运 PDF，而是把讲义中的定义、定理、证明思路和习题训练点改写成中文复习页。</p>
+          <p>阅读顺序建议按页面编号进行。前四页是图论：图、连通性、树、生成树、DFS。中间两页是逻辑：命题逻辑和一阶逻辑。后三页是集合论方向：集合与关系、函数与可数性、不可数性与集合论基础。</p>
+          <p>课程的一个特点是定义密度很高。多数题目不是靠复杂计算，而是靠把对象翻译成正确的结构。例如“图中是否连通”“一个关系是否传递”“一个函数是否良定义”，都要回到定义。</p>
+          <div class="math-block">\[\text{题目对象}\longrightarrow\text{定义展开}\longrightarrow\text{逐项验证或构造反例}.\]</div>
+          <p>复习时可以把每一页分成三层：第一层记住定义；第二层记住等价刻画；第三层练习证明模板。比如树的定义是“连通且无简单回路”，但做题时经常使用等价命题 \(|E|=|V|-1\) 或“任意两点之间有唯一简单路径”。</p>
+          <p>习题单的作用是校准概念。图论题多要求看图并列出顶点、边、度、路径、连通分量；逻辑题多要求翻译自然语言、否定量词、判断等价；关系题多要求验证自反、对称、反对称、传递；基数题多要求构造单射、满射或双射。</p>
+          <p>这组页面使用独立的 Discrete 话题，不放在数学页下面。每页底部会自动出现篇目列表，也有上一篇和下一篇链接。想系统复习时按顺序读；想查概念时直接用目录跳到对应页面。</p>
+          <p>总路线可以压缩成一句话：离散数学不是连续量的计算课，而是结构、关系和证明语言的训练课。只要能把对象放进集合、图、逻辑公式、关系或函数的框架中，题目通常就会变得可处理。</p>
+          <nav class="note-pager" aria-label="00 离散数学资料导读 pagination">
+            <span class="note-pager-link previous">上一篇：无</span>
+            <a class="note-pager-link next" href="#discrete-01-graphs">下一篇：01 图的基本语言</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-01-graphs">
+          <h2>01 图的基本语言</h2>
+          <p class="note-description">整理 0302 讲义：图、顶点、边、度、邻接、关联、路径、回路，以及握手定理。</p>
+          <p>图论的起点是把对象之间的连接关系抽象出来。一个图写作 \(G=(V,E)\)，其中 \(V\) 是顶点集，\(E\) 是边集。边有两个端点；端点可以不同，也可以相同。端点相同的边叫自环，两个顶点之间出现多条边时叫重边或平行边。</p>
+          <div class="math-block">\[G=(V,E),\qquad V=\text{vertices},\quad E=\text{edges}.\]</div>
+          <p>图可以是有向的，也可以是无向的；可以允许重边和自环，也可以不允许。若无向图没有重边也没有自环，通常称为简单图。第一张习题单的核心训练，就是看到一张图后能准确说出它是哪一类图。</p>
+          <p>无向图中，如果一条边的两个端点是 \(u\) 和 \(v\)，就说 \(u\) 与 \(v\) 邻接，也说这条边与 \(u,v\) 关联。顶点 \(v\) 的邻域 \(N(v)\) 是所有与它相邻的顶点组成的集合。</p>
+          <div class="math-block">\[N(v)=\{u\in V\mid u\text{ is adjacent to }v\}.\]</div>
+          <p>顶点的度数 \(\deg(v)\) 是与该顶点关联的边数。自环要特别注意：因为自环的两个端点都在同一个顶点上，所以它对该顶点的度数贡献两次。</p>
+          <div class="math-block">\[\deg(v)=\text{number of incident edge-ends at }v.\]</div>
+          <p>握手定理把所有顶点的度数总和与边数联系起来。每条无向边有两个端点，因此在度数总和中被数两次。</p>
+          <div class="math-block">\[\sum_{v\in V}\deg(v)=2|E|.\]</div>
+          <p>路径是按顺序经过一串边，从一个顶点走到另一个顶点。若路径不重复使用边，称为简单路径；从某顶点出发又回到它自身，并且长度为正的路径叫回路。</p>
+          <p>有向图中的路径还要尊重边的方向。无向图里从 \(u\) 到 \(v\) 有路，就也能从 \(v\) 到 \(u\)；但有向图里这两件事一般不同。</p>
+          <p>这一页对应的 sheet 主要练习四件事：识别图的类型，计算顶点数和边数，列出每个顶点的度或入度/出度，判断给定顶点序列是否构成路径、简单路径或回路。</p>
+          <p>考试下手方向：图论读题时先把所有对象分层标出来：顶点集是什么，边集是什么，边是否有方向，是否允许重边和自环。不要一开始就凭图形直觉作答；先问“题目要我判断的是哪一个定义”。</p>
+          <p>若题目要求 degree、in-degree、out-degree，先确认图是无向还是有向。无向图数关联边端；有向图分别数进入和离开的边。自环在无向度数中贡献 2，在有向图中通常同时贡献 1 个入度和 1 个出度。</p>
+          <div class="math-block">\[\sum_{v\in V}\deg(v)=2|E|,\qquad \sum_{v\in V}\deg^-(v)=\sum_{v\in V}\deg^+(v)=|E|.\]</div>
+          <p>若题目给出一串顶点让判断是不是 path/circuit，按相邻两项逐段检查：每一段是否有对应边；若是有向图，方向是否正确；是否重复边；起点终点是否相同。这样比直接看整体更不容易漏。</p>
+          <nav class="note-pager" aria-label="01 图的基本语言 pagination">
+            <a class="note-pager-link previous" href="#discrete-00-guide">上一篇：00 离散数学资料导读</a>
+            <a class="note-pager-link next" href="#discrete-02-connectivity-trees-mst">下一篇：02 连通性、树与最小生成树</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-02-connectivity-trees-mst">
+          <h2>02 连通性、树与最小生成树</h2>
+          <p class="note-description">整理 0309、0311、0316 讲义：连通分量、强连通分量、树的等价刻画、生成树、Prim 和 Kruskal。</p>
+          <p>无向图中，两个顶点连通，意思是存在一条路径从一个顶点到另一个顶点。这个关系满足自反、对称、传递，因此它把顶点集分成若干块；每一块对应一个连通分量。</p>
+          <div class="math-block">\[u\sim v\quad\Longleftrightarrow\quad\text{there is a path from }u\text{ to }v.\]</div>
+          <p>一个无向图是连通图，意思是任意两个顶点都连通。若不连通，就把每个极大的连通子图称为一个 connected component。这里的“极大”不是顶点数最大，而是不能再加入更多顶点或边并保持连通。</p>
+          <p>有向图中要区分 reachable 和 mutually reachable。若从 \(u\) 到 \(v\) 有有向路径，则 \(v\) 从 \(u\) 可达；若两个方向都可达，则二者互相可达。强连通图要求任意两个顶点都互相可达。</p>
+          <p>树是图论中最重要的结构之一。定义上，树是一个非空、连通、无简单回路的无向图。这个定义适合直觉，但做题时更常用它的等价刻画。</p>
+          <div class="math-block">\[G\text{ is a tree}\quad\Longleftrightarrow\quad G\text{ is connected and has no simple circuits}.\]</div>
+          <p>对有限无向图，树还有一个非常好用的边数公式。若 \(G=(V,E)\) 是树，则边数恰好比顶点数少一。反过来，在合适条件下这个公式也能刻画树。</p>
+          <div class="math-block">\[G\text{ is a tree}\quad\Longleftrightarrow\quad G\text{ is connected and }|E|=|V|-1.\]</div>
+          <p>树的删边和加边性质非常直观：树中删去任意一条边，图都会断开；向树中加入任意一条原本不存在的边，都会产生一个简单回路。</p>
+          <p>生成树是原图的一个子图，它包含原图的全部顶点，同时本身是一棵树。一个无向图有生成树，当且仅当它是连通的。证明思路是：连通图若有回路，就删去回路上的一条边；重复删边直到无回路，连通性仍保留。</p>
+          <div class="math-block">\[G\text{ connected}\quad\Longleftrightarrow\quad G\text{ has a spanning tree}.\]</div>
+          <p>带权图中的最小生成树要求生成树的总权重最小。Prim 算法从一个顶点开始，每步选择连接当前树与外部顶点的最小边；Kruskal 算法从空边集开始，按权重从小到大加入不会形成回路的边。</p>
+          <p>对应的习题训练是：找连通分量和强连通分量；判断哪些图是树；用 Prim 或 Kruskal 写出每一步加入的边。解题时要把“不会形成回路”和“保持连通扩张”这两个条件说清楚。</p>
+          <p>考试下手方向：连通性题先找路径，找不到时再找“分割理由”。证明两个点不连通，不能只说图上看不到路，最好说明任何从一块到另一块的边都不存在，或明确给出连通分量。</p>
+          <p>判断树的最快路线通常有三条：如果图很小，看是否连通且无回路；如果已知连通，数边是否为 \(|V|-1\)；如果已知无回路，也数边是否为 \(|V|-1\)。不要在所有题里都强行画出所有路径。</p>
+          <div class="math-block">\[\text{connected}+|E|=|V|-1\Rightarrow\text{tree},\qquad \text{acyclic}+|E|=|V|-1\Rightarrow\text{tree}.\]</div>
+          <p>最小生成树题的答案要写过程，不只写最后的树。Prim 要写“当前树”和每一步跨 cut 的最小边；Kruskal 要写按权重考虑边，跳过会形成回路的边。若权重相同，可以有多个正确答案，但每一步的选择理由要合法。</p>
+          <nav class="note-pager" aria-label="02 连通性、树与最小生成树 pagination">
+            <a class="note-pager-link previous" href="#discrete-01-graphs">上一篇：01 图的基本语言</a>
+            <a class="note-pager-link next" href="#discrete-03-rooted-trees-dfs">下一篇：03 根树与深度优先搜索</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-03-rooted-trees-dfs">
+          <h2>03 根树与深度优先搜索</h2>
+          <p class="note-description">整理 0323、0325 讲义：根、层数、高度、父子关系、祖先后代、叶子、内部顶点、DFS 树边和回边。</p>
+          <p>根树是在一棵树上指定一个特殊顶点作为 root。指定根之后，树就有了方向感：每个顶点到根有唯一简单路径，于是可以定义层数、父亲、孩子、兄弟、祖先和后代。</p>
+          <p>顶点的 level 是从根到该顶点的唯一简单路径长度；树的 height 是所有顶点 level 的最大值。</p>
+          <div class="math-block">\[\operatorname{level}(v)=\text{length of the unique simple path from root }r\text{ to }v.\]</div>
+          <p>非根顶点的 parent 是它通往根的路径上紧挨着它的那个顶点。反过来，如果 \(u\) 是 \(v\) 的 parent，就说 \(v\) 是 \(u\) 的 child。拥有同一个 parent 的顶点互为 siblings。</p>
+          <p>祖先和后代的定义也来自唯一简单路径。若从 \(v\) 到根的路径经过 \(u\)，并且 \(u
+e v\)，则 \(u\) 是 \(v\) 的祖先，\(v\) 是 \(u\) 的后代。</p>
+          <p>叶子和内部顶点要看根树结构：没有孩子的顶点是 leaf，有孩子的顶点是 internal vertex。注意无根树里的 leaf 常用度数为 1 定义；根树里更自然的定义是“没有孩子”。</p>
+          <p>DFS，也就是深度优先搜索，是从一个起点开始，能继续往未访问顶点走就继续往深处走；走不下去时回退到最近还有可扩展边的顶点。</p>
+          <div class="math-block">\[\text{DFS strategy}=\text{go forward if possible, otherwise backtrack}.\]</div>
+          <p>在 DFS 过程中，向一个未访问顶点走的步骤称为 forward step，对应的边叫 tree edge。回退的步骤称为 backward step。对连通无向图，所有 tree edges 会组成一棵生成树，通常以起点作为根。</p>
+          <div class="math-block">\[\text{tree edges of DFS on connected }G\text{ form a spanning tree}.\]</div>
+          <p>若连通图有 \(n\) 个顶点，DFS 会有 \(n-1\) 次 forward step，因为除起点外每个顶点第一次出现都来自一次 forward step。相应地，在课程形式化版本中，也有 \(n-1\) 次 backward step。</p>
+          <div class="math-block">\[|V|=n\quad\Longrightarrow\quad n-1\text{ forward steps and }n-1\text{ backward steps}.\]</div>
+          <p>无向 DFS 中，非树边也就是 back edge，只会连接某个顶点与它的祖先、后代或自身。这个结论的证明通常比较绕，但直觉是：DFS 的回退顺序把顶点活动区间嵌套起来，边只能落在同一条祖先链附近。</p>
+          <p>习题常要求按字母序或指定规则执行 DFS，并画出生成树。做题时要明确写出每一步移动、哪些边成为 tree edge、最后得到的根树是什么。</p>
+          <nav class="note-pager" aria-label="03 根树与深度优先搜索 pagination">
+            <a class="note-pager-link previous" href="#discrete-02-connectivity-trees-mst">上一篇：02 连通性、树与最小生成树</a>
+            <a class="note-pager-link next" href="#discrete-04-propositional-logic">下一篇：04 命题逻辑与证明翻译</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-04-propositional-logic">
+          <h2>04 命题逻辑与证明翻译</h2>
+          <p class="note-description">整理 0330、0413、0420、0422、0429 讲义：自然语言命题、连接词、真值条件、等价式和 informal proof。</p>
+          <p>命题逻辑把可以判断真假的句子抽象成命题变量，再用连接词组成复杂命题。常见连接词包括否定 \(
+eg\)、合取 \(\land\)、析取 \(\lor\)、蕴含 \(	o\) 和双条件 \(\leftrightarrow\)。</p>
+          <div class="math-block">\[\neg p,\qquad p\land q,\qquad p\lor q,\qquad p\to q,\qquad p\leftrightarrow q.\]</div>
+          <p>自然语言翻译的关键不是逐词替换，而是识别逻辑结构。“如果……那么……”通常翻译为蕴含；“只有当”也常对应蕴含，但方向容易错；“当且仅当”对应双条件。</p>
+          <p>蕴含 \(p	o q\) 只有在 \(p\) 真而 \(q\) 假时为假，其余情况都为真。因此它等价于 \(
+eg p\lor q\)。这是命题逻辑中最常用的化简之一。</p>
+          <div class="math-block">\[p\to q\equiv \neg p\lor q.\]</div>
+          <p>De Morgan 律负责把否定推进到连接词内部。它在否定复杂命题、化简公式和证明等价时非常高频。</p>
+          <div class="math-block">\[\neg(p\land q)\equiv \neg p\lor \neg q,\qquad \neg(p\lor q)\equiv \neg p\land \neg q.\]</div>
+          <p>双条件 \(p\leftrightarrow q\) 表示二者同真同假。它可以拆成两个方向的蕴含，也可以理解成“\(p\) 和 \(q\) 具有相同真值”。</p>
+          <div class="math-block">\[p\leftrightarrow q\equiv (p\to q)\land(q\to p).\]</div>
+          <p>判断公式是否是 tautology、contradiction 或 contingency，最直接的方法是真值表。若每一行都真，是恒真式；每一行都假，是矛盾式；有真有假，则是可满足但非恒真。</p>
+          <p>0413 的 informal proof 主题强调：自然语言证明也要有逻辑骨架。证明 \(p	o q\) 时，通常先假设 \(p\)，再推出 \(q\)；证明 \(p\leftrightarrow q\) 时，通常分成两个方向；反证法则假设结论的否定并推出矛盾。</p>
+          <div class="math-block">\[\text{prove }p\leftrightarrow q:\quad (p\Rightarrow q)\text{ and }(q\Rightarrow p).\]</div>
+          <p>命题逻辑页面的复习重点是：翻译自然语言、熟悉连接词真值、掌握等价变形、能把证明句子拆成假设和结论。只要方向不出错，后续一阶逻辑和关系证明会轻松很多。</p>
+          <p>考试下手方向：翻译自然语言时先圈关键词。“if P then Q” 是 \(P\to Q\)；“P only if Q” 也是 \(P\to Q\)，因为 Q 是 P 成立的必要条件；“P if Q” 是 \(Q\to P\)。</p>
+          <div class="math-block">\[P\text{ only if }Q\quad\leadsto\quad P\to Q,\qquad P\text{ if }Q\quad\leadsto\quad Q\to P.\]</div>
+          <p>证明等价式时，最稳的方法是把 \(\to\) 和 \(\leftrightarrow\) 消去，再用 De Morgan 律、结合律、交换律、分配律整理。若变量很少，真值表是保底方案。</p>
+          <p>遇到“证明一个推理有效”，可以把所有前提合取后推出结论，或者假设前提全真并推出结论真。若想找反例，就让前提全真、结论假，然后看能否给变量赋值。</p>
+          <nav class="note-pager" aria-label="04 命题逻辑与证明翻译 pagination">
+            <a class="note-pager-link previous" href="#discrete-03-rooted-trees-dfs">上一篇：03 根树与深度优先搜索</a>
+            <a class="note-pager-link next" href="#discrete-05-first-order-logic">下一篇：05 一阶逻辑与量词</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-05-first-order-logic">
+          <h2>05 一阶逻辑与量词</h2>
+          <p class="note-description">整理 0506、0509、0513 讲义：谓词、论域、全称量词、存在量词、嵌套量词、受限论域和量词否定。</p>
+          <p>一阶逻辑比命题逻辑多了对象、变量、谓词和量词。命题逻辑把“这个句子是真的”当作基本单位；一阶逻辑可以表达“对所有对象”“存在某个对象”这样的结构。</p>
+          <p>谓词 \(P(x)\) 是含变量的陈述。只有给变量赋值，或用量词绑定变量后，它才成为完整命题。论域决定变量可以取哪些对象。</p>
+          <div class="math-block">\[\forall x\,P(x),\qquad \exists x\,P(x).\]</div>
+          <p>全称量词 \(orall x\) 表示论域中每个 \(x\) 都满足性质；存在量词 \(\exists x\) 表示论域中至少有一个 \(x\) 满足性质。</p>
+          <p>量词否定是最容易出题的部分。否定“所有人都满足”就是“存在一个人不满足”；否定“存在一个人满足”就是“所有人都不满足”。</p>
+          <div class="math-block">\[\neg\forall x\,P(x)\equiv\exists x\,\neg P(x),\qquad \neg\exists x\,P(x)\equiv\forall x\,\neg P(x).\]</div>
+          <p>受限论域要小心翻译。若说“所有满足 \(A(x)\) 的对象都满足 \(B(x)\)”，通常用蕴含；若说“存在满足 \(A(x)\) 且满足 \(B(x)\) 的对象”，通常用合取。</p>
+          <div class="math-block">\[\forall x\in A\,B(x)\quad\leadsto\quad\forall x\,(A(x)\to B(x)),\]</div>
+          <div class="math-block">\[\exists x\in A\,B(x)\quad\leadsto\quad\exists x\,(A(x)\land B(x)).\]</div>
+          <p>嵌套量词的顺序通常不能交换。\(orall x\exists y\) 表示每个 \(x\) 可以有自己的 \(y\)；\(\exists yorall x\) 表示存在同一个 \(y\) 对所有 \(x\) 都有效。</p>
+          <div class="math-block">\[\forall x\exists y\,P(x,y)\not\equiv\exists y\forall x\,P(x,y)\quad\text{in general}.\]</div>
+          <p>否定嵌套量词时，要从外到内逐层翻转量词并否定谓词。比如“每个人都有朋友”否定后不是“每个人都没有朋友”，而是“存在某个人没有朋友”。</p>
+          <p>0509 和 0513 的重点是 restricted domain、unrelated proposition 和 special domain。遇到题目时先写清论域，再判断限制条件应该放在蕴含前件还是合取中。</p>
+          <p>一阶逻辑的熟练程度直接影响后面集合、关系、函数的证明。因为自反、对称、传递、单射、满射这些定义，本质上都是带量词的逻辑句子。</p>
+          <p>考试下手方向：量词题最先写论域。很多错误不是逻辑符号不会，而是把变量范围理解错。若题目说“整数中所有偶数”，就不要让变量偷偷跑到实数里。</p>
+          <p>受限全称通常用蕴含，受限存在通常用合取。这是考试高频陷阱：\(\forall x(A(x)\land B(x))\) 太强，它要求所有对象都满足限制条件；\(\exists x(A(x)\to B(x))\) 太弱，因为前件假时蕴含自动真。</p>
+          <div class="math-block">\[\forall x\in A\,B(x)\equiv\forall x(A(x)\to B(x)),\qquad \exists x\in A\,B(x)\equiv\exists x(A(x)\land B(x)).\]</div>
+          <p>否定含量词句子时，不要只在最前面加 not。要从外往内逐层翻转：\(\forall\) 变 \(\exists\)，\(\exists\) 变 \(\forall\)，最后否定最里面的谓词，再用命题逻辑化简。</p>
+          <nav class="note-pager" aria-label="05 一阶逻辑与量词 pagination">
+            <a class="note-pager-link previous" href="#discrete-04-propositional-logic">上一篇：04 命题逻辑与证明翻译</a>
+            <a class="note-pager-link next" href="#discrete-06-sets-relations-closures">下一篇：06 集合、二元关系与闭包</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-06-sets-relations-closures">
+          <h2>06 集合、二元关系与闭包</h2>
+          <p class="note-description">整理 0518、0520、0525、0601 前半部分：集合运算、关系性质、关系复合、等价关系、划分、传递闭包。</p>
+          <p>集合论部分先从朴素集合运算开始：并、交、差、补、幂集和笛卡尔积。后续的关系与函数都建立在笛卡尔积上。</p>
+          <div class="math-block">\[A\times B=\{(a,b)\mid a\in A,\ b\in B\}.\]</div>
+          <p>从 \(A\) 到 \(B\) 的二元关系就是 \(A	imes B\) 的子集；集合 \(A\) 上的二元关系就是 \(A	imes A\) 的子集。若 \((a,b)\in R\)，通常写成 \(aRb\)。</p>
+          <div class="math-block">\[R\subseteq A\times B,\qquad aRb\Longleftrightarrow (a,b)\in R.\]</div>
+          <p>关系的四个基本性质是自反、对称、反对称、传递。自反要求每个元素都和自己相关；对称要求 \(aRb\) 时 \(bRa\)；反对称要求双向相关只能发生在相同元素上；传递要求 \(aRb\) 且 \(bRc\) 时 \(aRc\)。</p>
+          <div class="math-block">\[\forall a\in A\ (aRa)\quad\text{is reflexivity}.\]</div>
+          <div class="math-block">\[aRb\land bRa\Rightarrow a=b\quad\text{is antisymmetry}.\]</div>
+          <p>逆关系 \(R^{-1}\) 把每个有序对反过来。关系复合 \(S\circ R\) 表示先走 \(R\)，再走 \(S\)。复合顺序很容易写反，所以要始终按中间变量检查。</p>
+          <div class="math-block">\[S\circ R=\{(x,z)\mid \exists y\,(xRy\land ySz)\}.\]</div>
+          <p>这些性质可以用关系代数表达：自反等价于恒等关系包含于 \(R\)，对称等价于 \(R=R^{-1}\)，传递等价于 \(R\circ R\subseteq R\)，反对称等价于 \(R\cap R^{-1}\subseteq I_A\)。</p>
+          <div class="math-block">\[I_A\subseteq R,\quad R=R^{-1},\quad R\circ R\subseteq R,\quad R\cap R^{-1}\subseteq I_A.\]</div>
+          <p>等价关系和偏序都是“集合上的二元关系”的特殊版本，但用途不同。等价关系用来把对象分组：如果两个对象在某个标准下可以看成同类，就让它们相关。偏序用来比较对象：如果一个对象在某种意义上不超过、包含于、整除、先于另一个对象，就让它们相关。</p>
+          <p>等价关系要求自反、对称、传递。自反表示每个对象都和自己同类；对称表示如果 \(a\) 和 \(b\) 同类，那么 \(b\) 和 \(a\) 也同类；传递表示如果 \(a\) 和 \(b\) 同类，\(b\) 和 \(c\) 同类，那么 \(a\) 和 \(c\) 也同类。</p>
+          <div class="math-block">\[\text{equivalence relation}=\text{reflexive}+\text{symmetric}+\text{transitive}.\]</div>
+          <p>典型例子是“模 \(n\) 同余”。在整数集合上定义 \(aRb\) 当且仅当 \(n\mid(a-b)\)。这表示 \(a\) 和 \(b\) 除以 \(n\) 的余数相同。它会把整数分成 \(n\) 个等价类，也就是不同的余数类。</p>
+          <div class="math-block">\[a\equiv b\pmod n\quad\Longleftrightarrow\quad n\mid(a-b).\]</div>
+          <p>偏序关系要求自反、反对称、传递。自反表示每个对象都不超过自己；反对称表示如果 \(a\) 不超过 \(b\)，且 \(b\) 也不超过 \(a\)，那它们其实就是同一个对象；传递表示比较关系可以串起来。</p>
+          <div class="math-block">\[\text{partial order}=\text{reflexive}+\text{antisymmetric}+\text{transitive}.\]</div>
+          <p>典型例子是 \(\le\)、集合包含 \(\subseteq\)、整除关系 \(\mid\)。例如在幂集 \(\mathcal P(A)\) 上，\(X\subseteq Y\) 是偏序：每个集合包含于自己；若 \(X\subseteq Y\) 且 \(Y\subseteq X\)，则 \(X=Y\)；若 \(X\subseteq Y\) 且 \(Y\subseteq Z\)，则 \(X\subseteq Z\)。</p>
+          <p>为什么叫 partial order？因为不是任意两个元素都必须能比较。比如集合 \(\{1\}\) 和 \(\{2\}\) 在包含关系下互不包含，所以它们不可比较。若任意两个元素都能比较，才叫 total order 或 linear order。</p>
+          <p>考试中区分它们的最快方法：等价关系看“是不是同一类”，所以要对称；偏序看“能不能比较大小/包含/先后”，所以要反对称。对称和反对称不是简单相反，关键差别是：等价关系允许不同元素互相关联，偏序中不同元素不能双向都相关。</p>
+          <p>等价关系要求自反、对称、传递。每个元素 \(a\) 的等价类是所有与它等价的元素构成的集合。</p>
+          <div class="math-block">\[[a]_R=\{b\in A\mid aRb\}.\]</div>
+          <p>等价关系和划分是同一件事的两种语言。等价关系把集合切成互不相交的等价类；反过来，一个划分也能定义“在同一块中”的等价关系。</p>
+          <p>传递闭包 \(R^+\) 的直觉是：原关系 \(R\) 只允许你走“一步”，而 \(R^+\) 允许你走任意正步数。若 \((a,b)\in R\)，可以理解成从 \(a\) 到 \(b\) 有一条有向边；若 \((a,b)\in R^+\)，则表示从 \(a\) 出发，沿着 \(R\) 的边走若干步后能到达 \(b\)。</p>
+          <p>先定义关系的幂。\(R^1=R\)，表示走 1 步；\(R^2=R\circ R\)，表示先走一步 \(R\)，再走一步 \(R\)，总共走 2 步；一般地，\(R^{n+1}=R^n\circ R\)，表示走 \(n+1\) 步。</p>
+          <div class="math-block">\[R^1=R,
+\qquad R^{n+1}=R^n\circ R.\]</div>
+          <p>这里的复合顺序要读清楚。\((a,c)\in R^2\) 的意思是存在中间点 \(b\)，使得 \(aRb\) 且 \(bRc\)。所以 \(R^2\) 不是把关系平方成数字，而是在记录“正好两步可达”。</p>
+          <div class="math-block">\[(a,c)\in R^2\quad\Longleftrightarrow\quad \exists b\ (aRb\land bRc).\]</div>
+          <p>同理，\((a,b)\in R^n\) 表示存在一串中间点，使得从 \(a\) 到 \(b\) 能沿着 \(R\) 连走 \(n\) 步。这里的 \(n\) 是正整数，所以 \(R^+\) 只收集正长度路径。</p>
+          <div class="math-block">\[(a,b)\in R^n\quad\Longleftrightarrow\quad \exists x_0,\ldots,x_n\ (x_0=a\land x_n=b\land x_0Rx_1\land\cdots\land x_{n-1}Rx_n).\]</div>
+          <p>因此，传递闭包可以写成所有正步数可达关系的并。只要存在某个 \(n\ge1\)，使得 \((a,b)\in R^n\)，就把 \((a,b)\) 放进 \(R^+\)。</p>
+          <div class="math-block">\[R^+=\bigcup_{n\ge1}R^n.\]</div>
+          <p>为什么这叫“闭包”？因为 \(R\) 本身未必传递。可能有 \(aRb\) 和 \(bRc\)，但没有 \(aRc\)。传递闭包就是把所有被传递性强迫必须加入的有序对都补进去，并且只补这些必须补的。</p>
+          <div class="math-block">\[aRb\land bRc\quad\text{forces}\quad aR^+c.\]</div>
+          <p>“最小”是考试证明中的关键。要证明某个关系 \(T\) 是 \(R\) 的传递闭包，不能只证明它传递、且包含 \(R\)。还要证明：任何传递关系 \(S\) 只要包含 \(R\)，就一定包含 \(T\)。这说明 \(T\) 没有多加不必要的有序对。</p>
+          <div class="math-block">\[R\subseteq T,
+\quad T\text{ transitive},
+\quad \forall S((R\subseteq S\land S\text{ transitive})\Rightarrow T\subseteq S).\]</div>
+          <p>对公式 \(R^+=\bigcup_{n\ge1}R^n\) 的证明也按这个结构来。第一，\(R\subseteq R^+\)，因为 \(R=R^1\)。第二，\(R^+\) 传递，因为若 \((a,b)\in R^n\)、\((b,c)\in R^m\)，就有 \((a,c)\in R^{n+m}\)。第三，任何包含 \(R\) 的传递关系都会包含每个 \(R^n\)，所以也包含它们的并。</p>
+          <div class="math-block">\[(a,b)\in R^n\land(b,c)
+\in R^m\quad\Longrightarrow\quad(a,c)\in R^{n+m}.\]</div>
+          <p>自反传递闭包 \(R^*\) 只比 \(R^+\) 多允许“走 0 步”。走 0 步就是停在原地，所以 \(R^0=I_A\)，其中 \(I_A=\{(a,a)\mid a\in A\}\)。</p>
+          <div class="math-block">\[R^0=I_A,
+\qquad R^*=\bigcup_{n\ge0}R^n=I_A\cup R^+.\]</div>
+          <p>做题时的入口：如果题目问 \((a,b)\) 是否在 \(R^+\)，就找一条从 \(a\) 到 \(b\) 的正长度路径；如果问是否在 \(R^*\)，则除了正长度路径外，还允许 \(a=b\)。如果题目要求计算闭包，可以不断补入由传递性强迫的新 pair，直到没有新 pair 出现。</p>
+          <p>这一部分的题目通常要求逐项验证性质，或者证明某个构造确实是等价关系、偏序或闭包。写证明时不要跳过量词：任取元素，假设关系成立，再按定义推出目标。</p>
+          <p>考试下手方向：关系性质题不要凭感觉。把四个性质写成量词句，然后逐一验证或找反例。找反例时只需要一个失败实例：自反找某个 \(a\) 使 \((a,a)\notin R\)；对称找 \(aRb\) 但 \(bRa\) 不成立；反对称找 \(a\ne b\) 且双向都成立；传递找 \(aRb,bRc\) 但 \(aRc\) 不成立。</p>
+          <div class="math-block">\[\text{not transitive}:\quad \exists a,b,c\ (aRb\land bRc\land \neg aRc).\]</div>
+          <p>等价关系题要同时证明三件事：自反、对称、传递。证明等价类相等时，常用“双包含”：任取 \(x\in[a]\)，证明 \(x\in[b]\)，反方向同理。</p>
+          <p>闭包题的核心是“最小”。证明 \(R^+\) 是传递闭包时，通常分三步：包含 \(R\)；自身传递；被任何包含 \(R\) 的传递关系包含。最后一步体现最小性。</p>
+          <nav class="note-pager" aria-label="06 集合、二元关系与闭包 pagination">
+            <a class="note-pager-link previous" href="#discrete-05-first-order-logic">上一篇：05 一阶逻辑与量词</a>
+            <a class="note-pager-link next" href="#discrete-07-functions-countability">下一篇：07 函数、等势与可数性</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-07-functions-countability">
+          <h2>07 函数、等势与可数性</h2>
+          <p class="note-description">整理 0601 后半、0603、0608：函数、单射、满射、双射、Schröder-Bernstein、等势、可数集和函数集合。</p>
+          <p>函数在课程中被定义为一种特殊关系。若 \(F\subseteq A	imes B\)，并且每个 \(x\in A\) 都对应唯一的 \(y\in B\)，则 \(F\) 是从 \(A\) 到 \(B\) 的函数。</p>
+          <div class="math-block">\[F:A\to B\quad\Longleftrightarrow\quad \forall x\in A\,\exists!y\in B\ (xFy).\]</div>
+          <p>单射要求不同输入不会撞到同一个输出；满射要求陪域中每个元素都被命中；双射同时是单射和满射。双射表达两个集合“元素数量相同”的精确定义。</p>
+          <div class="math-block">\[f\text{ injective}\quad\Longleftrightarrow\quad f(a)=f(a&#x27;)\Rightarrow a=a&#x27;.\]</div>
+          <div class="math-block">\[f\text{ surjective}\quad\Longleftrightarrow\quad \forall b\in B\,\exists a\in A\ (f(a)=b).\]</div>
+          <p>等势记作 \(Approx B\)，意思是存在从 \(A\) 到 \(B\) 的双射。若存在从 \(A\) 到 \(B\) 的单射，记作 \(A\le B\)。</p>
+          <div class="math-block">\[A\approx B\quad\Longleftrightarrow\quad \exists\text{ bijection }f:A\to B.\]</div>
+          <p>Schröder-Bernstein 定理是比较无限集合大小的核心工具。若 \(A\) 能单射进 \(B\)，同时 \(B\) 能单射进 \(A\)，则二者等势。</p>
+          <div class="math-block">\[A\le B\text{ and }B\le A\quad\Longrightarrow\quad A\approx B.\]</div>
+          <p>可数集是与自然数集等势的集合。课程中证明了许多看起来更大的集合其实可数，例如整数、有理数、自然数有序对、有限自然数序列、有限字符串、整系数多项式和代数数。</p>
+          <div class="math-block">\[\mathbb N\approx\mathbb N\times\mathbb N,\qquad \mathbb Q\text{ is countable}.\]</div>
+          <p>证明可数性的常见思路是把对象编码为自然数，或把对象嵌入一个已知可数集合。比如有理数可以看成整数和非零自然数的配对，再处理约分或重复表示。</p>
+          <p>函数集合也可以比较大小。若 \(A_1pprox A_2\)，且 \(B_1pprox B_2\)，则从 \(A_1\) 到 \(B_1\) 的函数集合与从 \(A_2\) 到 \(B_2\) 的函数集合等势。</p>
+          <div class="math-block">\[(A_1\to B_1)\approx(A_2\to B_2).\]</div>
+          <p>柯里化公式说明，二元输入的函数可以等价地看成“输入一个 \(a\)，返回一个从 \(B\) 到 \(C\) 的函数”。</p>
+          <div class="math-block">\[((A\times B)\to C)\approx(A\to(B\to C)).\]</div>
+          <p>从 \(A\) 到 \(\{0,1\}\) 的函数之所以和 \(A\) 的子集有关，是因为每个元素 \(a\in A\) 都只面临两个选择：输出 1，或者输出 0。可以把输出 1 理解成“选中这个元素”，输出 0 理解成“不选这个元素”。这样，一个 0-1 函数就像是在 \(A\) 里挑出一批元素。</p>
+          <p>给定一个函数 \(f:A\to\{0,1\}\)，它对应的子集就是所有被 \(f\) 标成 1 的元素。这个子集通常记作 \(S_f\)。</p>
+          <div class="math-block">\[S_f=\{a\in A\mid f(a)=1\}.\]</div>
+          <p>反过来，给定 \(A\) 的任意一个子集 \(S\subseteq A\)，也可以定义一个 0-1 函数：元素在 \(S\) 里就输出 1，不在 \(S\) 里就输出 0。这个函数叫 \(S\) 的特征函数，常记作 \(\chi_S\)。</p>
+          <div class="math-block">\[\chi_S(a)=\begin{cases}1,&amp;a\in S,\\0,&amp;a\notin S.\end{cases}\]</div>
+          <p>这两个方向正好互相还原。先从函数 \(f\) 取出子集 \(S_f\)，再写这个子集的特征函数，会得到原来的 \(f\)。先从子集 \(S\) 写出特征函数 \(\chi_S\)，再取所有输出为 1 的元素，也会回到原来的 \(S\)。</p>
+          <div class="math-block">\[f\longmapsto S_f,
+\qquad S\longmapsto \chi_S.\]</div>
+          <p>因此，“所有从 \(A\) 到 \(\{0,1\}\) 的函数”与“\(A\) 的所有子集”之间存在一个双射。前者写作 \(A\to\{0,1\}\)，后者写作 \(\mathcal P(A)\)，所以它们等势。</p>
+          <div class="math-block">\[(A\to\{0,1\})\approx\mathcal P(A).\]</div>
+          <p>一个有限例子：若 \(A=\{x,y,z\}\)，函数 \(f(x)=1,f(y)=0,f(z)=1\) 对应的子集就是 \(\{x,z\}\)。反过来，子集 \(\{y\}\) 对应的特征函数会让 \(y\) 输出 1，让 \(x,z\) 输出 0。</p>
+          <p>这条公式是 Cantor 定理的入口，因为 Cantor 定理说 \(A\) 永远不可能和 \(\mathcal P(A)\) 等势。既然 \(\mathcal P(A)\) 又等势于全部 0-1 函数集合，就说明“从 \(A\) 到 \(\{0,1\}\) 的函数”比 \(A\) 本身多。特别地，\(\mathbb N\to\{0,1\}\) 等势于 \(\mathcal P(\mathbb N)\)，所以无限 0-1 序列不可数。</p>
+          <div class="math-block">\[(\mathbb N\to\{0,1\})\approx\mathcal P(\mathbb N),
+\qquad \mathcal P(\mathbb N)\text{ is uncountable}.\]</div>
+          <p>考试下手方向：看到 \(A\to\{0,1\}\)，马上把它翻译成“给 \(A\) 的每个元素打 0/1 标签”；看到 \(\mathcal P(A)\)，马上翻译成“从 \(A\) 中任选一些元素组成子集”。打标签和选子集是一回事，所以用特征函数建立双射。</p>
+          <p>这一页的题目重点不是算数，而是构造函数：要么明确写出单射、满射、双射，要么用已知定理把集合大小夹住。</p>
+          <p>考试下手方向：函数是否良定义，先检查每个输入有没有输出，再检查输出是否唯一。若定义中用等价类作为输入，还要检查代表元不同是否会导致结果不同。</p>
+          <div class="math-block">\[\text{well-defined on }[x]:\quad xRy\Rightarrow F(x)=F(y).\]</div>
+          <p>证明单射从等式开始：假设 \(f(a)=f(a_1)\)，推出 \(a=a_1\)。证明满射从目标元素开始：任取 \(b\in B\)，构造 \(a\in A\) 使 \(f(a)=b\)。证明双射就是两件事都做。</p>
+          <p>可数性题的常用策略：列举、编码、嵌入、夹逼。能列成序列就可数；能编码成自然数或自然数有限元组就可数；能单射到已知可数集也至多可数；若还能从 \(\mathbb N\) 单射回来，就是可数无限。</p>
+          <nav class="note-pager" aria-label="07 函数、等势与可数性 pagination">
+            <a class="note-pager-link previous" href="#discrete-06-sets-relations-closures">上一篇：06 集合、二元关系与闭包</a>
+            <a class="note-pager-link next" href="#discrete-08-uncountable-foundations">下一篇：08 不可数性与集合论基础</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-08-uncountable-foundations">
+          <h2>08 不可数性与集合论基础</h2>
+          <p class="note-description">整理 0615、0617：Cantor 定理、对角线论证、实数大小、连续函数大小、集合论构造、Russell 悖论。</p>
+          <p>不可数性部分的中心是 Cantor 定理：任意集合都不可能与自己的幂集等势。直观地说，\(\mathcal P(X)\) 总是比 \(X\) 更大。</p>
+          <div class="math-block">\[X\not\approx\mathcal P(X).\]</div>
+          <p>证明使用对角线论证。假设存在一个双射或满射 \(	heta:X	o\mathcal P(X)\)。我们构造一个特殊集合 \(Y\)，让每个元素 \(x\) 是否属于 \(Y\)，正好和 \(x\) 是否属于 \(	heta(x)\) 相反。</p>
+          <div class="math-block">\[Y=\{x\in X\mid x\notin\theta(x)\}.\]</div>
+          <p>如果 \(	heta\) 是满射，那么存在 \(y\in X\) 使得 \(	heta(y)=Y\)。这时问 \(y\) 是否属于 \(Y\)，就得到矛盾。</p>
+          <div class="math-block">\[y\in Y\Longleftrightarrow y\notin\theta(y)=Y.\]</div>
+          <p>因此 \(\mathcal P(\mathbb N)\) 不可数。又因为 \((\mathbb N	o\{0,1\})pprox\mathcal P(\mathbb N)\)，无限 0-1 序列也不可数。课程进一步说明实数集与 \(2^{\mathbb N}\) 等势。</p>
+          <div class="math-block">\[\mathbb R\approx 2^{\mathbb N},\qquad \mathcal P(\mathbb N)\text{ is uncountable}.\]</div>
+          <p>无限自然数序列集合 \(\mathbb N^{\mathbb N}\) 也是不可数，并且与 \(2^{\mathbb N}\) 等势。相比之下，有限序列集合是可数的。有限和无限之间的差别在这里非常明显。</p>
+          <p>课程还讨论了函数空间的大小。所有从 \(\mathbb R\) 到 \(\mathbb R\) 的函数非常多，而连续函数少得多；连续函数可以由稠密点上的值控制，因此连续函数集合与 \(\mathbb R\) 等势。</p>
+          <p>最后一讲转向集合论基础，口号是“Everything is a set”。有序对可以编码成集合，自然数可以用归纳集定义，整数、有理数和实数也可以继续在集合论中构造。</p>
+          <div class="math-block">\[(x,y)=\{\{x\},\{x,y\}\}\quad\text{is one standard encoding of ordered pairs}.\]</div>
+          <p>自然数的集合 \(\mathbb N\) 可以定义为最小的归纳集。归纳集包含空集，并且对后继操作封闭。这里的后继通常写成 \(y\cup\{y\}\)。</p>
+          <div class="math-block">\[0=\varnothing,\qquad 1=\{0\},\qquad 2=\{0,1\}.\]</div>
+          <p>朴素集合论的问题由 Russell 悖论暴露出来。如果允许任意性质都形成集合，令 \(A=\{a\mid a
+otin a\}\)，就会得到 \(A\in A\) 当且仅当 \(A
+otin A\)。</p>
+          <div class="math-block">\[A=\{a\mid a\notin a\}\quad\Rightarrow\quad A\in A\Longleftrightarrow A\notin A.\]</div>
+          <p>解决方向是限制集合构造：可以从已有集合中按性质分离出子集，但不能保证“所有满足某性质的对象”自动构成集合。这样才能避免 Russell 悖论，同时保留数学中需要的集合操作。</p>
+          <p>这一页把前面所有主题收束到一个基础问题：数学对象可以怎样被安全地构造出来。图、关系、函数、自然数、实数看似不同，最终都可以回到集合与有序对的语言。</p>
+          <p>考试下手方向：Cantor 对角线证明不要背成口号，要抓住“构造一个不在列表里的对象”。若题目声称列出了所有子集或所有无限 0-1 序列，就按第 \(n\) 项的第 \(n\) 位取反，得到一个和每一项都至少一位不同的新对象。</p>
+          <div class="math-block">\[b_n=1-a_{n,n}\quad\Rightarrow\quad (b_0,b_1,b_2,\ldots)\ne (a_{n,0},a_{n,1},a_{n,2},\ldots)\text{ for every }n.\]</div>
+          <p>Russell 悖论题的关键不是算集合，而是指出“任意性质都能成集合”这个假设不安全。安全版本只能从已有集合中分离子集：\(\{x\in A\mid P(x)\}\) 可以，\(\{x\mid P(x)\}\) 不一定可以。</p>
+          <nav class="note-pager" aria-label="08 不可数性与集合论基础 pagination">
+            <a class="note-pager-link previous" href="#discrete-07-functions-countability">上一篇：07 函数、等势与可数性</a>
+            <a class="note-pager-link next" href="#discrete-09-symbols-cheatsheet">下一篇：09 考试符号速查与读法</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-09-symbols-cheatsheet">
+          <h2>09 考试符号速查与读法</h2>
+          <p class="note-description">把考试中最常见的符号按图论、逻辑、集合、关系、函数和基数整理成“看到就知道怎么读”的表。</p>
+          <p>这一页的目标是降低读题阻力。很多离散数学题不是不会做，而是第一眼被符号挡住。考试时看到符号，先把它翻译成一句普通话，再决定用哪个定义。</p>
+          <p>图论符号：\(G=(V,E)\) 表示图由顶点集 \(V\) 和边集 \(E\) 组成；\(|V|\) 是顶点数，\(|E|\) 是边数；\(u,v\in V\) 表示 \(u,v\) 是顶点；\(e\in E\) 表示 \(e\) 是边。</p>
+          <div class="math-block">\[G=(V,E),\qquad |V|=\text{number of vertices},\qquad |E|=\text{number of edges}.\]</div>
+          <p>邻接和度数：\(u\sim v\) 或 “u adjacent to v” 表示两个顶点之间有边；\(N(v)\) 是邻域；\(\deg(v)\) 是无向度数；\(\deg^-(v)\)、\(\deg^+(v)\) 分别是有向图的入度和出度。</p>
+          <div class="math-block">\[N(v)=\{u\in V\mid u\text{ is adjacent to }v\}.\]</div>
+          <p>逻辑符号：\(\neg\) 读作“不”；\(\land\) 读作“并且”；\(\lor\) 读作“或者”；\(\to\) 读作“如果……那么……”；\(\leftrightarrow\) 读作“当且仅当”。</p>
+          <div class="math-block">\[p\to q\equiv \neg p\lor q,\qquad p\leftrightarrow q\equiv(p\to q)\land(q\to p).\]</div>
+          <p>量词符号：\(\forall x\) 读作“对所有 \(x\)”；\(\exists x\) 读作“存在某个 \(x\)”；\(\exists!x\) 读作“存在唯一的 \(x\)”。量词后面的变量必须属于某个论域。</p>
+          <div class="math-block">\[\exists!x\,P(x)\quad\text{means}\quad \exists x(P(x)\land \forall y(P(y)\to y=x)).\]</div>
+          <p>集合符号：\(a\in A\) 表示 \(a\) 是集合 \(A\) 的元素；\(A\subseteq B\) 表示 \(A\) 的每个元素都在 \(B\) 中；\(A\cup B\)、\(A\cap B\)、\(A\setminus B\) 分别是并、交、差。</p>
+          <div class="math-block">\[A\subseteq B\quad\Longleftrightarrow\quad \forall x(x\in A\to x\in B).\]</div>
+          <p>幂集和笛卡尔积：\(\mathcal P(A)\) 是 \(A\) 的所有子集组成的集合；\(A\times B\) 是所有有序对 \((a,b)\) 的集合，其中 \(a\in A,b\in B\)。</p>
+          <div class="math-block">\[\mathcal P(A)=\{X\mid X\subseteq A\},\qquad A\times B=\{(a,b)\mid a\in A,b\in B\}.\]</div>
+          <p>关系符号：\(R\subseteq A\times A\) 表示 \(R\) 是 \(A\) 上的二元关系；\(aRb\) 就是 \((a,b)\in R\)。\(R^{-1}\) 是逆关系，\(S\circ R\) 是复合关系。</p>
+          <div class="math-block">\[S\circ R=\{(x,z)\mid \exists y((x,y)\in R\land(y,z)\in S)\}.\]</div>
+          <p>等价类和划分：\([a]_R\) 表示所有与 \(a\) 等价的元素；partition 表示把集合切成若干非空、互不相交、并起来等于全集的块。</p>
+          <div class="math-block">\[[a]_R=\{b\in A\mid aRb\}.\]</div>
+          <p>函数符号：\(f:A\to B\) 表示函数从 \(A\) 到 \(B\)；\(A\) 是 domain，\(B\) 是 codomain；\(f(a)\) 是输入 \(a\) 的输出。</p>
+          <p>特征函数是把子集写成函数的一种方式。若 \(S\subseteq A\)，则 \(\chi_S:A\to\{0,1\}\) 在元素属于 \(S\) 时输出 1，不属于 \(S\) 时输出 0。</p>
+          <div class="math-block">\[\chi_S(a)=1\Longleftrightarrow a\in S.\]</div>
+          <p>基数符号：\(A\approx B\) 表示等势，即有双射；\(A\le B\) 表示有从 \(A\) 到 \(B\) 的单射；countable 表示与 \(\mathbb N\) 等势或至多可列，具体看教材约定。</p>
+          <div class="math-block">\[A\approx B\Longleftrightarrow \exists\text{ bijection }f:A\to B.\]</div>
+          <p>闭包符号：\(R^+\) 是传递闭包，表示走正长度路径能到达；\(R^*\) 是自反传递闭包，允许长度为 0 的路径，所以每个点都能到自己。</p>
+          <div class="math-block">\[R^+=\bigcup_{n\ge1}R^n,\qquad R^*=\bigcup_{n\ge0}R^n.\]</div>
+          <p>读题建议：遇到一个式子，先把每个符号的类型写在旁边。比如 \(R\subseteq A\times A\) 告诉你 R 是关系；\(f:A\to B\) 告诉你 f 是函数；\(G=(V,E)\) 告诉你后面所有顶点和边都要从这两个集合里取。</p>
+          <nav class="note-pager" aria-label="09 考试符号速查与读法 pagination">
+            <a class="note-pager-link previous" href="#discrete-08-uncountable-foundations">上一篇：08 不可数性与集合论基础</a>
+            <a class="note-pager-link next" href="#discrete-10-definition-checklist">下一篇：10 定义判定清单：看到题目先查什么</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-10-definition-checklist">
+          <h2>10 定义判定清单：看到题目先查什么</h2>
+          <p class="note-description">把常考定义改写成可执行的检查步骤，帮助考试时快速找到证明或反例入口。</p>
+          <p>这一页不是概念列表，而是“检查动作”列表。考试时如果题目问“是否为……”“证明……是……”，就按对应清单逐项检查。</p>
+          <p>检查 simple graph：先看是否无向；再看是否没有重边；最后看是否没有自环。三件事有一件失败，就不是 simple graph。</p>
+          <p>检查 path：给定顶点序列 \(v_0,v_1,\ldots,v_n\)，逐对检查 \(v_{i-1}\) 和 \(v_i\) 之间是否有边。有向图还要检查方向是否从 \(v_{i-1}\) 指向 \(v_i\)。</p>
+          <div class="math-block">\[\forall i=1,\ldots,n,\quad (v_{i-1},v_i)\text{ must be an allowed edge step}.\]</div>
+          <p>检查 circuit：先检查它是 path；再检查长度为正；最后检查起点等于终点。若还要求 simple circuit，就要确认除了起终点的重复外，没有重复边，通常也不重复中间顶点。</p>
+          <p>检查 connected graph：任取两个顶点都要有路径。小图可以直接找；大图可以给出生成树或说明所有顶点都在同一个连通分量中。</p>
+          <p>检查 strongly connected directed graph：任取有序对 \((u,v)\)，要有从 \(u\) 到 \(v\) 的有向路径，也要有从 \(v\) 到 \(u\) 的有向路径。只证明无向连通不够。</p>
+          <p>检查 tree：优先看题目给了什么信息。若容易看图，就用“连通且无简单回路”；若给了顶点数边数，就配合 \(|E|=|V|-1\)；若给了唯一路径性质，也可以直接用树的等价刻画。</p>
+          <div class="math-block">\[\text{tree}\Longleftrightarrow\text{connected and acyclic}\Longleftrightarrow\text{unique simple path between any two vertices}.\]</div>
+          <p>检查 spanning tree：它必须是原图的子图；必须包含原图所有顶点；自身必须是树。少任何一个条件都不行。</p>
+          <p>检查 equivalence relation：必须同时自反、对称、传递。写证明时分三段，每段都以“任取……”开头；找反例时只要打掉其中一个性质。</p>
+          <div class="math-block">\[\text{equivalence}=\text{reflexive}+\text{symmetric}+\text{transitive}.\]</div>
+          <p>检查 partial order：通常是自反、反对称、传递。它和等价关系只差“对称”换成“反对称”，但含义完全不同：等价关系分组，偏序关系比较大小。</p>
+          <p>偏序和等价关系的区别：等价关系的关键词是“同类”，所以它要 symmetric；偏序的关键词是“比较”，所以它要 antisymmetric。看到 symmetric 想分组，看到 antisymmetric 想大小或包含。</p>
+          <div class="math-block">\[\text{partial order}=\text{reflexive}+\text{antisymmetric}+\text{transitive}.\]</div>
+          <p>检查 function：对每个输入存在输出，并且输出唯一。关系图像中，一个输入不能没有箭头，也不能射出两支箭头到不同输出。</p>
+          <div class="math-block">\[\forall x\in A\,\exists!y\in B\ (f(x)=y).\]</div>
+          <p>检查 injection：不同输入不能有相同输出。证明时假设输出相等，推出输入相等。找反例时找两个不同输入输出相同。</p>
+          <p>检查 surjection：陪域中每个元素都要被命中。证明时任取目标 \(b\in B\)，反向构造输入 \(a\)。找反例时找一个永远取不到的 \(b\)。</p>
+          <p>检查 bijection：既是 injection 又是 surjection。若能直接写出反函数，也可以用反函数证明双射。</p>
+          <p>检查 countable：如果要证明可数，给出枚举或单射到 \(\mathbb N\)；如果要证明不可数，优先考虑 Cantor 对角线或从已知不可数集单射进去。</p>
+          <p>最后的通用动作：每当你卡住，就回到“对象类型”。图的问题不要用函数语言硬做；关系的问题先展开量词；函数的问题先检查良定义；基数的问题先构造映射。</p>
+          <nav class="note-pager" aria-label="10 定义判定清单：看到题目先查什么 pagination">
+            <a class="note-pager-link previous" href="#discrete-09-symbols-cheatsheet">上一篇：09 考试符号速查与读法</a>
+            <a class="note-pager-link next" href="#discrete-11-proof-templates">下一篇：11 常见证明模板：考试可以直接套的骨架</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-11-proof-templates">
+          <h2>11 常见证明模板：考试可以直接套的骨架</h2>
+          <p class="note-description">整理图论、逻辑、关系、函数、可数性、不可数性中的常用证明骨架，让答案有可落笔的结构。</p>
+          <p>这一页给的是证明骨架。考试中不要只写结论，要让阅卷者看到你知道定义、知道从哪里开始、知道每一步为什么合法。</p>
+          <p>模板一：证明蕴含 \(P\to Q\)。开头写“Assume \(P\). We prove \(Q\).” 然后只使用假设、定义和已知定理推出 \(Q\)。不要在证明中偷偷假设 \(Q\)。</p>
+          <div class="math-block">\[\text{Assume }P.\quad \cdots \quad \therefore Q.\]</div>
+          <p>模板二：证明当且仅当 \(P\leftrightarrow Q\)。分两个方向：先证 \(P\Rightarrow Q\)，再证 \(Q\Rightarrow P\)。如果两个方向用了不同想法，必须分开写。</p>
+          <div class="math-block">\[P\leftrightarrow Q\quad\text{means}\quad(P\Rightarrow Q)\land(Q\Rightarrow P).\]</div>
+          <p>模板三：反证法。要证明 \(P\)，假设 \(\neg P\)，结合已知条件推出矛盾。矛盾可以是 \(A\land\neg A\)，也可以是违反题设、违反定义或违反已知定理。</p>
+          <p>模板四：数学归纳法。证明关于 \(n\) 的命题时，先证 base case，再假设 \(n=k\) 成立，推出 \(n=k+1\) 成立。树、路径长度、关系幂 \(R^n\)、有限序列都可能用归纳。</p>
+          <div class="math-block">\[P(0),\qquad P(k)\Rightarrow P(k+1),\qquad \therefore \forall n\,P(n).\]</div>
+          <p>模板五：证明集合相等。最稳是双包含：先取任意 \(x\in A\)，证明 \(x\in B\)；再取任意 \(x\in B\)，证明 \(x\in A\)。</p>
+          <div class="math-block">\[A=B\quad\Longleftrightarrow\quad A\subseteq B\text{ and }B\subseteq A.\]</div>
+          <p>模板六：证明关系自反。任取 \(a\in A\)，按关系定义证明 \(aRa\)。如果关系由公式定义，就把 \((a,a)\) 代入公式。</p>
+          <p>模板七：证明关系对称。假设 \(aRb\)，按定义得到某个条件，再把这个条件变形成 \(bRa\) 的定义。</p>
+          <p>模板八：证明关系传递。假设 \(aRb\) 且 \(bRc\)，分别展开定义，把中间的 \(b\) 消掉或串起来，推出 \(aRc\)。</p>
+          <div class="math-block">\[aRb\land bRc\quad\Longrightarrow\quad aRc.\]</div>
+          <p>模板九：证明函数良定义。若输入对象有多种表示，比如等价类 \([x]\)，要证明换代表元不改变输出。一般写：假设 \([x]=[y]\) 或 \(xRy\)，证明公式给出的输出相同。</p>
+          <div class="math-block">\[xRy\Rightarrow F(x)=F(y).\]</div>
+          <p>模板十：证明单射。假设 \(f(x)=f(y)\)，通过代数、定义或已知性质推出 \(x=y\)。不要从 \(x\ne y\) 开始绕远，除非你用逆否命题。</p>
+          <p>模板十一：证明满射。任取 \(b\in B\)，明确构造 \(a\in A\)，然后验证 \(f(a)=b\)。构造不一定唯一，但必须在定义域内。</p>
+          <p>模板十二：证明可数。给出一个列表，或者构造从目标集合到 \(\mathbb N\) 的单射。对有限字符串、有限序列、多项式这类对象，常用“长度分层”：每一层有限或可数，所有层的可数并仍可数。</p>
+          <p>模板十三：证明不可数。假设可数列举存在，然后构造一个不在列表中的对象。Cantor 对角线的关键句是：新对象和第 \(n\) 个对象在第 \(n\) 个位置不同，所以不等于任何一项。</p>
+          <div class="math-block">\[b_n\ne a_{n,n}\quad\Rightarrow\quad b\ne a_n\text{ for every }n.\]</div>
+          <p>模板十四：证明最小性。若要证明某对象是“最小的满足条件者”，除了证明它满足条件，还要证明任何满足条件的对象都包含它。传递闭包、自反传递闭包、最小归纳集都用这个逻辑。</p>
+          <div class="math-block">\[\text{least }L:\quad L\text{ has property }P,\quad \forall T(P(T)\Rightarrow L\subseteq T).\]</div>
+          <p>写答案时的最低标准：每个证明至少要有“任取/假设”“展开定义”“推出目标”三层。只写“obvious”或“by definition”通常不够，除非你已经把定义展开到足够明确。</p>
+          <nav class="note-pager" aria-label="11 常见证明模板：考试可以直接套的骨架 pagination">
+            <a class="note-pager-link previous" href="#discrete-10-definition-checklist">上一篇：10 定义判定清单：看到题目先查什么</a>
+            <a class="note-pager-link next" href="#discrete-12-exam-entry-map">下一篇：12 按题型找入口：看到题目后第一步做什么</a>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+        <article class="note-article" id="discrete-12-exam-entry-map">
+          <h2>12 按题型找入口：看到题目后第一步做什么</h2>
+          <p class="note-description">把考试可能出现的题型转化成第一步动作，帮助从空白状态进入解题。</p>
+          <p>这一页回答一个实际问题：看到题目以后第一步做什么。离散数学的难点常常不是最后一步，而是“不知道从哪里下手”。</p>
+          <p>题型：判断图的类型。第一步：列出是否有方向、是否有重边、是否有自环。第二步：匹配名称 simple graph、multigraph、directed graph、directed multigraph。</p>
+          <p>题型：计算度数。第一步：确认无向还是有向。无向图数 incident edge-ends；有向图分开数入边和出边。最后用握手定理检查总和是否合理。</p>
+          <div class="math-block">\[\sum\deg(v)=2|E|\quad\text{is a quick consistency check}.\]</div>
+          <p>题型：找连通分量。第一步：从一个未处理顶点出发，把所有能通过路径到达的顶点圈成一块；重复直到所有顶点被处理。有向强连通分量要检查双向可达。</p>
+          <p>题型：判断是否为树。第一步：数 \(|V|\) 和 \(|E|\)，同时看是否连通或是否有回路。若 \(|E|\ne |V|-1\)，通常可以快速排除树。若等于，还要配合连通或无回路条件。</p>
+          <p>题型：Prim/Kruskal。第一步：把边按权重排序或标出当前 cut。Prim 关注“从当前树出去的最小边”；Kruskal 关注“全局下一条不会成环的最小边”。</p>
+          <p>题型：DFS。第一步：写出固定规则，比如“字母序最小优先”。第二步：记录 forward/backward step。第三步：把 forward edges 画成 DFS tree。</p>
+          <p>题型：自然语言翻译。第一步：找主谓结构和关键词。第二步：确定命题变量或谓词。第三步：处理 if、only if、for all、there exists。</p>
+          <p>题型：否定逻辑句。第一步：从外层开始推 \(\neg\)。遇到量词就翻转，遇到连接词就用 De Morgan，遇到蕴含先改写成 \(\neg p\lor q\)。</p>
+          <div class="math-block">\[\neg(p\to q)\equiv p\land\neg q.\]</div>
+          <p>题型：判断关系性质。第一步：把关系定义写成一句“\(aRb\) 当且仅当……”。第二步：按自反、对称、反对称、传递逐一试。第三步：失败就给具体反例，不要长篇解释。</p>
+          <p>题型：等价类。第一步：固定代表元 \(a\)，解出所有满足 \(aRb\) 的 \(b\)。第二步：把集合写成清楚的形式。第三步：若要比较等价类，判断代表元是否等价。</p>
+          <div class="math-block">\[aRb\Longleftrightarrow [a]_R=[b]_R\quad\text{for equivalence relations}.\]</div>
+          <p>题型：关系复合。第一步：确认顺序。\(S\circ R\) 是先走 \(R\)，再走 \(S\)。第二步：引入中间变量 \(y\)。第三步：消去 \(y\) 得到 \((x,z)\) 的条件。</p>
+          <p>题型：传递闭包。第一步：把 \(R\) 看成有向边。第二步：找从起点到终点的正长度路径。第三步：若要算整个 \(R^+\)，就把所有长度 1、长度 2、长度 3……能到达的 pair 都加入，直到不再出现新 pair。</p>
+          <div class="math-block">\[(a,b)\in R^+\quad\Longleftrightarrow\quad\exists n\ge1\ ((a,b)\in R^n).\]</div>
+          <p>题型：函数是否良定义。第一步：检查输入的每一种表示是否给出同一输出。特别是等价类、分式、集合代表元这类对象，最容易出 well-defined 问题。</p>
+          <p>题型：证明单射/满射。第一步：看关键词。单射从 \(f(x)=f(y)\) 开始；满射从任意目标 \(b\) 开始；双射两者都做。</p>
+          <p>题型：可数性。第一步：判断是要证明“能列出来”还是“列不出来”。有限对象通常按长度分层；有理数用整数对编码；代数数用多项式编码。</p>
+          <p>题型：不可数性。第一步：想对角线。只要题目试图“列出所有无限序列/所有子集/所有实数”，就构造一个和第 \(n\) 项在第 \(n\) 位不同的新对象。</p>
+          <p>题型：集合论基础或 Russell 悖论。第一步：问这个集合是从已有集合中分离出来的，还是凭任意性质直接收集所有对象。后者在朴素集合论中会出问题。</p>
+          <p>最后的考试策略：如果一道题 30 秒没有方向，就写下它涉及的对象类型和定义。定义一展开，至少能得到可检查的条件；条件一列出，就能开始找证明或反例。</p>
+          <nav class="note-pager" aria-label="12 按题型找入口：看到题目后第一步做什么 pagination">
+            <a class="note-pager-link previous" href="#discrete-11-proof-templates">上一篇：11 常见证明模板：考试可以直接套的骨架</a>
+            <span class="note-pager-link next">下一篇：无</span>
+          </nav>
+          <p><a class="section-link" href="#discrete-index">回到目录</a></p>
+        </article>
+</section></main><footer class="footer"><span>Ruka</span><span>Static site, ready for Cloudflare Pages.</span></footer><aside class="update-widget" aria-label="Site update time"><span>Updated</span><time datetime="2026-06-26T02:47:00+08:00">2026-06-26T02:47:00+08:00</time></aside></body></html>

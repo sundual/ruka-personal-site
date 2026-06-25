@@ -1,0 +1,772 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>函数项级数与傅里叶级数索引题解 - Ruka</title>
+    <meta name="description" content="按扫描索引整理的函数项级数、幂级数、泰勒展开和傅里叶级数练习题简洁解答。">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: { fontCache: "global" },
+        startup: { typeset: false }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero exam-hero" aria-labelledby="exam-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="exam-title">函数项级数与傅里叶级数索引题解</h1>
+        <p class="tagline">按索引文件整理：一致收敛、幂级数、泰勒展开、傅里叶级数与 Parseval 等式。</p>
+      </section>
+
+      <section class="section exam-page" aria-label="Indexed solutions">
+        <aside class="exam-toc" aria-label="目录">
+          <p class="eyebrow">Contents</p>
+          <ol>
+            <li><a href="#notes">说明</a></li>
+            <li><a href="#p213">p213-p215: 14.1</a></li>
+            <li><a href="#p223">p223-p225: 14.2</a></li>
+            <li><a href="#p237">p237: 14.3</a></li>
+            <li><a href="#p251">p251-p252: 14.4</a></li>
+            <li><a href="#p262">p262-p263: 15.1</a></li>
+            <li><a href="#p274">p274-p275: 15.2</a></li>
+            <li><a href="#p286">p286: 15.3</a></li>
+          </ol>
+        </aside>
+
+        <article class="exam-content">
+          <section id="notes" class="exam-card">
+            <h2>说明</h2>
+            <p>以下按索引顺序解答。这里的页码表示该行第一道题出现的位置；后续题号按教材题序顺延。</p>
+            <p>p237 第 4 题第 (7) 小题扫描指数略糊；下文按可作为幂级数的题面</p>
+            <div class="math-block">\[
+            \sum_{n=0}^{\infty}\frac{x^{4n+1}}{4n+1}.
+            \]</div>
+          </section>
+
+          <section id="p213" class="exam-card">
+            <h2>p213-p215：练习题 14.1</h2>
+            <p><strong>6.</strong> 令 \(f_n(x)=n[f(x+1/n)-f(x)]\)。当 \(n\) 足够大时，\(x,x+1/n\in(\alpha,\beta+\delta)\)，且</p>
+            <div class="math-block">\[
+            f_n(x)=n\int_x^{x+1/n}f'(t)\,dt.
+            \]</div>
+            <p>由于 \(f'\) 在闭区间上一致连续，平均值与 \(f'(x)\) 的差被 \(f'\) 的连续模 \(\omega(1/n)\) 控制，所以 \(f_n\rightrightarrows f'\) 于 \([\alpha,\beta]\)。</p>
+
+            <p><strong>8.</strong> 若 \(f_n\rightrightarrows f,\ g_n\rightrightarrows g\)，且两列一致有界，则 \(f,g\) 也有界，并且</p>
+            <div class="math-block">\[
+            |f_ng_n-fg|\le |g_n|\,|f_n-f|+|f|\,|g_n-g|\to0
+            \]</div>
+            <p>一致成立，故 \(f_ng_n\rightrightarrows fg\)。去掉“一致有界”不成立：在 \(\mathbb R\) 上取 \(f_n(x)=x,\ g_n(x)=x+1/n\)，则 \(f_n\to x,\ g_n\to x\) 一致，但 \(f_ng_n-x^2=x/n\) 不一致趋于 0。</p>
+
+            <p><strong>9.</strong> 设 \(|f_1(x)|\le M,\ L=b-a\)。由递推积分可得</p>
+            <div class="math-block">\[
+            |f_n(x)|\le M\frac{(x-a)^{n-1}}{(n-1)!}\le M\frac{L^{n-1}}{(n-1)!}\to0.
+            \]</div>
+            <p>故 \(\{f_n\}\) 在 \([a,b]\) 上一致收敛于 0。</p>
+
+            <p><strong>10.</strong> 对 \(f_n(x)=\int_0^x\varphi(t^n)\,dt\)，只需估计</p>
+            <div class="math-block">\[
+            |f_n(x)-x\varphi(0)|\le \int_0^1|\varphi(t^n)-\varphi(0)|\,dt.
+            \]</div>
+            <p>先取 \(\rho&lt;1\) 使尾段 \([\rho,1]\) 的长度足够小，再用 \(t\le\rho\) 时 \(t^n\to0\) 与 \(\varphi\) 的一致连续性，得右端趋于 0。因此 \(f_n\rightrightarrows x\varphi(0)\)。</p>
+
+            <p><strong>11.</strong> (1) \(\sum_{n=2}^{\infty}\cos nx/(n\ln n)\) 在每个闭子区间 \([\delta,\pi-\delta]\) 上一致收敛。在 \((0,\pi)\) 上不一致收敛可直接用一致 Cauchy 准则否定：取 \(x_N=1/N^2\)，则 \(N\le n\le N^2\) 时 \(\cos(nx_N)\ge\cos1\)，所以</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{N^2}\frac{\cos nx_N}{n\ln n}
+            \ge \cos1\sum_{n=N}^{N^2}\frac1{n\ln n}\to \cos1\ln2&gt;0.
+            \]</div>
+            <p>(2) \(\sum n^{-x}\) 只在 \(x&gt;1\) 收敛。在 \((1,+\infty)\) 上不一致收敛：取 \(x_N=1+1/\ln N\)，当 \(N\le n\le N^2\) 时 \(n^{-1/\ln N}\ge e^{-2}\)，所以</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{N^2}n^{-x_N}
+            =\sum_{n=N}^{N^2}\frac{n^{-1/\ln N}}n
+            \ge e^{-2}\sum_{n=N}^{N^2}\frac1n\to+\infty.
+            \]</div>
+            <p>尾段不能一致趋于 0，故一致 Cauchy 条件失败。在 \([1+\delta,+\infty)\) 上由 \(n^{-x}\le n^{-1-\delta}\) 一致收敛。</p>
+            <p>(3) 记 \(P_n(x)=\prod_{k=1}^n(1+kx)\)，则</p>
+            <div class="math-block">\[
+            \frac{nx}{P_n(x)}=\frac1{P_{n-1}(x)}-\frac1{P_n(x)}.
+            \]</div>
+            <p>在 \(0\le x\le1\) 上也直接看尾项。取 \(x_N=1/N^2\)，由 \(P_{N-1}(x_N)\le e^{1/2}\) 且 \(P_{N^2}(x_N)\to\infty\)，有</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{N^2}\frac{nx_N}{P_n(x_N)}
+            =\frac1{P_{N-1}(x_N)}-\frac1{P_{N^2}(x_N)},
+            \qquad
+            \liminf_{N\to\infty}\sum_{n=N}^{N^2}\frac{nx_N}{P_n(x_N)}
+            \ge e^{-1/2}.
+            \]</div>
+            <p>所以不一致收敛；在 \(l\le x&lt;+\infty\) 上余项 \(\le1/P_N(l)\to0\)，故一致收敛。</p>
+
+            <p><strong>12（双）.</strong> (2) 对 \(x\ge0\)，</p>
+            <div class="math-block">\[
+            \max_{x\ge0}x^2e^{-nx}=\frac4{e^2n^2},
+            \]</div>
+            <p>故 \(\sum x^2e^{-nx}\) 在 \([0,+\infty)\) 上一致收敛。(4) 因 \(\max_{0&lt;x\le1}|x\ln x|=1/e\)，故 \(\sum x^n\ln^n x=\sum(x\ln x)^n\) 在 \((0,1]\) 上一致绝对收敛。</p>
+
+            <p><strong>13（双）.</strong> (2) \(\sum_{n=2}^{\infty}(-1)^n/(n+\sin x)\) 由一致 Leibniz 判别法一致收敛，因为 \(1/(n+\sin x)\downarrow0\) 且 \(\sup_x1/(n+\sin x)\le1/(n-1)\)。</p>
+            <p>(4) \(\sum 2^n\sin(1/(3^nx))\) 对每个 \(x&gt;0\) 收敛，但在 \((0,+\infty)\) 上不一致收敛。因为一致收敛必须有通项一致趋于 \(0\)，而取</p>
+            <div class="math-block">\[
+            x_n=\frac2{\pi3^n}
+            \]</div>
+            <p>时有 \(2^n\sin(1/(3^nx_n))=2^n\)，通项连一致趋零都不满足。在 \([a,+\infty)\) 上由 \(|u_n|\le(2/3)^n/a\) 一致收敛。</p>
+            <p>(6) \(\sum\sin nx/n\) 在 \([0,\pi]\) 上不一致收敛。取 \(x_N=1/N\)，则</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{2N}\frac{\sin nx_N}{n}
+            \ge \sin1\sum_{n=N}^{2N}\frac1n
+            \to \sin1\ln2&gt;0,
+            \]</div>
+            <p>故一致 Cauchy 条件失败；在 \(a\le x\le\pi\) 上由 Dirichlet 判别法一致收敛。</p>
+
+            <p><strong>16.</strong> 设 \(E\) 是不含任何 \(a_n\) 的有界闭集，取 \(M\) 使 \(|x|\le M\) 于 \(E\) 上成立。由 \(\sum1/|a_n|\) 收敛知 \(|a_n|\to\infty\)，故当 \(n\) 足够大时 \(|a_n|\ge2M\)，于是</p>
+            <div class="math-block">\[
+            \left|\frac1{x-a_n}\right|\le \frac1{|a_n|-|x|}
+            \le \frac2{|a_n|},\qquad x\in E.
+            \]</div>
+            <p>右端可和，有限个前项在紧集 \(E\) 上有界，因此 \(\sum1/(x-a_n)\) 在 \(E\) 上绝对且一致收敛。</p>
+
+            <p><strong>17.</strong> (1) 因 \(x\in[a,b]\) 且 \(a&gt;0\)，有</p>
+            <div class="math-block">\[
+            0\le \ln\left(1+\frac{x}{n\ln^2n}\right)
+            \le \frac{b}{n\ln^2n}.
+            \]</div>
+            <p>而 \(\sum b/(n\ln^2n)\) 收敛，所以该级数在 \([a,b]\) 上一致收敛。</p>
+            <p>(2) 写</p>
+            <div class="math-block">\[
+            \frac{(x+n)^n}{n^{n+1}}=\frac1n\left(1+\frac{x}{n}\right)^n.
+            \]</div>
+            <p>它关于 \(n\) 单调递减且 \(\sup_{0\le x\le1}(1+x/n)^n/n\le e/n\to0\)。由一致交错判别法，原级数在 \([0,1]\) 上一致收敛；但绝对值级数与 \(e^x/n\) 同阶，逐点发散。</p>
+          </section>
+
+          <section id="p223" class="exam-card">
+            <h2>p223-p225：练习题 14.2</h2>
+            <p><strong>1.</strong> 这一题的基本方法是看尾和，而不是只看通项。若函数项级数在区间上一致收敛，则它必须满足一致 Cauchy 条件：对任意 \(\varepsilon&gt;0\)，存在 \(N\)，使得所有 \(q\ge p\ge N\) 与所有 \(x\) 都有</p>
+            <div class="math-block">\[
+            \left|\sum_{n=p}^{q}u_n(x)\right|&lt;\varepsilon.
+            \]</div>
+            <p>(1) 对 \(\sum x^n\ln x\)，先看逐点收敛。端点处按极限理解有 \(x^n\ln x\to0\)；当 \(0&lt;x&lt;1\) 时，\(\sum x^n\ln x\) 是等比级数乘上常数 \(\ln x\)，所以逐点收敛。要否定一致收敛，取随 \(N\) 变化的点</p>
+            <div class="math-block">\[
+            x_N=e^{-1/N}.
+            \]</div>
+            <p>此时 \(\ln x_N=-1/N\)，并且 \(x_N^n=e^{-n/N}\)。考察从 \(N\) 到 \(2N\) 的尾段，有</p>
+            <div class="math-block">\[
+            \left|\sum_{n=N}^{2N}x_N^n\ln x_N\right|
+            =\frac1N\sum_{n=N}^{2N}e^{-n/N}
+            \ge e^{-2},
+            \]</div>
+            <p>因为这段尾和对所有 \(N\) 都不小于固定正数 \(e^{-2}\)，所以尾段不能一致趋于 \(0\)。因此级数点态收敛，但不一致收敛。</p>
+
+            <p>(2) 对 \(\sum x^n\ln^2x\)，同样用余项。对 \(0&lt;x&lt;1\)，第 \(N\) 项以后的尾和是</p>
+            <div class="math-block">\[
+            R_N(x)=\sum_{n=N+1}^{\infty}x^n\ln^2x
+            =\frac{x^{N+1}\ln^2x}{1-x}.
+            \]</div>
+            <p>令 \(x=e^{-t}\)，其中 \(t&gt;0\)。则 \(x^{N+1}=e^{-(N+1)t}\)，\(\ln^2x=t^2\)，且 \(1-x=1-e^{-t}\)。因此</p>
+            <div class="math-block">\[
+            R_N(e^{-t})=\frac{e^{-(N+1)t}t^2}{1-e^{-t}}.
+            \]</div>
+            <p>把 \(t\) 分成 \(0&lt;t\le1\) 与 \(t&gt;1\)。当 \(0&lt;t\le1\) 时，由 \(1-e^{-t}\ge ct\) 可得</p>
+            <div class="math-block">\[
+            R_N(e^{-t})\le Cte^{-(N+1)t}.
+            \]</div>
+            <p>函数 \(te^{-(N+1)t}\) 的最大值为 \(1/(e(N+1))\)，故这一段上确界趋于 \(0\)。当 \(t&gt;1\) 时，\(1-e^{-t}\ge1-e^{-1}\)，于是</p>
+            <div class="math-block">\[
+            R_N(e^{-t})\le C t^2e^{-(N+1)t}\le C\sup_{t&gt;1}t^2e^{-(N+1)t}\to0.
+            \]</div>
+            <p>所以 \(\sup_{0&lt;x&lt;1}R_N(x)\to0\)，从而 \(\sum x^n\ln^2x\) 一致收敛。</p>
+
+            <p>(3) 对 \(\sum x^2/(1+x^2)^n\)，仍用一致 Cauchy 条件反证。取</p>
+            <div class="math-block">\[
+            x_N=\frac1{\sqrt N}.
+            \]</div>
+            <p>则 \(x_N^2=1/N\)，并且当 \(N\le n\le2N\) 时，\((1+1/N)^n\le(1+1/N)^{2N}\)。于是尾段满足</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{2N}\frac{x_N^2}{(1+x_N^2)^n}
+            =\frac1N\sum_{n=N}^{2N}\left(1+\frac1N\right)^{-n}
+            \ge\frac{N+1}{N}\left(1+\frac1N\right)^{-2N}.
+            \]</div>
+            <p>右端趋于 \(e^{-2}&gt;0\)，所以尾段不能一致趋于 \(0\)，一致 Cauchy 条件不成立。因此该级数不一致收敛。</p>
+
+            <p><strong>2.</strong> 设</p>
+            <div class="math-block">\[
+            s_n=\sum_{k=1}^n a_k,\qquad s_n\to S.
+            \]</div>
+            <p>先说明对每个固定 \(x&gt;0\)，级数 \(\sum a_n/n^x\) 收敛。因为 \((s_n)\) 有界，而 \(n^{-x}\) 单调趋于 \(0\)，由 Dirichlet 判别法收敛。</p>
+            <p>再看 \(x\to0+\) 的极限。有限 Abel 分部求和给出</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{N}a_n n^{-x}
+            =s_NN^{-x}+\sum_{n=1}^{N-1}s_n\bigl(n^{-x}-(n+1)^{-x}\bigr).
+            \]</div>
+            <p>令 \(N\to\infty\)，因 \(s_N\) 有界且 \(N^{-x}\to0\)，得到</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac{a_n}{n^x}
+            =\sum_{n=1}^{\infty}s_n\bigl(n^{-x}-(n+1)^{-x}\bigr),\qquad x&gt;0.
+            \]</div>
+            <p>为了严谨说明它趋于 \(S\)，任取 \(\varepsilon&gt;0\)，先取 \(N_0\) 使 \(n\ge N_0\) 时 \(|s_n-S|&lt;\varepsilon\)。于是尾部由正系数控制：</p>
+            <div class="math-block">\[
+            \left|\sum_{n=N_0}^{\infty}(s_n-S)\bigl(n^{-x}-(n+1)^{-x}\bigr)\right|
+            \le \varepsilon.
+            \]</div>
+            <p>前面有限项中，每个固定的 \(n\) 都有 \(n^{-x}-(n+1)^{-x}\to0\)，所以有限项在 \(x\to0+\) 时趋于 \(0\)。因此</p>
+            <div class="math-block">\[
+            \lim_{x\to0+}\sum_{n=1}^{\infty}\frac{a_n}{n^x}=\sum_{n=1}^{\infty}a_n.
+            \]</div>
+
+            <p><strong>3.</strong> 原级数为 \(\sum (1-x)(-x)^n\)。先证明它一致收敛。对 \(0\le x\le1\)，从第 \(N\) 项开始的余项可按等比级数估计：</p>
+            <div class="math-block">\[
+            \left|(1-x)\sum_{n=N}^{\infty}(-x)^n\right|
+            \le (1-x)\sum_{n=N}^{\infty}x^n
+            =x^N,\qquad 0\le x&lt;1.
+            \]</div>
+            <p>这个估计本身还不够，因为 \(\sup x^N=1\)。要利用交错结构：对固定 \(x\)，交错级数余项满足首项控制，所以</p>
+            <div class="math-block">\[
+            \left|(1-x)\sum_{n=N}^{\infty}(-x)^n\right|\le (1-x)x^N.
+            \]</div>
+            <p>而</p>
+            <div class="math-block">\[
+            \sup_{0\le x\le1}(1-x)x^N
+            =\frac1{N+1}\left(\frac{N}{N+1}\right)^N\le\frac1{N+1}\to0.
+            \]</div>
+            <p>所以原级数一致收敛。</p>
+            <p>再说明它不是绝对一致收敛。绝对值级数是</p>
+            <div class="math-block">\[
+            \sum_{n=0}^{\infty}(1-x)x^n.
+            \]</div>
+            <p>若它一致收敛，则任意尾段应一致趋于 \(0\)。取 \(x_N=1-1/N\)，则</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{2N}(1-x_N)x_N^n
+            =\frac1N\sum_{n=N}^{2N}\left(1-\frac1N\right)^n
+            \]</div>
+            <p>当 \(N\le n\le2N\) 时，\((1-1/N)^n\ge(1-1/N)^{2N}\)，故</p>
+            <div class="math-block">\[
+            \frac1N\sum_{n=N}^{2N}\left(1-\frac1N\right)^n
+            \ge \frac{N+1}{N}\left(1-\frac1N\right)^{2N}\to e^{-2}.
+            \]</div>
+            <p>因此绝对值级数不满足一致 Cauchy 条件，原级数不是绝对一致收敛。</p>
+
+            <p><strong>4.</strong> (1) 对 \(\sum (x+1/n)^n\)，先看任意闭子区间 \([-r,r]\subset(-1,1)\)。取 \(r&lt;\rho&lt;1\)，当 \(n\) 足够大时有</p>
+            <div class="math-block">\[
+            |x+1/n|\le \rho,\qquad x\in[-r,r].
+            \]</div>
+            <p>于是</p>
+            <div class="math-block">\[
+            |(x+1/n)^n|\le \rho^n,
+            \]</div>
+            <p>右端几何级数收敛，所以由 Weierstrass 判别法，原级数在每个 \([-r,r]\) 上一致收敛。它在整个 \((-1,1)\) 上不一致收敛，因为一致收敛的必要条件是通项一致趋于 \(0\)。取</p>
+            <div class="math-block">\[
+            x_n=1-\frac1n,
+            \]</div>
+            <p>则 \(x_n\in(-1,1)\)，且</p>
+            <div class="math-block">\[
+            \left(x_n+\frac1n\right)^n=1.
+            \]</div>
+            <p>所以通项不一致趋于 \(0\)，整个 \((-1,1)\) 上不一致收敛。和函数的连续性仍然成立：任取 \(x_0\in(-1,1)\)，可取 \(r\) 使 \(x_0\in(-r,r)\subset(-1,1)\)。上面已经证明级数在 \([-r,r]\) 上一致收敛，而每一项 \((x+1/n)^n\) 连续，所以一致极限在 \([-r,r]\) 上连续，特别地在 \(x_0\) 处连续。由于 \(x_0\) 任意，和函数在 \((-1,1)\) 上连续。</p>
+
+            <p>(2) 把级数拆成两部分：</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac{x+n(-1)^n}{x^2+n^2}
+            =
+            \sum_{n=1}^{\infty}\frac{x}{x^2+n^2}
+            +
+            \sum_{n=1}^{\infty}(-1)^n\frac{n}{x^2+n^2}.
+            \]</div>
+            <p>在任意有界闭区间 \([-A,A]\) 上，第一部分由 \(|x|/(x^2+n^2)\le A/n^2\) 控制，所以一致收敛。第二部分中，对 \(n>A\) 有 \(n/(x^2+n^2)\) 随 \(n\) 单调趋于 \(0\)，且</p>
+            <div class="math-block">\[
+            \sup_{|x|\le A}\frac{n}{x^2+n^2}\le\frac1n\to0.
+            \]</div>
+            <p>因此由一致 Leibniz 判别法，第二部分在 \([-A,A]\) 上一致收敛。所以原级数在每个有界闭区间上一致收敛。</p>
+            <p>由此可得和函数在 \(\mathbb R\) 上连续：任取 \(x_0\in\mathbb R\)，选 \(A&gt;|x_0|+1\)，则 \(x_0\) 的一个邻域包含在 \([-A,A]\) 中；级数在 \([-A,A]\) 上一致收敛，且每一项都是连续函数，所以和函数在该邻域连续，特别地在 \(x_0\) 处连续。</p>
+            <p>但在整个 \(\mathbb R\) 上不一致收敛。取 \(x=N\)，正项部分尾段有</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{2N}\frac{N}{N^2+n^2}
+            \ge (N+1)\frac{N}{N^2+(2N)^2}
+            \ge \frac15.
+            \]</div>
+            <p>交错部分</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{2N}(-1)^n\frac{n}{N^2+n^2}
+            \]</div>
+            <p>中，数列 \(n/(N^2+n^2)\) 从 \(n=N\) 起递减，故由 Leibniz 余项估计，绝对值至多为首项：</p>
+            <div class="math-block">\[
+            \left|\sum_{n=N}^{2N}(-1)^n\frac{n}{N^2+n^2}\right|
+            \le \frac{N}{N^2+N^2}=\frac1{2N}.
+            \]</div>
+            <p>因此整个尾段至少为 \(1/5-1/(2N)\)，不能一致趋于 \(0\)，所以在 \(\mathbb R\) 上不一致收敛。</p>
+
+            <p><strong>6.</strong> 对</p>
+            <div class="math-block">\[
+            f_n(x)=nx(1-x)^n,\qquad 0\le x\le1,
+            \]</div>
+            <p>每个固定 \(x\) 上都有 \(f_n(x)\to0\)：端点显然为 \(0\)，内部 \(0&lt;x&lt;1\) 时指数因子 \((1-x)^n\) 压过线性因子 \(n\)。但一致收敛要看最大值。求导得</p>
+            <div class="math-block">\[
+            f_n'(x)=n(1-x)^n-n^2x(1-x)^{n-1}
+            =n(1-x)^{n-1}\bigl(1-(n+1)x\bigr).
+            \]</div>
+            <p>最大值点为 \(x=1/(n+1)\)，所以</p>
+            <div class="math-block">\[
+            \max_{0\le x\le1}nx(1-x)^n
+            =\frac{n}{n+1}\left(\frac{n}{n+1}\right)^n\to e^{-1},
+            \]</div>
+            <p>最大误差不趋于 \(0\)，所以 \(f_n\) 不一致收敛到 \(0\)。另一方面，积分可以直接算：</p>
+            <div class="math-block">\[
+            \int_0^1 nx(1-x)^n\,dx=\frac{n}{(n+1)(n+2)}\to0,
+            \]</div>
+            <p>而 \(\int_0^1\lim f_n(x)\,dx=0\)，故本题虽然不一致收敛，仍有 \(\int\lim f_n=\lim\int f_n=0\)。这说明“可交换极限与积分”不必然推出一致收敛。</p>
+
+            <p><strong>8.</strong> 要证明一致极限仍一致连续。给定 \(\varepsilon&gt;0\)，由 \(f_n\rightrightarrows f\)，取 \(N\) 使</p>
+            <div class="math-block">\[
+            |f(x)-f_N(x)|&lt;\frac{\varepsilon}{3},\qquad x\in E.
+            \]</div>
+            <p>因为 \(f_N\) 一致连续，存在 \(\delta&gt;0\)，使得 \(|x-y|&lt;\delta\) 时</p>
+            <div class="math-block">\[
+            |f_N(x)-f_N(y)|&lt;\frac{\varepsilon}{3}.
+            \]</div>
+            <p>于是</p>
+            <div class="math-block">\[
+            |f(x)-f(y)|\le |f-f_N|(x)+|f_N(x)-f_N(y)|+|f_N-f|(y)&lt;\varepsilon.
+            \]</div>
+            <p>这个 \(\delta\) 与点 \(x,y\) 无关，所以 \(f\) 一致连续。</p>
+
+            <p><strong>9.</strong> 对 \(\sum (-1)^n/n^x\)，每个固定 \(x&gt;0\) 时，\(1/n^x\downarrow0\)，所以由 Leibniz 判别法收敛。它在整个 \((0,+\infty)\) 上不一致收敛，因为一致收敛的必要条件是通项一致趋于 \(0\)，但</p>
+            <div class="math-block">\[
+            \sup_{x&gt;0}\frac1{n^x}=1.
+            \]</div>
+            <p>在任意闭区间 \([a,b]\subset(0,+\infty)\) 上，情况不同。因为</p>
+            <div class="math-block">\[
+            \sup_{x\in[a,b]}\frac1{n^x}=\frac1{n^a}\to0,
+            \]</div>
+            <p>且对每个 \(x\) 单调递减，于是原级数在 \([a,b]\) 上一致收敛。若要逐项求导，第 \(k\) 阶导数级数形如</p>
+            <div class="math-block">\[
+            \sum (-1)^n\frac{(-\ln n)^k}{n^x}
+            \]</div>
+            <p>在 \([a,b]\) 上可用一致 Dirichlet 判别法处理：\(\sum_{n=1}^{N}(-1)^n\) 部分和有界，而 \((\ln n)^k/n^x\) 在 \(x\in[a,b]\) 上由 \((\ln n)^k/n^a\) 控制并趋于 \(0\)，且从某项起关于 \(n\) 单调下降。因此各阶导数级数局部一致收敛，和函数在 \((0,+\infty)\) 内连续且任意阶可导。</p>
+
+            <p><strong>10.</strong> 对</p>
+            <div class="math-block">\[
+            f(x)=\sum_{n=2}^{\infty}\frac1{n(\ln n)^x},
+            \]</div>
+            <p>由积分判别法，\(\sum 1/[n(\ln n)^x]\) 当且仅当 \(x&gt;1\) 收敛，所以定义域为</p>
+            <div class="math-block">\[
+            D=(1,+\infty).
+            \]</div>
+            <p>它在整个 \(D\) 上不一致收敛。直观原因是 \(x\) 可以任意接近临界值 \(1\)。令</p>
+            <div class="math-block">\[
+            x_N=1+\frac1{\ln\ln N}.
+            \]</div>
+            <p>则 \(x_N\downarrow1\)。取从 \(N\) 到 \(N^2\) 的尾段。因 \(1/[t(\ln t)^{x_N}]\) 递减，</p>
+            <div class="math-block">\[
+            \sum_{n=N}^{N^2}\frac1{n(\ln n)^{x_N}}
+            \ge \int_N^{N^2}\frac{dt}{t(\ln t)^{x_N}}.
+            \]</div>
+            <p>令 \(A=\ln N,\ L=\ln A\)，并作代换 \(u=\ln t\)，则右端为</p>
+            <div class="math-block">\[
+            \int_A^{2A}u^{-1-1/L}\,du
+            =L\left(A^{-1/L}-(2A)^{-1/L}\right)
+            =Le^{-1}\left(1-2^{-1/L}\right)
+            \to e^{-1}\ln2&gt;0.
+            \]</div>
+            <p>所以尾段不能一致变小，一致 Cauchy 条件失败。另一方面，对任意 \(\delta&gt;0\)，在 \([1+\delta,+\infty)\) 上有</p>
+            <div class="math-block">\[
+            0\le \frac1{n(\ln n)^x}\le\frac1{n(\ln n)^{1+\delta}},
+            \]</div>
+            <p>右端级数收敛，所以由 Weierstrass 判别法，在 \([1+\delta,+\infty)\) 上一致收敛。</p>
+
+            <p><strong>11.</strong> 对固定 \(x&gt;0\)，令 \(q=e^{-x^2}\in(0,1)\)，则</p>
+            <div class="math-block">\[
+            \sqrt n\,x e^{-nx^2}=x\sqrt n\,q^n,
+            \]</div>
+            <p>所以级数收敛。但在整个 \((0,+\infty)\) 上不一致收敛，因为通项没有一致趋于 \(0\)。对单项函数</p>
+            <div class="math-block">\[
+            u_n(x)=\sqrt n\,x e^{-nx^2},
+            \]</div>
+            <p>求最大值。令 \(y=\sqrt n\,x\)，则</p>
+            <div class="math-block">\[
+            u_n(x)=y e^{-y^2}.
+            \]</div>
+            <p>最大值在 \(y=1/\sqrt2\) 处取得，于是</p>
+            <div class="math-block">\[
+            \max_{x&gt;0}\sqrt n\,x e^{-nx^2}=\frac{e^{-1/2}}{\sqrt2},
+            \]</div>
+            <p>这不趋于 \(0\)，故在 \((0,+\infty)\) 上不一致收敛。任意闭区间 \([a,b]\subset(0,+\infty)\) 上，有 \(e^{-nx^2}\le e^{-na^2}\)，从而</p>
+            <div class="math-block">\[
+            \sqrt n\,x e^{-nx^2}\le b\sqrt n\,e^{-na^2},
+            \]</div>
+            <p>右端可和，因此局部一致收敛。对导数级数同理仍有指数控制，所以和函数连续，且可逐项求导。</p>
+
+            <p><strong>12.</strong> 因 \(f\) 在 \([a,b]\) 上连续且无零点，极小值存在并且为正：</p>
+            <div class="math-block">\[
+            m=\min_{[a,b]}|f(x)|&gt;0.
+            \]</div>
+            <p>由 \(f_n\rightrightarrows f\)，当 \(n\) 足够大时</p>
+            <div class="math-block">\[
+            \|f_n-f\|_\infty&lt;\frac m2.
+            \]</div>
+            <p>于是对所有 \(x\in[a,b]\)，</p>
+            <div class="math-block">\[
+            |f_n(x)|\ge |f(x)|-|f_n(x)-f(x)|\ge m-\frac m2=\frac m2.
+            \]</div>
+            <p>所以 \(f_n\) 从某项起无零点。并且</p>
+            <div class="math-block">\[
+            \left|\frac1{f_n}-\frac1f\right|
+            \le \frac{|f_n-f|}{|f_n||f|}
+            \le \frac{2}{m^2}\|f_n-f\|_\infty\to0.
+            \]</div>
+            <p>右端与 \(x\) 无关，所以 \(1/f_n\rightrightarrows1/f\)。</p>
+
+            <p><strong>14.</strong> 这里要用“局部一致收敛允许极限与求和交换”。在 \(x=1\) 附近，令 \(x\in[1-\eta,1+\eta]\) 且 \(\eta\) 足够小，则分母 \(1+2x\) 远离 \(0\)，并且</p>
+            <div class="math-block">\[
+            \left|\frac{x}{1+2x}\right|\le r&lt;1.
+            \]</div>
+            <p>所以相应级数由几何级数 \(\sum r^n\) 控制，在该邻域一致收敛。因此可以把 \(x\to1\) 放进求和号：</p>
+            <div class="math-block">\[
+            \lim_{x\to1}f(x)=\sum_{n=1}^{\infty}\frac{(-1)^n}{3^n}=-\frac14.
+            \]</div>
+            <p>当 \(x\to+\infty\) 时，每一项的底数趋于 \(1/2\)。为了逐项取极限，需要一个对大 \(x\) 统一的控制。若 \(x\ge1\)，则</p>
+            <div class="math-block">\[
+            0&lt;\frac{x}{1+2x}&lt;\frac12.
+            \]</div>
+            <p>所以尾部由收敛的几何级数 \(\sum(1/2)^n\) 控制，可逐项取极限，得到</p>
+            <div class="math-block">\[
+            \lim_{x\to+\infty}f(x)=\sum_{n=1}^{\infty}\left(\frac12\right)^n=1.
+            \]</div>
+
+            <p><strong>16.</strong> 记</p>
+            <div class="math-block">\[
+            g_n(x)=f^{(n)}(x).
+            \]</div>
+            <p>题设给出相邻两阶导数的差有统一估计：</p>
+            <div class="math-block">\[
+            |g_n(x)-g_{n-1}(x)|\le \frac1{n^2}
+            \]</div>
+            <p>且 \(\sum1/n^2\) 收敛。因此由 Weierstrass 判别法，级数</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}(g_n-g_{n-1})
+            \]</div>
+            <p>在 \(\mathbb R\) 上一致收敛。它的部分和是望远镜形式：</p>
+            <div class="math-block">\[
+            \sum_{k=1}^{n}(g_k-g_{k-1})=g_n-g_0.
+            \]</div>
+            <p>所以 \(g_n\) 在 \(\mathbb R\) 上一致收敛于某个函数 \(F\)。又因为 \(g_n'=g_{n+1}\)，而 \(g_{n+1}\) 与 \(g_n\) 有同一个一致极限 \(F\)，由逐项求导定理，极限函数满足</p>
+            <div class="math-block">\[
+            F'(x)=\lim_{n\to\infty}g_n'(x)=\lim_{n\to\infty}g_{n+1}(x)=F(x).
+            \]</div>
+            <p>解微分方程 \(F'=F\)，得</p>
+            <div class="math-block">\[
+            F(x)=ce^x.
+            \]</div>
+            <p>因此 \(\{f^{(n)}(x)\}\) 在 \(\mathbb R\) 上一致收敛于 \(ce^x\)，其中 \(c\) 为常数。</p>
+          </section>
+
+          <section id="p237" class="exam-card">
+            <h2>p237：练习题 14.3</h2>
+            <p><strong>4（单）.</strong> 和函数如下：</p>
+            <div class="math-block">\[
+            \begin{gathered}
+            (1)\quad \sum_{n=1}^{\infty}\frac{x^{2n}}n=-\ln(1-x^2),\quad |x|&lt;1;\\
+            (3)\quad \sum_{n=1}^{\infty}\frac{x^n}{n(n+1)}
+            =1+\left(\frac1x-1\right)\ln(1-x),\quad -1\le x\le1;\\
+            (5)\quad \sum_{n=1}^{\infty}(-1)^{n-1}n^2x^n
+            =\frac{x(1-x)}{(1+x)^3},\quad |x|&lt;1;\\
+            (7)\quad \sum_{n=0}^{\infty}\frac{x^{4n+1}}{4n+1}
+            =\frac14\ln\frac{1+x}{1-x}+\frac12\arctan x,\quad |x|&lt;1;\\
+            (9)\quad \sum_{n=1}^{\infty}(-1)^{n-1}n^2x^n
+            =\frac{x(1-x)}{(1+x)^3},\quad |x|&lt;1.
+            \end{gathered}
+            \]</div>
+
+            <p><strong>5（单）.</strong> 代入基本幂级数求和公式，得</p>
+            <div class="math-block">\[
+            (1)\ \sum_{n=1}^{\infty}(-1)^{n-1}\frac n{2^n}=\frac29,\qquad
+            (3)\ \sum_{n=1}^{\infty}\frac{n(n+2)}{2^{2(n+1)}}=\frac{11}{27},
+            \]</div>
+            <div class="math-block">\[
+            (5)\ \sum_{n=0}^{\infty}\frac{(n+1)^2}{n!}=5e.
+            \]</div>
+
+            <p><strong>6.</strong> (1) \(y=\sum x^{4n}/(4n)!\) 是整函数，可逐项求导四次；指标平移后 \(y^{(4)}=y\)。</p>
+            <p>(2) 设 \(y=\sum a_nx^n,\ a_n=1/(n!)^2\)。则</p>
+            <div class="math-block">\[
+            xy''+y'=\sum_{n=1}^{\infty}n^2a_nx^{n-1}
+            =\sum_{m=0}^{\infty}\frac{x^m}{(m!)^2}=y,
+            \]</div>
+            <p>故 \(xy''+y'-y=0\)。</p>
+          </section>
+
+          <section id="p251" class="exam-card">
+            <h2>p251-p252：练习题 14.4</h2>
+            <p><strong>2.</strong> 麦克劳林展开为</p>
+            <div class="math-block">\[
+            (1)\quad \int_0^x\frac{\sin t}{t}\,dt
+            =\sum_{n=0}^{\infty}\frac{(-1)^nx^{2n+1}}{(2n+1)(2n+1)!},
+            \]</div>
+            <div class="math-block">\[
+            (2)\quad \int_0^x e^{-t^2}\,dt
+            =\sum_{n=0}^{\infty}\frac{(-1)^nx^{2n+1}}{n!(2n+1)}.
+            \]</div>
+            <p>两式的收敛半径均为 \(+\infty\)。</p>
+
+            <p><strong>3.</strong> 因</p>
+            <div class="math-block">\[
+            \tan(2\arctan x)=\frac{2x}{1-x^2},
+            \]</div>
+            <p>故在 \(x=0\) 附近</p>
+            <div class="math-block">\[
+            \arctan\frac{2x}{1-x^2}
+            =2\arctan x
+            =2\sum_{n=0}^{\infty}\frac{(-1)^nx^{2n+1}}{2n+1},\quad |x|&lt;1.
+            \]</div>
+            <p>令 \(x\to1-\)，得</p>
+            <div class="math-block">\[
+            \sum_{n=0}^{\infty}\frac{(-1)^n}{2n+1}=\frac{\pi}{4}.
+            \]</div>
+
+            <p><strong>4.</strong> 由</p>
+            <div class="math-block">\[
+            \frac1{1-x-x^2}=\sum_{n=0}^{\infty}a_nx^n
+            \]</div>
+            <p>得 \(a_0=a_1=1,\ a_{n+2}=a_{n+1}+a_n\)，即 Fibonacci 型增长，所以 \(\sum1/a_n\) 收敛。又</p>
+            <div class="math-block">\[
+            \frac{a_{n+1}}{a_na_{n+2}}=\frac1{a_n}-\frac1{a_{n+2}},
+            \]</div>
+            <p>故</p>
+            <div class="math-block">\[
+            \sum_{n=0}^{\infty}\frac{a_{n+1}}{a_na_{n+2}}
+            =\frac1{a_0}+\frac1{a_1}=2.
+            \]</div>
+
+            <p><strong>5.</strong> 这是 \(\arcsin y\) 的展开，取 \(y=\sin x\)：</p>
+            <div class="math-block">\[
+            \arcsin y=y+\sum_{n=1}^{\infty}\frac{(2n-1)!!}{(2n)!!}\frac{y^{2n+1}}{2n+1}.
+            \]</div>
+            <p>该级数在 \(0\le y\le1\) 一致收敛，所以在 \(0\le x\le\pi/2\) 上和函数为 \(x\)。另外由 Parseval 公式可得</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac1{(2n-1)^2}=\frac{\pi^2}{8},\qquad
+            \sum_{n=1}^{\infty}\frac1{n^2}=\frac{\pi^2}{6}.
+            \]</div>
+
+            <p><strong>6.</strong> 设 \(y=\sum a_nx^n\)，代入 \(y''-xy'+y=0\)，得递推</p>
+            <div class="math-block">\[
+            a_{n+2}=\frac{n-1}{(n+2)(n+1)}a_n,\qquad n=0,1,2,\ldots
+            \]</div>
+            <p>因此一组幂级数解为</p>
+            <div class="math-block">\[
+            y=C_1x+C_2\left(1-\frac{x^2}{2}-\frac{x^4}{24}-\frac{x^6}{240}-\cdots\right),
+            \]</div>
+            <p>其中偶次系数继续由上式递推。</p>
+
+            <p><strong>7.</strong> Stirling 公式给出</p>
+            <div class="math-block">\[
+            n!\sim \sqrt{2\pi n}\left(\frac ne\right)^n.
+            \]</div>
+            <p>于是</p>
+            <div class="math-block">\[
+            \lim_{n\to\infty}\sqrt[n^2]{n!}=1,\qquad
+            \ln(n!)=n\ln n-n+O(\ln n)\sim n\ln n.
+            \]</div>
+            <p>并且 \(\ln(n!)\sim n\ln n\)，故</p>
+            <div class="math-block">\[
+            \sum_{n=2}^{\infty}\frac1{\ln(n!)}
+            \sim \sum_{n=2}^{\infty}\frac1{n\ln n}
+            \]</div>
+            <p>发散。</p>
+          </section>
+
+          <section id="p262" class="exam-card">
+            <h2>p262-p263：练习题 15.1</h2>
+            <p><strong>1.</strong> 在 \([-\pi,\pi]\) 上：</p>
+            <div class="math-block">\[
+            (1)\quad x\sim 2\sum_{n=1}^{\infty}(-1)^{n+1}\frac{\sin nx}{n}.
+            \]</div>
+            <div class="math-block">\[
+            (3)\quad \frac{x^2}{2}-\pi
+            \sim \frac{\pi^2}{6}-\pi
+            +2\sum_{n=1}^{\infty}(-1)^n\frac{\cos nx}{n^2}.
+            \]</div>
+
+            <p><strong>2.</strong> 半区间正弦、余弦系数如下。(1) 对 \(f(x)=1\)：</p>
+            <div class="math-block">\[
+            1\sim \frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin(2k+1)x}{2k+1}\quad(0&lt;x&lt;\pi),
+            \]</div>
+            <p>余弦级数只有常数项 \(1\)。</p>
+            <p>(3) 对 \(f(x)=\sin ax,\ a\notin\mathbb Z\)：</p>
+            <div class="math-block">\[
+            \sin ax\sim \frac{1-\cos\pi a}{\pi a}
+            +\sum_{n=1}^{\infty}
+            \frac{2a\bigl((-1)^n\cos\pi a-1\bigr)}{\pi(n^2-a^2)}\cos nx,
+            \]</div>
+            <div class="math-block">\[
+            \sin ax\sim
+            \sum_{n=1}^{\infty}
+            \frac{2(-1)^n n\sin\pi a}{\pi(a^2-n^2)}\sin nx.
+            \]</div>
+
+            <p><strong>3.</strong> 若 \(f(x+\pi)=f(x)\)，则把 Fourier 系数积分分成长度为 \(\pi\) 的两段并作平移，奇数频率项相互抵消，故</p>
+            <div class="math-block">\[
+            a_{2n-1}=b_{2n-1}=0.
+            \]</div>
+            <p>若 \(f(x+\pi)=-f(x)\)，同理偶数频率项相互抵消，故</p>
+            <div class="math-block">\[
+            a_{2n}=b_{2n}=0.
+            \]</div>
+          </section>
+
+          <section id="p274" class="exam-card">
+            <h2>p274-p275：练习题 15.2</h2>
+            <p><strong>1.</strong> 令 \(\lambda_n=(2n+1)/2\)，则</p>
+            <div class="math-block">\[
+            \int_0^\pi\frac1x\sin\frac{2n+1}{2}x\,dx
+            =\int_0^{\lambda_n\pi}\frac{\sin t}{t}\,dt
+            \to\int_0^\infty\frac{\sin t}{t}\,dt=\frac{\pi}{2}.
+            \]</div>
+
+            <p><strong>3.</strong> \(e^x\) 的 \(2\pi\)-周期 Fourier 级数为</p>
+            <div class="math-block">\[
+            e^x\sim \frac{\sinh\pi}{\pi}
+            +\frac{2\sinh\pi}{\pi}
+            \sum_{n=1}^{\infty}\frac{(-1)^n(\cos nx-n\sin nx)}{1+n^2}.
+            \]</div>
+            <p>在跳点 \(x=\pm\pi\) 处和函数取左右极限平均 \(\cosh\pi\)。令 \(x=\pi\)，得</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac1{1+n^2}
+            =\frac{\pi\coth\pi-1}{2}.
+            \]</div>
+
+            <p><strong>4.</strong> 对 \(f(x)=(\pi-x)/2,\ 0&lt;x&lt;2\pi\)，有</p>
+            <div class="math-block">\[
+            \frac{\pi-x}{2}\sim \sum_{n=1}^{\infty}\frac{\sin nx}{n},\qquad 0&lt;x&lt;2\pi.
+            \]</div>
+            <p>取 \(x=\pi/2\)，得</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac{(-1)^{n-1}}{2n-1}=\frac{\pi}{4}.
+            \]</div>
+
+            <p><strong>6.</strong> (1) 对区间 \([0,l]\) 上的三角波，按周期 \(l\) 展开：</p>
+            <div class="math-block">\[
+            f(x)\sim \frac l4-\frac{2l}{\pi^2}\sum_{k=0}^{\infty}
+            \frac{\cos\frac{2(2k+1)\pi x}{l}}{(2k+1)^2}.
+            \]</div>
+            <p>(2) 对 \(f(x)=x+|x|\) 于 \([-l,l]\)：</p>
+            <div class="math-block">\[
+            f(x)\sim \frac l2+\sum_{n=1}^{\infty}
+            \frac{2l\bigl((-1)^n-1\bigr)}{n^2\pi^2}\cos\frac{n\pi x}{l}
+            +\sum_{n=1}^{\infty}\frac{2l(-1)^{n+1}}{n\pi}\sin\frac{n\pi x}{l}.
+            \]</div>
+            <p>(3) 对 \(f(x)=x\cos x\) 于 \([-\pi/2,\pi/2]\)：</p>
+            <div class="math-block">\[
+            f(x)\sim \sum_{n=1}^{\infty}
+            \frac{16(-1)^{n+1}n}{\pi(4n^2-1)^2}\sin 2nx.
+            \]</div>
+            <p>(4) 对 \(f(x)=e^{2x}\) 于 \([0,1]\)、\(f(x)=0\) 于 \([-1,0)\)，按周期 2 展开：</p>
+            <div class="math-block">\[
+            f(x)\sim \frac{e^2-1}{4}
+            +\sum_{n=1}^{\infty}\frac{2((-1)^ne^2-1)}{\pi^2n^2+4}\cos n\pi x
+            +\sum_{n=1}^{\infty}\frac{\pi n((-1)^{n+1}e^2+1)}{\pi^2n^2+4}\sin n\pi x.
+            \]</div>
+            <p>以上和函数均为相应周期延拓在连续点处的函数值，在跳跃点处取左右极限平均。例如 (2) 在端点取 \(l\)，(4) 在 \(x=0\) 取 \(1/2\)，在周期端点取 \(e^2/2\)。</p>
+          </section>
+
+          <section id="p286" class="exam-card">
+            <h2>p286：练习题 15.3</h2>
+            <p><strong>2.</strong> 由</p>
+            <div class="math-block">\[
+            x=2\sum_{n=1}^{\infty}(-1)^{n+1}\frac{\sin nx}{n}
+            \]</div>
+            <p>逐项积分并整理得</p>
+            <div class="math-block">\[
+            x^2=\frac{\pi^2}{3}+4\sum_{n=1}^{\infty}(-1)^n\frac{\cos nx}{n^2},
+            \]</div>
+            <div class="math-block">\[
+            x^3=\sum_{n=1}^{\infty}(-1)^{n+1}
+            \left(\frac{2\pi^2}{n}-\frac{12}{n^3}\right)\sin nx,
+            \]</div>
+            <div class="math-block">\[
+            x^4=\frac{\pi^4}{5}
+            +8\sum_{n=1}^{\infty}(-1)^n
+            \left(\frac{\pi^2}{n^2}-\frac6{n^4}\right)\cos nx.
+            \]</div>
+            <p>取特殊点得到</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n^4}=\frac{7\pi^4}{720},\qquad
+            \sum_{n=1}^{\infty}\frac1{n^4}=\frac{\pi^4}{90}.
+            \]</div>
+
+            <p><strong>3.</strong> 该函数为偶函数，且</p>
+            <div class="math-block">\[
+            a_0=\frac2\pi,\qquad
+            a_n=\frac{2\sin^2n}{\pi n^2},\qquad b_n=0.
+            \]</div>
+            <p>故</p>
+            <div class="math-block">\[
+            f(x)\sim \frac1\pi+\sum_{n=1}^{\infty}\frac{2\sin^2n}{\pi n^2}\cos nx.
+            \]</div>
+            <p>取 \(x=0\)，再用 \(\sum1/n^2=\pi^2/6\)，得</p>
+            <div class="math-block">\[
+            \sum_{n=1}^{\infty}\frac{\sin^2n}{n^2}=\frac{\pi-1}{2},\qquad
+            \sum_{n=1}^{\infty}\frac{\cos^2n}{n^2}
+            =\frac{\pi^2}{6}-\frac{\pi-1}{2}.
+            \]</div>
+
+            <p><strong>4.</strong> 若 Fourier 级数在 \([-\pi,\pi]\) 上一致收敛于 \(f\)，则可逐项平方积分；由三角系的正交性，交叉项为 0，且</p>
+            <div class="math-block">\[
+            \frac1\pi\int_{-\pi}^{\pi}f^2(x)\,dx
+            =\frac{a_0^2}{2}+\sum_{n=1}^{\infty}(a_n^2+b_n^2).
+            \]</div>
+
+            <p><strong>5.</strong> 对 \(f+g\) 和 \(f-g\) 分别使用 Parseval 等式再相减，即得</p>
+            <div class="math-block">\[
+            \frac1\pi\int_{-\pi}^{\pi}f(x)g(x)\,dx
+            =\frac{a_0\alpha_0}{2}
+            +\sum_{n=1}^{\infty}(a_n\alpha_n+b_n\beta_n).
+            \]</div>
+
+            <p><strong>7.</strong> 分部积分得</p>
+            <div class="math-block">\[
+            na_n=-\frac1\pi\int_0^{2\pi}f'(x)\sin nx\,dx\to0,
+            \]</div>
+            <div class="math-block">\[
+            nb_n=\frac{f(0)-f(2\pi)}{\pi}
+            +\frac1\pi\int_0^{2\pi}f'(x)\cos nx\,dx
+            \to \frac{f(0)-f(2\pi)}{\pi}.
+            \]</div>
+            <p>同时由 Riemann-Lebesgue 引理 \(a_n\to0,\ b_n\to0\)。</p>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <aside class="update-widget" aria-label="Site update time">
+      <span>Updated</span>
+      <time data-field="last-updated" datetime="">Loading...</time>
+    </aside>
+
+    <script src="script.js"></script>
+    <script>
+      window.addEventListener("load", () => {
+        if (window.typesetMath) window.typesetMath(document.body);
+      });
+    </script>
+  </body>
+</html>

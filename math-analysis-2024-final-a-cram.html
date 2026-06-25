@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>数学分析 II A 卷考前抱佛脚复习 - Ruka</title>
+    <meta name="description" content="根据 2024 年数学分析 II 期终 A 卷整理的临考压缩复习页。">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [["\\(", "\\)"]],
+          displayMath: [["\\[", "\\]"]]
+        },
+        svg: {
+          fontCache: "global"
+        },
+        startup: {
+          typeset: false
+        }
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html#home" data-field="name">Ruka</a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="math.html">Math</a>
+        <a href="physics.html">Physics</a>
+        <a href="algorithm.html">Algorithm</a>
+        <a href="plan.html">Plan</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero exam-hero" aria-labelledby="cram-title">
+        <p class="domain" data-field="domain">ruka.us.ci</p>
+        <h1 id="cram-title">数学分析 II A 卷考前抱佛脚</h1>
+        <p class="tagline">按 2024-06-11 A 卷的考点与出题偏好压缩：少背散点，多背可套用的判别模板和计算模板。</p>
+      </section>
+
+      <section class="section exam-page cram-page" aria-label="Cram review">
+        <aside class="exam-toc" aria-label="目录">
+          <p class="eyebrow">Cram Map</p>
+          <ol>
+            <li><a href="#profile">卷面画像</a></li>
+            <li><a href="#priority">优先级</a></li>
+            <li><a href="#series">幂级数</a></li>
+            <li><a href="#uniform">一致收敛</a></li>
+            <li><a href="#fourier">Fourier</a></li>
+            <li><a href="#geometry">曲线曲面积分</a></li>
+            <li><a href="#operators">向量分析</a></li>
+            <li><a href="#drill">临考训练</a></li>
+            <li><a href="#last-hour">最后一小时</a></li>
+          </ol>
+        </aside>
+
+        <article class="exam-content">
+          <section id="profile" class="exam-card">
+            <h2>卷面画像</h2>
+            <p>这张卷子不是偏怪题，而是偏“经典工具的快速识别”。很多题只要识别到模板，计算量就会塌缩。</p>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>题号区间</th>
+                    <th>考点类型</th>
+                    <th>临考抓手</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1-5</td>
+                    <td>填空快算</td>
+                    <td>正弦级数、恒等式、Taylor 系数、球面对称性、空间圆几何。</td>
+                  </tr>
+                  <tr>
+                    <td>6-10</td>
+                    <td>选择题判别</td>
+                    <td>端点、收敛域、一致 Cauchy、局部一致不等于全局一致、Bessel 必要条件。</td>
+                  </tr>
+                  <tr>
+                    <td>11-12</td>
+                    <td>幂级数生产</td>
+                    <td>先找母函数，再求导或积分，端点单独判。</td>
+                  </tr>
+                  <tr>
+                    <td>13-14</td>
+                    <td>曲线曲面积分</td>
+                    <td>路径无关找势函数；曲面积分优先补面转 Gauss。</td>
+                  </tr>
+                  <tr>
+                    <td>15-17</td>
+                    <td>综合题</td>
+                    <td>上确界、Fourier 逐项积分、Gauss 公式、球壳分解。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>出题偏好可以压缩成一句话：先用定义判断性质，再用结构把计算降维。</p>
+          </section>
+
+          <section id="priority" class="exam-card">
+            <h2>临考优先级</h2>
+            <p>如果时间很紧，按下面顺序复习。不要平均用力。</p>
+            <ol class="cram-list">
+              <li><strong>第一优先级：一致收敛。</strong>这张卷子在选择题和大题里都反复考。要会用上确界、一致 Cauchy、坏点列、尾和下界。</li>
+              <li><strong>第二优先级：Fourier 级数。</strong>半区间正弦级数、端点平均值、逐项积分、Bessel 必要条件都出现了。</li>
+              <li><strong>第三优先级：Gauss 公式与球坐标。</strong>第 14、17 题都靠把曲面积分或体积分转成更自然的形式。</li>
+              <li><strong>第四优先级：幂级数模板。</strong>第 3、6、11、12 题都可以靠标准展开和端点判断解决。</li>
+            </ol>
+            <p>临考目标不是“把数学分析 II 全复习完”，而是把这张卷子的出题接口背熟：看到题面能立刻知道用哪个模板。</p>
+          </section>
+
+          <section id="series" class="exam-card">
+            <h2>幂级数：先母函数，后端点</h2>
+            <p>本卷喜欢把幂级数题做成“已有展开的变形”。先记住四个母函数：</p>
+            <div class="math-block">
+              \[
+              \frac1{1-x}=\sum_{n=0}^{\infty}x^n,\qquad |x|&lt;1.
+              \]
+            </div>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}nx^n=\frac{x}{(1-x)^2},\qquad
+              \sum_{n=1}^{\infty}\frac{x^n}{n}=-\ln(1-x).
+              \]
+            </div>
+            <div class="math-block">
+              \[
+              \arctan x=\sum_{n=0}^{\infty}(-1)^n\frac{x^{2n+1}}{2n+1},\qquad |x|\le1.
+              \]
+            </div>
+            <p>第 11 题就是拆成两个母函数：</p>
+            <div class="math-block">
+              \[
+              \sum_{n=1}^{\infty}\left(n+\frac1n\right)x^n
+              =
+              \frac{x}{(1-x)^2}-\ln(1-x).
+              \]
+            </div>
+            <p>第 12 题的关键是先求导，让复杂表达式变成简单级数：</p>
+            <div class="math-block">
+              \[
+              \left(x\arctan x-\frac12\ln(1+x^2)\right)'=\arctan x.
+              \]
+            </div>
+            <p>幂级数题的临考流程固定为三步：先求收敛半径，再在开区间内运算，最后端点单独检查。端点绝对不能靠开区间结论自动带过去。</p>
+          </section>
+
+          <section id="uniform" class="exam-card">
+            <h2>一致收敛：先看上确界</h2>
+            <p>函数列的一致收敛先翻译成上确界：</p>
+            <div class="math-block">
+              \[
+              f_n\rightrightarrows f\text{ on }E
+              \iff
+              \sup_{x\in E}|f_n(x)-f(x)|\to0.
+              \]
+            </div>
+            <p>第 15 题的核心就是求最大值。对</p>
+            <div class="math-block">
+              \[
+              g_n(x)=\frac{x\ln^p n}{n^x}=x\ln^p n\,e^{-x\ln n},
+              \]
+            </div>
+            <p>只需要最大化 \(xe^{-x\ln n}\)。令 \(L=\ln n\)，则</p>
+            <div class="math-block">
+              \[
+              h(x)=xe^{-Lx},\qquad h'(x)=e^{-Lx}(1-Lx).
+              \]
+            </div>
+            <p>最大点是 \(x=1/L\)，所以</p>
+            <div class="math-block">
+              \[
+              \sup_{x\ge0}g_n(x)=\frac1e(\ln n)^{p-1}.
+              \]
+            </div>
+            <p>因此第 15 题结论是</p>
+            <div class="math-block">
+              \[
+              g_n\rightrightarrows0\text{ on }[0,+\infty)
+              \iff p&lt;1.
+              \]
+            </div>
+            <p>函数项级数的一致收敛要换成一致 Cauchy 条件：</p>
+            <div class="math-block">
+              \[
+              \forall\varepsilon&gt;0,\ \exists N,\ q\ge p\ge N
+              \Longrightarrow
+              \sup_{x\in E}\left|\sum_{n=p}^{q}u_n(x)\right|&lt;\varepsilon.
+              \]
+            </div>
+            <p>证明不一致时，允许 \(x\) 跟着尾段变。典型坏点是 \(x_N=1/N\)，用来打破 \(\sum\sin nx/n\) 在开区间上的一致收敛。</p>
+            <div class="math-block">
+              \[
+              \sum_{n=N}^{2N}\frac{\sin(n/N)}{n}\ge c\sum_{n=N}^{2N}\frac1n\ge c\ln2.
+              \]
+            </div>
+            <p>证明一致时，优先看三类工具：Weierstrass 判别法、Dirichlet 判别法、Abel 变换。带交错因子的尾和通常要想到 Abel。</p>
+          </section>
+
+          <section id="fourier" class="exam-card">
+            <h2>Fourier：系数、端点、必要条件</h2>
+            <p>半区间正弦级数只背一个公式：</p>
+            <div class="math-block">
+              \[
+              f(x)\sim\sum_{n=1}^{\infty}b_n\sin nx,\qquad
+              b_n=\frac2\pi\int_0^\pi f(x)\sin nx\,dx.
+              \]
+            </div>
+            <p>它对应的是奇延拓，所以和函数在负半轴要反号；端点或跳跃点的值要取左右极限平均：</p>
+            <div class="math-block">
+              \[
+              S(x_0)=\frac{f(x_0+0)+f(x_0-0)}2.
+              \]
+            </div>
+            <p>第 16 题的核心是从已知 \(x^2\) 的 Fourier 级数出发，先逐项求导得到 \(x\)，再逐项积分得到 \(x^3\)。临考要记住端点不能随便代，因为周期延拓会跳。</p>
+            <div class="math-block">
+              \[
+              x\sim2\sum_{n=1}^{\infty}\frac{(-1)^{n+1}}{n}\sin nx,\qquad -\pi&lt;x&lt;\pi.
+              \]
+            </div>
+            <p>如果题目问“某三角级数是不是 Fourier 级数”，第一反应是 Bessel 不等式给出的必要条件：</p>
+            <div class="math-block">
+              \[
+              \frac{a_0^2}{2}+\sum_{n=1}^{\infty}(a_n^2+b_n^2)&lt;\infty.
+              \]
+            </div>
+            <p>所以像 \(b_n=1/\ln n\) 或 \(a_n=1/\sqrt n\) 这种系数，平方和发散，不能来自平方可积函数的 Fourier 系数。</p>
+          </section>
+
+          <section id="geometry" class="exam-card">
+            <h2>曲线曲面积分：先看结构</h2>
+            <p>球面二次项积分优先用对称性。若 \(S:x^2+y^2+z^2=R^2\)，则</p>
+            <div class="math-block">
+              \[
+              \iint_Sx^2\,dS=\iint_Sy^2\,dS=\iint_Sz^2\,dS
+              =\frac13\iint_SR^2\,dS
+              =\frac{4\pi R^4}{3}.
+              \]
+            </div>
+            <p>球面与过原点平面的交线是大圆。第 5 题的空间曲线不是硬参数化三维曲线，而是在平面里选一组单位正交基。</p>
+            <div class="math-block">
+              \[
+              \mathbf r(\theta)=\mathbf e_1\cos\theta+\mathbf e_2\sin\theta,\qquad
+              0\le\theta\le2\pi.
+              \]
+            </div>
+            <p>平面曲线积分如果满足</p>
+            <div class="math-block">
+              \[
+              P_y=Q_x,
+              \]
+            </div>
+            <p>并且区域没有洞，优先找势函数 \(F\)，把曲线积分变成 \(F(B)-F(A)\)。这是第 13 题的最短路线。</p>
+          </section>
+
+          <section id="operators" class="exam-card">
+            <h2>向量分析：恒等式和 Gauss</h2>
+            <p>遇到 \(\operatorname{div}\operatorname{rot}\) 不要展开算，先想恒等式：</p>
+            <div class="math-block">
+              \[
+              \operatorname{div}(\operatorname{rot}\mathbf v)
+              =
+              \nabla\cdot(\nabla\times\mathbf v)=0.
+              \]
+            </div>
+            <p>曲面积分一旦是通量型，就优先尝试 Gauss 公式：</p>
+            <div class="math-block">
+              \[
+              \iint_{\partial\Omega}\mathbf F\cdot n\,dS
+              =
+              \iiint_\Omega \nabla\cdot\mathbf F\,dV.
+              \]
+            </div>
+            <p>第 17 题用的是同一个思想，只是向量场取 \(\nabla u\)：</p>
+            <div class="math-block">
+              \[
+              \iint_{\partial\Omega}\frac{\partial u}{\partial n}\,dS
+              =
+              \iiint_\Omega\Delta u\,dV.
+              \]
+            </div>
+            <p>球坐标里一定记住体积元：</p>
+            <div class="math-block">
+              \[
+              dV=s^2\sin\varphi\,ds\,d\varphi\,d\theta.
+              \]
+            </div>
+            <p>于是半径为 \(\rho\) 的球中</p>
+            <div class="math-block">
+              \[
+              \iiint_{B_\rho}\sqrt{x^2+y^2+z^2}\,dV
+              =
+              4\pi\int_0^\rho s^3\,ds
+              =
+              \pi\rho^4.
+              \]
+            </div>
+          </section>
+
+          <section id="drill" class="exam-card">
+            <h2>临考训练：只刷这些动作</h2>
+            <p>如果只剩一两个小时，不要重新看所有证明。把下面动作各做一遍。</p>
+            <ul class="cram-list">
+              <li>手算一次 \(\int_0^\pi x\sin nx\,dx\)，确保正弦级数系数不会掉符号。</li>
+              <li>手算一次 \(\sup_{x\ge0}x(\ln n)^p/n^x\)，确保第 15 题类型会做。</li>
+              <li>默写一致 Cauchy 条件，并用 \(x_N=1/N\) 解释为什么 \(\sum\sin nx/n\) 不一致收敛。</li>
+              <li>默写 Bessel 必要条件，并检查 \(1/\ln n\)、\(1/\sqrt n\) 的平方和。</li>
+              <li>用球坐标重算一次 \(\iiint_{B_\rho}r\,dV=\pi\rho^4\)。</li>
+              <li>把 \(x^2\) 的 Fourier 级数逐项求导、积分的方向说清楚，尤其记住端点要单独处理。</li>
+            </ul>
+          </section>
+
+          <section id="last-hour" class="exam-card">
+            <h2>最后一小时清单</h2>
+            <div class="cram-table-wrap">
+              <table class="cram-table">
+                <thead>
+                  <tr>
+                    <th>时间</th>
+                    <th>动作</th>
+                    <th>成功标准</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>0-15 分钟</td>
+                    <td>背幂级数、Fourier、Gauss 三组公式。</td>
+                    <td>能不看答案写出母函数和核心积分公式。</td>
+                  </tr>
+                  <tr>
+                    <td>15-35 分钟</td>
+                    <td>重做第 8、9、15 题的判断框架。</td>
+                    <td>能说出“坏点列 / 上确界 / 一致 Cauchy”分别用在哪里。</td>
+                  </tr>
+                  <tr>
+                    <td>35-50 分钟</td>
+                    <td>重做第 11、12、16 题的主干。</td>
+                    <td>能说出“求导化简”和“逐项积分”的合法区间。</td>
+                  </tr>
+                  <tr>
+                    <td>50-60 分钟</td>
+                    <td>过一遍易错点。</td>
+                    <td>端点、方向、法向、平方可和、球坐标体积元不再混。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>最后保持一个判断原则：如果一道题能用结构性定理解决，就不要先展开硬算。这个卷子的收益点通常在“认出结构”的那一步。</p>
+            <p><a class="section-link" href="math-analysis-2024-final-a.html">返回全卷详细解析</a></p>
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span data-field="footer-name">Ruka</span>
+      <span>Static site, ready for Cloudflare Pages.</span>
+    </footer>
+
+    <aside class="update-widget" aria-label="Site update time">
+      <span>Updated</span>
+      <time data-field="last-updated" datetime="">Loading...</time>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>
